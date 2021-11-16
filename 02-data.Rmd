@@ -1,2 +1,14 @@
 # Data sources
 
+The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
+
+* The data set contains attributes of the **composition of different ethnicity groups** and also one variable that describes the **poverty level** of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level;
+
+* Since the data set provides the **total number of enrolled students** as well as variables describing the **number of students from each ethnicity**, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population;
+
+* The data set has descriptions about the **gender composition** of the student population (i.e. number of males and female students in the school). Based on the variable about the **poverty level** of the school and the information about gender composition, we can draw inferences on their interactions;
+
+* Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the school name to find their locations and districts. By combining the **district information** and the school’s **poverty level**, we can identify the locations where poverty level is relatively high. 
+
+
+
