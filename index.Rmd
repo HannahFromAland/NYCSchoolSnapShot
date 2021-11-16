@@ -6,3 +6,15 @@ site: bookdown::bookdown_site
 ---
 
 # Introduction
+
+In our project, we try to use exploratory analysis to answer questions as follows:
+
+* Does the composition of ethnic groups correlate with the poverty rate of the student population? Is it more likely to have a lower poverty rate when the percentage of white students is higher?
+
+* Does the number of total enrolled students correlate with the distribution of ethnic groups? For example, a bigger school has a more even composition of different ethnic groups (i.e. similar percentage for black, Asian, and white)?
+
+* Does the composition of different genders correlate with the school’s poverty level? Do schools that have relatively higher poverty rates have more male students?
+
+* Does the school level(eg. Primary school, middle school, high school) or ethic groups correlates?
+
+* Does the distribution of schools in different districts have relations towards ethnic groups, gender groups and poverty level?
