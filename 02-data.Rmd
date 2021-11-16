@@ -1,4 +1,4 @@
-# Data sources
+# Data sources 
 
 The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
 
