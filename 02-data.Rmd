@@ -2,6 +2,7 @@
 
 ```{r, echo=FALSE}
 library(knitr)
+library(ggplot2)
 ```
 
 The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
@@ -24,9 +25,14 @@ kable(colnames(school))
 
 The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
 
-
 ```{r}
-
+p <- ggplot(data= school, aes(x = Year)) +
+  geom_bar(fill = "lightblue",width =0.5) +
+  ggtitle("Number of sample from different years")+
+  geom_text(stat='count',aes(label=..count..), position = position_dodge(width = 0.9), 
+            vjust = -0.4, color = "grey68") +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+p
 ```
 
 ## Issue with raw data

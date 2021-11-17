@@ -77,6 +77,7 @@
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis-of-data-source"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis of Data Source</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
@@ -240,6 +241,14 @@
 </tbody>
 </table>
 <p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="issue-with-raw-data" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Issue with raw data</h2>
+<ul>
+<li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;</p></li>
+<li><p>In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.</p></li>
+</ul>
 
 </div>
 </div>
