@@ -2,10 +2,112 @@
 ```{r, echo=FALSE}
 library(knitr)
 library(ggplot2)
-setwd("~/Documents/UCLA/2021fall/杨总/EDAV 5702/Project")
-NYC <- read.csv("2013_-_2018_Demographic_Snapshot_school.csv")
+setwd("~/Desktop")
+NYC <- read.csv("NYC.csv")
 ```
 We first check if there are any NA values in the dataset:
 ```{r}
 any(is.na(NYC))
 ```
+However, after closer inspection, we saw that there are entries labeled with "No Data". Thus, we need to treat those entries as NAs.
+```{r}
+NYC_na <- NYC %>%
+  na_if("No Data")
+any(is.na(NYC_na))
+sum(is.na(NYC_na))
+sum(is.na(NYC_na))/prod(dim(NYC_na))*100 #in percentage
+```
+## Missing Pattern plot
+```{r}
+plot_missing <- function(data, percent = FALSE ){
+  missing_patterns <- data.frame(is.na(data)) %>%
+    group_by_all() %>%
+    count(name = "count", sort = TRUE) %>%
+    ungroup() %>%
+    remove_rownames() %>%
+    rownames_to_column("number") 
+  
+  missing_patterns_graph<- missing_patterns %>%
+    gather(key,value,-c(number,count)) %>%
+    group_by(number) %>%
+    mutate(complete_case = factor(ifelse(sum(value) == 0, 1, 0.5)))
+
+  if(percent){
+    missing_patterns_number <-  missing_patterns_graph %>% 
+      group_by(key)%>%
+      summarise(missing_number = 100*((sum(value*count))/sum(count)))%>%
+      arrange(desc(missing_number)) 
+  }
+  if(!percent){
+    missing_patterns_number <-  missing_patterns_graph %>% 
+      group_by(key)%>%
+      summarise(missing_number = (sum(value*count))) %>%
+      arrange(desc(missing_number))
+  }
+  
+  level_for_order <- (missing_patterns_number$key)
+
+  g1 <- missing_patterns_graph %>%
+    ggplot(aes(x = factor(key,level_for_order), 
+             y = fct_rev(factor(as.numeric(number))),
+             fill = value,alpha = complete_case)) +
+    geom_tile(color = "white") + 
+    scale_fill_manual(values = c("grey","purple")) +
+    scale_alpha_manual(values = c(1,0.5)) +
+    annotate("text",x = length(level_for_order)/3,
+           y = missing_patterns_graph[missing_patterns_graph$complete_case == 1,]$number,
+           label = "Complete Case") +
+    theme(legend.position="none") +
+    xlab("variable")+
+    ylab("missing pattern")
+
+   
+  g2 <- missing_patterns %>% 
+    group_by(number)%>%
+    ggplot(aes(x = reorder(number,count),y = count)) +
+    geom_bar(stat="identity") + 
+    ylab("row count")+
+    coord_flip()+
+    theme(axis.title.y=element_blank()) 
+ 
+
+  g3 <- ggplot(missing_patterns_number,
+               aes(x = reorder(key,-missing_number),y = missing_number)) +
+    geom_bar(stat="identity") +
+    theme(axis.title.x=element_blank(),axis.title.y = element_text(size = 8)) +
+    ggtitle("Missing value patterns")
+
+  
+  if(percent){
+    g3 <- g3 +  ylab("% rows missing") + ylim(0,100)
+  }else{
+    g3 <- g3 +  ylab("num rows missing")
+  }
+
+  g3 + plot_spacer() + g1 +g2+ plot_layout(widths = c(5, 2), 
+                                           heights = unit(c(2, 5), c('cm', 'null')))
+}
+```
+Given the shear size of the dataset, it is hard to visualize missing value pattern of the whole dataset, thus, we can sample from the whole data set and visualize the missing pattern:
+```{r}
+set.seed(1234567)
+# case1
+row_ind <- sample(1:nrow(NYC_na), 200)
+col_ind <- sample(1:ncol(NYC_na), 10)
+new_NYC <- NYC_na[row_ind, col_ind]
+plot_missing(new_NYC)
+
+# case2
+row_ind <- sample(1:nrow(NYC_na), 200)
+col_ind <- sample(1:ncol(NYC_na), 10)
+new_NYC <- NYC_na[row_ind, col_ind]
+plot_missing(new_NYC)
+
+# case3
+row_ind <- sample(1:nrow(NYC_na), 200)
+col_ind <- sample(1:ncol(NYC_na), 10)
+new_NYC <- NYC_na[row_ind, col_ind]
+plot_missing(new_NYC)
+```
+After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
+check for update
