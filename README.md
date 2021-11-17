@@ -9,5 +9,3 @@ This is the bookdown repository for final project of [5702 EDAV](https://edav.in
 *This repo was initially generated from a bookdown template available here: https://github.com/jtr13/EDAVtemplate.*	
 
 
-
-
