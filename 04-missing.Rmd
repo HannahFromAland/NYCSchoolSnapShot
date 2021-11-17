@@ -4,7 +4,6 @@ library(knitr)
 library(ggplot2)
 setwd("~/Desktop")
 NYC <- read.csv("NYC.csv")
-bookdown::render_book()
 ```
 We first check if there are any NA values in the dataset:
 ```{r}
