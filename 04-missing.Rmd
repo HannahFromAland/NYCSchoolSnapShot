@@ -14,6 +14,7 @@ However, after closer inspection, we saw that there are entries labeled with "No
 NYC_na <- NYC %>%
   na_if("No Data")
 any(is.na(NYC_na))
+sum(is.na(NYC_na))
 sum(is.na(NYC_na))/prod(dim(NYC_na))*100 #in percentage
 ```
 ## Missing Pattern plot
@@ -100,3 +101,25 @@ missing_plot <- function(data, display = "counts"){
   main + up + right + plot_layout(design = layout)
 }
 ```
+Given the shear size of the dataset, it is hard to visualize missing value pattern of the whole dataset, thus, we can sample from the whole data set and visualize the missing pattern:
+```{r}
+set.seed(1234567)
+# case1
+row_ind <- sample(1:nrow(NYC_na), 200)
+col_ind <- sample(1:ncol(NYC_na), 10)
+new_NYC <- NYC_na[row_ind, col_ind]
+missing_plot(new_NYC)
+
+# case2
+row_ind <- sample(1:nrow(NYC_na), 200)
+col_ind <- sample(1:ncol(NYC_na), 10)
+new_NYC <- NYC_na[row_ind, col_ind]
+missing_plot(new_NYC)
+
+# case3
+row_ind <- sample(1:nrow(NYC_na), 200)
+col_ind <- sample(1:ncol(NYC_na), 10)
+new_NYC <- NYC_na[row_ind, col_ind]
+missing_plot(new_NYC)
+```
+After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
