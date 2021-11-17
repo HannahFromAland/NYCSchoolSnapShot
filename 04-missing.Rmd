@@ -110,3 +110,4 @@ new_NYC <- NYC_na[row_ind, col_ind]
 plot_missing(new_NYC)
 ```
 After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
+check for update
