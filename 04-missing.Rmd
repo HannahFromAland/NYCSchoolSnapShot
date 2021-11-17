@@ -19,86 +19,73 @@ sum(is.na(NYC_na))/prod(dim(NYC_na))*100 #in percentage
 ```
 ## Missing Pattern plot
 ```{r}
-missing_plot <- function(data, display = "counts"){
-  #missing pattern
+plot_missing <- function(data, percent = FALSE ){
   missing_patterns <- data.frame(is.na(data)) %>%
     group_by_all() %>%
     count(name = "count", sort = TRUE) %>%
-    ungroup()
+    ungroup() %>%
+    remove_rownames() %>%
+    rownames_to_column("number") 
   
-  key_order <- sort(colSums(data.frame(is.na(data))), decreasing = T)
-  key_missing <- rep(key_order, each = nrow(missing_patterns))
-  if(display == "counts"){
-    #top plot
-    up <- key_order %>%
-      as.data.frame() %>%
-      rownames_to_column("variable") %>%
-      ggplot(mapping = aes(x = reorder(variable, desc(.)), y = .))+
-      geom_bar(stat = "identity") +
-      xlab("") + ylab("count") +
-      theme(axis.text.x = element_text(angle = -45, hjust = 0))
-    #right plot
-    right <- missing_patterns %>%
-      rownames_to_column("pattern") %>%
-      ggplot(mapping = aes(x = count, y = reorder(pattern, desc(as.numeric(pattern))))) +
-      geom_bar(stat = "identity") +
-      xlab("row count") + ylab("")
+  missing_patterns_graph<- missing_patterns %>%
+    gather(key,value,-c(number,count)) %>%
+    group_by(number) %>%
+    mutate(complete_case = factor(ifelse(sum(value) == 0, 1, 0.5)))
+
+  if(percent){
+    missing_patterns_number <-  missing_patterns_graph %>% 
+      group_by(key)%>%
+      summarise(missing_number = 100*((sum(value*count))/sum(count)))%>%
+      arrange(desc(missing_number)) 
   }
-  else if(display == "percent"){
-    #top plot
-    up <- key_order %>%
-      as.data.frame() %>%
-      mutate(percentage = ./nrow(data)*100) %>%
-      rownames_to_column("variable") %>%
-      ggplot(mapping = aes(x = reorder(variable, desc(percentage)), y = percentage))+
-      geom_bar(stat = "identity") +
-      xlab("") + ylab("% rows missing") +
-      ylim(0, 100) +
-      theme(axis.text.x = element_text(angle = -45, hjust = 0))
-    #right plot
-    right <- missing_patterns %>%
-      mutate(percentage = count/nrow(data)*100) %>%
-      rownames_to_column("pattern") %>%
-      ggplot(mapping = aes(x = percentage, y = reorder(pattern, desc(as.numeric(pattern))))) +
-      geom_bar(stat = "identity") +
-      xlab("%rows") + ylab("") +
-      xlim(0, 100)
+  if(!percent){
+    missing_patterns_number <-  missing_patterns_graph %>% 
+      group_by(key)%>%
+      summarise(missing_number = (sum(value*count))) %>%
+      arrange(desc(missing_number))
   }
   
-  #identify complete case
-  row <- rowSums(missing_patterns[-ncol(missing_patterns)])
-  comp_ind <- which(row == 0)
+  level_for_order <- (missing_patterns_number$key)
+
+  g1 <- missing_patterns_graph %>%
+    ggplot(aes(x = factor(key,level_for_order), 
+             y = fct_rev(factor(as.numeric(number))),
+             fill = value,alpha = complete_case)) +
+    geom_tile(color = "white") + 
+    scale_fill_manual(values = c("grey","purple")) +
+    scale_alpha_manual(values = c(1,0.5)) +
+    annotate("text",x = length(level_for_order)/3,
+           y = missing_patterns_graph[missing_patterns_graph$complete_case == 1,]$number,
+           label = "Complete Case") +
+    theme(legend.position="none") +
+    xlab("variable")+
+    ylab("missing pattern")
+
+   
+  g2 <- missing_patterns %>% 
+    group_by(number)%>%
+    ggplot(aes(x = reorder(number,count),y = count)) +
+    geom_bar(stat="identity") + 
+    ylab("row count")+
+    coord_flip()+
+    theme(axis.title.y=element_blank()) 
+ 
+
+  g3 <- ggplot(missing_patterns_number,
+               aes(x = reorder(key,-missing_number),y = missing_number)) +
+    geom_bar(stat="identity") +
+    theme(axis.title.x=element_blank(),axis.title.y = element_text(size = 8)) +
+    ggtitle("Missing value patterns")
+
   
-  #initialize fill/alpha vector
-  fill_alpha <- rep(0.5, nrow(missing_patterns))
-  fill_alpha[comp_ind] <- 1
-  
-  #main plot
-  main <- missing_patterns %>% 
-    select(-count) %>%
-    select(names(key_missing)) %>%
-    rownames_to_column("pattern") %>%
-    gather(key, value, -pattern) %>%
-    mutate(missing = ifelse(value == 0, F, T)) %>%
-    cbind(key_missing) %>%
-    ggplot(mapping = aes(x = reorder(key, desc(key_missing)), 
-                         y = reorder(pattern, desc(as.numeric(pattern))), 
-                         fill = missing)) +
-    geom_tile(color = "white", show.legend = F, aes(alpha = pattern)) +
-    xlab("variable") + ylab("missing pattern") +
-    scale_fill_manual(values = c("gray", "purple")) +
-    scale_alpha_manual(values = fill_alpha) +
-    geom_text(aes(x = names(key_order)[length(key_order)/2+1], 
-                  y = as.character(comp_ind), label = "complete cases")) +
-    theme(axis.text.x = element_text(angle = -45, hjust = 0))
-  
-  layout <- "
-  BBB##
-  AAAC#
-  AAAC#
-  AAAC#
-  "
-  main + up + right + plot_layout(design = layout)
+  if(percent){
+    g3 <- g3 +  ylab("% rows missing") + ylim(0,100)
+  }else{
+    g3 <- g3 +  ylab("num rows missing")
+  }
+
+  g3 + plot_spacer() + g1 +g2+ plot_layout(widths = c(5, 2), 
+                                           heights = unit(c(2, 5), c('cm', 'null')))
 }
 ```
 Given the shear size of the dataset, it is hard to visualize missing value pattern of the whole dataset, thus, we can sample from the whole data set and visualize the missing pattern:
@@ -108,18 +95,18 @@ set.seed(1234567)
 row_ind <- sample(1:nrow(NYC_na), 200)
 col_ind <- sample(1:ncol(NYC_na), 10)
 new_NYC <- NYC_na[row_ind, col_ind]
-missing_plot(new_NYC)
+plot_missing(new_NYC)
 
 # case2
 row_ind <- sample(1:nrow(NYC_na), 200)
 col_ind <- sample(1:ncol(NYC_na), 10)
 new_NYC <- NYC_na[row_ind, col_ind]
-missing_plot(new_NYC)
+plot_missing(new_NYC)
 
 # case3
 row_ind <- sample(1:nrow(NYC_na), 200)
 col_ind <- sample(1:ncol(NYC_na), 10)
 new_NYC <- NYC_na[row_ind, col_ind]
-missing_plot(new_NYC)
+plot_missing(new_NYC)
 ```
 After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
