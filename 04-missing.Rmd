@@ -1,1 +1,11 @@
 # Missing values
+```{r, echo=FALSE}
+library(knitr)
+library(ggplot2)
+setwd("~/Documents/UCLA/2021fall/杨总/EDAV 5702/Project")
+NYC <- read.csv("2013_-_2018_Demographic_Snapshot_school.csv")
+```
+We first check if there are any NA values in the dataset:
+```{r}
+any(is.na(NYC))
+```
