@@ -1,5 +1,9 @@
 # Data sources
 
+```{r, echo=FALSE}
+library(knitr)
+```
+
 The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
 
 * The data set contains attributes of the **composition of different ethnicity groups** and also one variable that describes the **poverty level** of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level;
@@ -10,10 +14,23 @@ The data sets we are going to use in our analyses come from NYC Department of Ed
 
 * Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the school name to find their locations and districts. By combining the **district information** and the school’s **poverty level**, we can identify the locations where poverty level is relatively high. 
 
-## Description Analysis of Data Source
+
+## Descriptive Analysis of Data Source
+
+```{r} 
+school = read.csv("School.csv")
+kable(colnames(school))
+```
+
+The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
+
 
 ```{r}
 
 ```
 
+## Issue with raw data
 
+* The raw data didn't explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;
+
+* In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.
