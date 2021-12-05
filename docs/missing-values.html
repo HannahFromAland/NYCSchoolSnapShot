@@ -24,7 +24,7 @@
 <meta name="author" content="Pinyi Yang &amp; Yuan Heng" />
 
 
-<meta name="date" content="2021-11-17" />
+<meta name="date" content="2021-12-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="data-transformation.html"/>
 <link rel="next" href="results.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
@@ -74,12 +74,14 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis-of-data-source"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis of Data Source</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a><ul>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -104,20 +106,23 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="missing-values" class="section level1">
+<div id="missing-values" class="section level1" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Missing values</h1>
 <p>We first check if there are any NA values in the dataset:</p>
+<pre><code>## [1] Check if there are any NA values in the dataset:</code></pre>
 <pre><code>## [1] FALSE</code></pre>
-<p>However, after closer inspection, we saw that there are entries labeled with “No Data”. Thus, we need to treat those entries as NAs.</p>
+<p>However, after closer inspection, we saw that there are entries labeled with “No Data” in the column <code>Economic.Need.Index</code>. Thus, we need to treat those entries as NAs.</p>
+<pre><code>## [1] Changing the &#39;No Data&#39; variable into NA</code></pre>
 <pre><code>## [1] TRUE</code></pre>
+<pre><code>## [1] The count of NA value is</code></pre>
 <pre><code>## [1] 1730</code></pre>
-<pre><code>## [1] 0.4944157</code></pre>
-<div id="missing-pattern-plot" class="section level2">
+<pre><code>## [1] The percentage of NA value in &#39;Economic.Need.Index&#39;</code></pre>
+<pre><code>## [1] &quot;0.49%&quot;</code></pre>
+<div id="missing-pattern-plot" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Missing Pattern plot</h2>
 <p>Given the shear size of the dataset, it is hard to visualize missing value pattern of the whole dataset, thus, we can sample from the whole data set and visualize the missing pattern:
-<img src="finalproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-13-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-13-3.png" width="672" />
-After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there’s only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
-check for update</p>
+<img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-3.png" width="672" />
+After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there’s only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.</p>
 
 </div>
 </div>

@@ -2,20 +2,26 @@
 ```{r, echo=FALSE}
 library(knitr)
 library(ggplot2)
-setwd("~/Desktop")
-NYC <- read.csv("NYC.csv")
+library(tidyverse)
+library(dplyr)
+library(patchwork)
+NYC <- read.csv("School.csv")
 ```
 We first check if there are any NA values in the dataset:
 ```{r}
+print("Check if there are any NA values in the dataset:", quote = FALSE)
 any(is.na(NYC))
 ```
-However, after closer inspection, we saw that there are entries labeled with "No Data". Thus, we need to treat those entries as NAs.
+However, after closer inspection, we saw that there are entries labeled with "No Data" in the column `Economic.Need.Index`. Thus, we need to treat those entries as NAs.
 ```{r}
 NYC_na <- NYC %>%
   na_if("No Data")
+print("Changing the 'No Data' variable into NA", quote = FALSE)
 any(is.na(NYC_na))
+print("The count of NA value is", quote = FALSE)
 sum(is.na(NYC_na))
-sum(is.na(NYC_na))/prod(dim(NYC_na))*100 #in percentage
+print("The percentage of NA value in 'Economic.Need.Index'", quote = FALSE)
+sprintf("%0.2f%%",100*sum(is.na(NYC_na))/prod(dim(NYC_na))) #in percentage
 ```
 ## Missing Pattern plot
 ```{r}
@@ -57,7 +63,7 @@ plot_missing <- function(data, percent = FALSE ){
     annotate("text",x = length(level_for_order)/3,
            y = missing_patterns_graph[missing_patterns_graph$complete_case == 1,]$number,
            label = "Complete Case") +
-    theme(legend.position="none") +
+    theme(legend.position="none",axis.text.x = element_text(angle = -30, hjust = 0)) +
     xlab("variable")+
     ylab("missing pattern")
 
@@ -74,7 +80,7 @@ plot_missing <- function(data, percent = FALSE ){
   g3 <- ggplot(missing_patterns_number,
                aes(x = reorder(key,-missing_number),y = missing_number)) +
     geom_bar(stat="identity") +
-    theme(axis.title.x=element_blank(),axis.title.y = element_text(size = 8)) +
+    theme(axis.title.x=element_blank(),axis.title.y = element_text(size = 8),axis.text.x = element_text(angle = -30, hjust = 0)) +
     ggtitle("Missing value patterns")
 
   
@@ -96,13 +102,11 @@ row_ind <- sample(1:nrow(NYC_na), 200)
 col_ind <- sample(1:ncol(NYC_na), 10)
 new_NYC <- NYC_na[row_ind, col_ind]
 plot_missing(new_NYC)
-
 # case2
 row_ind <- sample(1:nrow(NYC_na), 200)
 col_ind <- sample(1:ncol(NYC_na), 10)
 new_NYC <- NYC_na[row_ind, col_ind]
 plot_missing(new_NYC)
-
 # case3
 row_ind <- sample(1:nrow(NYC_na), 200)
 col_ind <- sample(1:ncol(NYC_na), 10)
@@ -110,4 +114,3 @@ new_NYC <- NYC_na[row_ind, col_ind]
 plot_missing(new_NYC)
 ```
 After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
-check for update
