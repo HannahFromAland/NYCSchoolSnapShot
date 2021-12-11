@@ -7,6 +7,8 @@ site: bookdown::bookdown_site
 
 # Introduction
 
+Racial inequality has always been a public problem. In the past few years, there has been multiple incidents relating ethnicity inequalities. For example, George Floyd's tragedy led to a wave of "Black Lives Matter" champaign; the death of Chinese student at Chicago university revealed a series of discriminating activities against Asian international students. Given the prevalent problem presenting in the society, we hypothesized that discrimination originate from poverty levels. Thus, we aim to gain more insights about racial inequalities by investigating the distribution of ethnicity and other indicators in schools in New York. In this way, we can determine if racial inequality exist in some schools, which can allow agencies to make adjustments to bring about equality among students.
+
 Apart from academia purpose of education, making sure schools reflect the diversity of its residents is a top priority. Improving educational equity has long been a focus of society, especially New York City, where public schools remain some of the most segregated in the country. 
 
 > According to the New York City Council, "In New York City public schools, 74.6% of black and Hispanic students attend a school with less than 10% white students. Additionally, 34.3% of white students attend a school with more than 50% white students."
