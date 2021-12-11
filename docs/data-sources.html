@@ -24,7 +24,7 @@
 <meta name="author" content="Pinyi Yang &amp; Yuan Heng" />
 
 
-<meta name="date" content="2021-11-17" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="data-transformation.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
@@ -74,12 +74,14 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis-of-data-source"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis of Data Source</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a><ul>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -104,7 +106,7 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-sources" class="section level1">
+<div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
 <p>The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of <code>2013 - 2018 Demographic Snapshot School</code>, there exists several variables that worth investigating furthermore as follows:</p>
 <ul>
@@ -113,8 +115,8 @@
 <li><p>The data set has descriptions about the <strong>gender composition</strong> of the student population (i.e. number of males and female students in the school). Based on the variable about the <strong>poverty level</strong> of the school and the information about gender composition, we can draw inferences on their interactions;</p></li>
 <li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the school name to find their locations and districts. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.</p></li>
 </ul>
-<div id="descriptive-analysis-of-data-source" class="section level2">
-<h2><span class="header-section-number">2.1</span> Descriptive Analysis of Data Source</h2>
+<div id="descriptive-analysis" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Descriptive Analysis</h2>
 <table>
 <thead>
 <tr class="header">
@@ -242,9 +244,9 @@
 </tbody>
 </table>
 <p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="issue-with-raw-data" class="section level2">
+<div id="issue-with-raw-data" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Issue with raw data</h2>
 <ul>
 <li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;</p></li>

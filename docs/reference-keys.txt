@@ -8,3 +8,4 @@ missing-pattern-plot
 results
 interactive-component
 conclusion
+descriptive-analysis

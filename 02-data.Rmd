@@ -16,7 +16,7 @@ The data sets we are going to use in our analyses come from NYC Department of Ed
 * Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the school name to find their locations and districts. By combining the **district information** and the school’s **poverty level**, we can identify the locations where poverty level is relatively high. 
 
 
-## Descriptive Analysis of Data Source
+## Descriptive Analysis
 
 ```{r} 
 school = read.csv("School.csv")

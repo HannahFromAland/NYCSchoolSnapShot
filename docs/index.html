@@ -24,7 +24,7 @@
 <meta name="author" content="Pinyi Yang &amp; Yuan Heng" />
 
 
-<meta name="date" content="2021-11-17" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 
 <link rel="next" href="data-sources.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
@@ -74,12 +74,14 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis-of-data-source"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis of Data Source</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a><ul>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -107,11 +109,16 @@
 <div id="header">
 <h1 class="title">NYC School Snapshot</h1>
 <p class="author"><em>Pinyi Yang &amp; Yuan Heng</em></p>
-<p class="date"><em>2021-11-17</em></p>
+<p class="date"><em>2021-12-11</em></p>
 </div>
-<div id="introduction" class="section level1">
+<div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>In our project, we try to use exploratory analysis to answer questions as follows:</p>
+<p>Apart from academia purpose of education, making sure schools reflect the diversity of its residents is a top priority. Improving educational equity has long been a focus of society, especially New York City, where public schools remain some of the most segregated in the country.</p>
+<blockquote>
+<p>According to the New York City Council, “In New York City public schools, 74.6% of black and Hispanic students attend a school with less than 10% white students. Additionally, 34.3% of white students attend a school with more than 50% white students.”</p>
+</blockquote>
+<p>Apart from race and ethnicity, the segregation also can be found among different groups of gender, poverty and even students’ disability. Severe discrepancies still exist when breaking down the huge population of students and investigating their access to education and schools.</p>
+<p>In our project, we try to perform exploratory analysis of demographic school data in New York City from 2013- 2018 and answer questions as follows:</p>
 <ul>
 <li><p>Does the composition of ethnic groups correlate with the poverty rate of the student population? Is it more likely to have a lower poverty rate when the percentage of white students is higher?</p></li>
 <li><p>Does the number of total enrolled students correlate with the distribution of ethnic groups? For example, a bigger school has a more even composition of different ethnic groups (i.e. similar percentage for black, Asian, and white)?</p></li>

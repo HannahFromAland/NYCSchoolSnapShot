@@ -7,7 +7,13 @@ site: bookdown::bookdown_site
 
 # Introduction
 
-In our project, we try to use exploratory analysis to answer questions as follows:
+Apart from academia purpose of education, making sure schools reflect the diversity of its residents is a top priority. Improving educational equity has long been a focus of society, especially New York City, where public schools remain some of the most segregated in the country. 
+
+> According to the New York City Council, "In New York City public schools, 74.6% of black and Hispanic students attend a school with less than 10% white students. Additionally, 34.3% of white students attend a school with more than 50% white students."
+
+Apart from race and ethnicity, the segregation also can be found among different groups of gender, poverty and even students' disability. Severe discrepancies still exist when breaking down the huge population of students and investigating their access to education and schools. 
+
+In our project, we try to perform exploratory analysis of demographic school data in New York City from 2013- 2018 and answer questions as follows:
 
 * Does the composition of ethnic groups correlate with the poverty rate of the student population? Is it more likely to have a lower poverty rate when the percentage of white students is higher?
 
