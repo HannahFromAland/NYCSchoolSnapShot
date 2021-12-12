@@ -176,6 +176,7 @@ school = read.csv("School.csv")
 
 ## Removing Incomplete Schools
 Before removing incomplete schools, the following table shows the number of schools for number of observation occurrences:
+
 | Number of observations|      Number of schools       |
 | --------------------- | ---------------------------- |
 |          1            |             19               |
