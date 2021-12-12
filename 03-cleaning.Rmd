@@ -8,6 +8,7 @@ library(RColorBrewer)
 library(sqldf)
 school = read.csv("School.csv")
 ```
+
 ## Removing Incomplete Schools
 Based on the exploratory data analysis result we obtained in the last chapter, we know that there are schools that does not have observation for each of the five academic years, which complicates analysis process if we want to conduct time series analysis. There are 1834 schools included in the data set and 1718 of them have observations for all five years, which constitutes over 93% of all schools. Thus, we choose to directly remove those schools that do not have full observations.
 ```{r}
@@ -17,8 +18,8 @@ school <- school %>%
   filter(count == 5) %>%
   select(-count)
 ```
-## Adding features
 
+## Adding features
 ### Location of School
 Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. **K** represents Brooklyn district, **X** represents the Bronx district, **Q** represents the Queens district, **M** represents the Manhattan district, and **R** represents the Staten Island district. During transformation, we used **str_detect** function in the **stringr** package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.
 
