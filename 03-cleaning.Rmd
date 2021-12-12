@@ -21,7 +21,7 @@ school <- school %>%
 
 ## Adding features
 ### Location of School
-Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. **K** represents Brooklyn district, **X** represents the Bronx district, **Q** represents the Queens district, **M** represents the Manhattan district, and **R** represents the Staten Island district. During transformation, we used **str_detect** function in the **stringr** package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.
+Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. `K` represents Brooklyn district, `X`represents the Bronx district, `Q` represents the Queens district, `M` represents the Manhattan district, and `R` represents the Staten Island district. During transformation, we used `str_detect` function in the `stringr` package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.
 
 After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:
 
