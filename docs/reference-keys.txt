@@ -4,6 +4,7 @@ exploratory-data-analysis
 data-column-summary-example
 enrollment-average-across-2013-2018-distribution
 yearly-observation-count
+number-of-observations-per-school
 issue-with-raw-data
 data-transformation
 adding-features

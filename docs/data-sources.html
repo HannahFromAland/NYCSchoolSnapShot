@@ -81,6 +81,7 @@
 <li class="chapter" data-level="2.1.1" data-path="data-sources.html"><a href="data-sources.html#data-column-summary-example"><i class="fa fa-check"></i><b>2.1.1</b> Data Column Summary Example</a></li>
 <li class="chapter" data-level="2.1.2" data-path="data-sources.html"><a href="data-sources.html#enrollment-average-across-2013-2018-distribution"><i class="fa fa-check"></i><b>2.1.2</b> Enrollment (average across 2013-2018) Distribution</a></li>
 <li class="chapter" data-level="2.1.3" data-path="data-sources.html"><a href="data-sources.html#yearly-observation-count"><i class="fa fa-check"></i><b>2.1.3</b> Yearly Observation Count</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-sources.html"><a href="data-sources.html#number-of-observations-per-school"><i class="fa fa-check"></i><b>2.1.4</b> Number of Observations per School</a></li>
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
@@ -129,6 +130,7 @@
 </ul>
 <div id="exploratory-data-analysis" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Exploratory Data Analysis</h2>
+<p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
 <div id="data-column-summary-example" class="section level3" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Data Column Summary Example</h3>
 <table>
@@ -212,12 +214,17 @@
 </div>
 <div id="enrollment-average-across-2013-2018-distribution" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Enrollment (average across 2013-2018) Distribution</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
-<p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
+<p>After averaging the number of total enrollments for each school observed, we can
+<img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 </div>
 <div id="yearly-observation-count" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Yearly Observation Count</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="number-of-observations-per-school" class="section level3" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Number of Observations per School</h3>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.</p>
 </div>
 </div>
 <div id="issue-with-raw-data" class="section level2" number="2.2">
@@ -225,7 +232,7 @@
 <ul>
 <li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;</p></li>
 <li><p>In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.</p></li>
-<li><p>The data is presented in chronological order with each school having 5 observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). Given the goal of our project, time series data would complicate the analysis process. So, we need to aggregate the existing chronological observations.</p></li>
+<li><p>The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). At the same time, not every school is surveyed each year, according to the <strong>Normalized School Observation Count Histogram</strong> above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, given the goal of our project and not complicate the analysis process, we need to aggregate the existing chronological observations.</p></li>
 </ul>
 
 </div>

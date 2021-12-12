@@ -24,6 +24,7 @@ $$H_0: ethnic\ \ composition  \not\propto school\ \ population$$
 
 
 ## Exploratory Data Analysis
+The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
 
 ### Data Column Summary Example
 ```{r} 
@@ -47,6 +48,7 @@ kable(summary(school_cleaned[, c("Total.Enrollment", "Grade.K",
 ```
 
 ### Enrollment (average across 2013-2018) Distribution
+After averaging the number of total enrollments for each school observed, we can 
 ```{r}
 school_enroll <- school %>%
   group_by(School.Name) %>%
@@ -66,8 +68,6 @@ p +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 ```
 
-The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
-
 ### Yearly Observation Count
 ```{r}
 p <- ggplot(data= school, aes(x = Year)) +
@@ -80,10 +80,23 @@ p <- ggplot(data= school, aes(x = Year)) +
 p
 ```
 
+### Number of Observations per School
+```{r}
+school %>%
+  group_by(School.Name) %>%
+  summarise(Obs.count = n()) %>%
+  filter(Obs.count <= 5) %>%
+  ggplot(mapping = aes(x = Obs.count)) +
+  geom_bar(aes(y = stat(count/sum(count))), fill = "lightblue") +
+  ggtitle("Normalized School Observation Count Histogram") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+```
+From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.
+
 ## Issue with raw data
 
 * The raw data didn't explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;
 
 * In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.
 
-* The data is presented in chronological order with each school having 5 observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). Given the goal of our project, time series data would complicate the analysis process. So, we need to aggregate the existing chronological observations.
+* The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). At the same time, not every school is surveyed each year, according to the **Normalized School Observation Count Histogram** above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, given the goal of our project and not complicate the analysis process, we need to aggregate the existing chronological observations.
