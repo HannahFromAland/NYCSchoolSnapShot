@@ -12,11 +12,11 @@ school = read.csv("school_f.csv")
 
 ## Deep Dive of School Type
 
-### Combination of school grade
+### Combination of School Type 
 Many schools have multiple types of grade based on our criteria in Chapter 3. For example, some schools may have both pre-school grade and elementary school grade, and combinations of middle school and high school are also common. Therefore, we construct another factor variable `type_str` to specify all types containing by a school.
 
 The number of schools count by their complete type is distributed as follow: 
-```{r}
+```{r chunk5.1}
 type_c <- school %>% 
   mutate(type_count = is_elementary + is_preschool + is_middle + is_high) %>% 
   mutate(type_str = case_when(
@@ -36,7 +36,7 @@ type_c <- school %>%
   filter(Year == "2017-18")
 ```
 
-```{r}
+```{r chunk5.2}
 type_c$type_str <- factor(type_c$type_str ,levels = c("pre","ele","mid","high","pre_ele","ele_mid","mid_high","ele_high", "pre_ele_mid","ele_mid_high","pre_ele_mid_high"))
 complete_type <- ggplot(type_c, aes(x = fct_rev(type_str)))+
   geom_bar(stat = "count", fill = "lightblue") + 
@@ -54,11 +54,11 @@ complete_type
 * Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part.
 * The dataset also contains 13 sample of schools which cover from pre-learning to high school grade. We will consider it together with the next part when investigating special schools provided for students with disability.
 
-### Special school for students with disability
+### Special School for Students with Disability
 
 We use the metric of `proportion of students with disability` to determine whether a school can be considered as a speical school for students with disability.
 
-```{r}
+```{r chunk5.3}
 dis_school <- type_c  %>%
   summarise(avg_dis = mean(`X..Students.with.Disabilities.1`),
             quan75_dis = quantile(`X..Students.with.Disabilities.1`)[4])
@@ -75,7 +75,7 @@ dis
 
 The histogram is right skewed, and with a peak around 100%. Most of demographic schools in New York City have less than 50% students with disability and the mean proportion is about 22%. Based on the distribution, we decide to set $50%$ as a threshold to determine whether the school is a special school for students with disability. To explore more about this special type of schools, we focused on the grade type they provided inspired by the prior part.
 
-```{r}
+```{r chunk4}
 scatter <- ggplot(type_c, aes(x = type_str, y = `X..Students.with.Disabilities.1`)) +
   geom_point(color = "#2c7bb6",alpha = 0.5)+
   coord_flip() +

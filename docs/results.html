@@ -103,8 +103,8 @@
 <ul>
 <li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#deep-dive-of-school-type"><i class="fa fa-check"></i><b>5.1</b> Deep Dive of School Type</a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#combination-of-school-grade"><i class="fa fa-check"></i><b>5.1.1</b> Combination of school grade</a></li>
-<li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#special-school-for-students-with-disability"><i class="fa fa-check"></i><b>5.1.2</b> Special school for students with disability</a></li>
+<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#combination-of-school-type"><i class="fa fa-check"></i><b>5.1.1</b> Combination of School Type</a></li>
+<li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#special-school-for-students-with-disability"><i class="fa fa-check"></i><b>5.1.2</b> Special School for Students with Disability</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#analysis-of-school-enrollment"><i class="fa fa-check"></i><b>5.2</b> Analysis of school enrollment</a></li>
 </ul></li>
@@ -133,11 +133,11 @@
 <h1><span class="header-section-number">Chapter 5</span> Results</h1>
 <div id="deep-dive-of-school-type" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Deep Dive of School Type</h2>
-<div id="combination-of-school-grade" class="section level3" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Combination of school grade</h3>
+<div id="combination-of-school-type" class="section level3" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Combination of School Type</h3>
 <p>Many schools have multiple types of grade based on our criteria in Chapter 3. For example, some schools may have both pre-school grade and elementary school grade, and combinations of middle school and high school are also common. Therefore, we construct another factor variable <code>type_str</code> to specify all types containing by a school.</p>
 <p>The number of schools count by their complete type is distributed as follow:</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/chunk5.2-1.png" width="672" /></p>
 <ul>
 <li>Clearly, the dataset doesn’t include schools that only provide pre-school education or there may not be demographic schools in New York City provide only pre-school learning.</li>
 <li>Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part.</li>
@@ -145,11 +145,11 @@
 </ul>
 </div>
 <div id="special-school-for-students-with-disability" class="section level3" number="5.1.2">
-<h3><span class="header-section-number">5.1.2</span> Special school for students with disability</h3>
+<h3><span class="header-section-number">5.1.2</span> Special School for Students with Disability</h3>
 <p>We use the metric of <code>proportion of students with disability</code> to determine whether a school can be considered as a speical school for students with disability.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/chunk5.3-1.png" width="672" /></p>
 <p>The histogram is right skewed, and with a peak around 100%. Most of demographic schools in New York City have less than 50% students with disability and the mean proportion is about 22%. Based on the distribution, we decide to set <span class="math inline">\(50%\)</span> as a threshold to determine whether the school is a special school for students with disability. To explore more about this special type of schools, we focused on the grade type they provided inspired by the prior part.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/chunk4-1.png" width="672" /></p>
 <p><strong>Remarks:</strong></p>
 <ul>
 <li><p>Types of special schools for student with disability are also various. No special elementary school and middle school exists in the dataset, which indicates students with disability in New York City at this stage can involved in normal education together with their peers.</p></li>
@@ -159,8 +159,8 @@
 </div>
 <div id="analysis-of-school-enrollment" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Analysis of school enrollment</h2>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 
 </div>
 </div>
