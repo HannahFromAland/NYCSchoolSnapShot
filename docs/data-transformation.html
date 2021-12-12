@@ -101,7 +101,11 @@
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#deep-dive-of-school-type"><i class="fa fa-check"></i><b>5.1</b> Deep Dive of school Type</a></li>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#deep-dive-of-school-type"><i class="fa fa-check"></i><b>5.1</b> Deep Dive of School Type</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#combination-of-school-type"><i class="fa fa-check"></i><b>5.1.1</b> Combination of School Type</a></li>
+<li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#special-school-for-students-with-disability"><i class="fa fa-check"></i><b>5.1.2</b> Special School for Students with Disability</a></li>
+</ul></li>
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#analysis-of-school-enrollment"><i class="fa fa-check"></i><b>5.2</b> Analysis of school enrollment</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
@@ -168,7 +172,7 @@
 <h3><span class="header-section-number">3.2.1</span> Location of School</h3>
 <p>Since the first column specifies <code>DBN(District Borough Number)</code> of each school, we firstly use it to generate a new <code>location</code> variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. <code>K</code> represents Brooklyn district, <code>X</code>represents the Bronx district, <code>Q</code> represents the Queens district, <code>M</code> represents the Manhattan district, and <code>R</code> represents the Staten Island district. During transformation, we used <code>str_detect</code> function in the <code>stringr</code> package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.</p>
 <p>After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/ch3-3-1.png" width="672" /></p>
 </div>
 <div id="type-of-school" class="section level3" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Type of School</h3>
@@ -199,7 +203,7 @@
 </tr>
 </tbody>
 </table>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/ch3-6-1.png" width="672" /></p>
 
 </div>
 </div>

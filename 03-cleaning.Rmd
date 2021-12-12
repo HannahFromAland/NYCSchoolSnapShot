@@ -21,7 +21,7 @@ Before removing incomplete schools, the following table shows the number of scho
 |          5 observations|            1718 schools      |
 
 Based on the exploratory data analysis result we obtained in the last chapter, we know that there are schools that does not have observation for each of the five academic years, which complicates analysis process if we want to conduct time series analysis. There are 1834 schools included in the data set and 1718 of them have observations for all five years, which constitutes over 93% of all schools. Thus, we choose to directly remove those schools that do not have full observations.
-```{r}
+```{r ch3-1}
 school <- school %>%
   group_by(School.Name) %>%
   mutate(count = n()) %>%
@@ -35,7 +35,7 @@ Since the first column specifies `DBN(District Borough Number)` of each school, 
 
 After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:
 
-```{r}
+```{r ch3-2}
 # loc <- ggplot(data = school, aes(x = Year)) + 
 #   geom_bar(stat="count",fill = "lightblue")+
 #   facet_wrap(~location,ncol =5)+
@@ -55,7 +55,7 @@ After specifying the location of school, we can first get a capture of school nu
 # dis
 ```
 
-```{r}
+```{r ch3-3}
 school <- school %>% 
   mutate(location = case_when(
     str_detect(DBN, "K") == TRUE ~ "Brooklyn",
@@ -83,11 +83,11 @@ As previously mentioned in Chapter2, we can use the number of students enrolled 
 | Middle School       | From `Grade 6` to `Grade 8`  |
 | High School         | From `Grade 9` to `Grade 12` |
 
-```{r}
+```{r ch3-4}
 school <- rename(school, Grade.PK =Grade.PK..Half.Day...Full.Day. )
 ```
 
-```{r}
+```{r ch3-5}
 school <- school %>% 
   mutate(is_preschool = case_when(
     Grade.PK > 0 ~ 1,
@@ -108,7 +108,7 @@ school <- school %>%
   ))
 ```
 
-```{r}
+```{r ch3-6}
 count_by_type <- sqldf("select location, Year, sum(is_preschool) as pre_school,
       sum(is_elementary) as elementary,
       sum(is_middle) as middle,
@@ -126,7 +126,7 @@ type_sch <- count_by_type %>%
 type_sch
 ```
 
-```{r}
+```{r ch3-7}
 # type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) + 
 #     geom_bar(position="dodge", stat="identity")+
 #   ggtitle("Number of schools in different type by year") + 
@@ -138,6 +138,6 @@ type_sch
 ```
 
 
-```{r}
+```{r ch3-8}
 write.csv(school, "school_f.csv", row.names = FALSE)
 ```

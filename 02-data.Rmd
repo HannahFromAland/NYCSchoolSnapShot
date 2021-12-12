@@ -14,7 +14,7 @@ The data sets we are going to use in our analyses come from NYC Department of Ed
 The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
 
 ### Data Column Summary Example
-```{r} 
+```{r ch2-1} 
 school = read.csv("School.csv")
 school_cleaned <- school %>%
   select(-c(DBN, X..Students.with.Disabilities, 
@@ -35,7 +35,7 @@ kable(summary(school_cleaned[, c("Total.Enrollment", "Grade.K",
 ```
 
 ### Enrollment (average across 2013-2018) Distribution
-```{r}
+```{r ch2-2}
 school_enroll <- school %>%
   group_by(School.Name) %>%
   summarise(Avg.Enroll = mean(Total.Enrollment))
@@ -56,7 +56,7 @@ p +
 After averaging the number of total enrollments for each school observed, we can generate the following histogram that shows the distribution of enrollment number of the schools. Based on the visualization, we can see that the majority of of schools (25th to 75th percentile) are clustered around the interval between 300 and 700.
 
 ### Yearly Observation Count
-```{r}
+```{r ch2-3}
 p <- ggplot(data= school, aes(x = Year)) +
   geom_bar(fill = "lightblue",width =0.5) +
   ggtitle("Number of sample from different years")+
@@ -69,7 +69,7 @@ p
 The barplot of yearly observation describes the number of observations taken each year. From the visualization, we can see that the number of schools taken into consideration varies from time to time, meaning that there are new schools being surveyed each year. This is an indication that if we were to conduct time series analysis, it will be difficult to generalize the year-to-year pattern for those schools that were not surveyed for the whole five academic years. We further created a visualization representing the distribution of number of observations per school, as shown below.
 
 ### Number of Observations per School
-```{r}
+```{r ch2-4}
 school %>%
   group_by(School.Name) %>%
   summarise(Obs.count = n()) %>%

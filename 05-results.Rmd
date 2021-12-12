@@ -77,7 +77,7 @@ dis
 
 The histogram is right skewed, and with a peak around 100%. Most of demographic schools in New York City have less than 50% students with disability and the mean proportion is about 22%. Based on the distribution, we decide to set $50%$ as a threshold to determine whether the school is a special school for students with disability. To explore more about this special type of schools, we focused on the grade type they provided inspired by the prior part.
 
-```{r chunk4}
+```{r chunk5.4}
 scatter <- ggplot(type_c, aes(x = type_str, y = `X..Students.with.Disabilities.1`)) +
   geom_point(color = "#2c7bb6",alpha = 0.5)+
   coord_flip() +
@@ -100,7 +100,7 @@ scatter
 
 **By Location:** The distribution of school enrollment by location is shown below. 
 
-```{r, warning = F}
+```{r ch5.5, warning = F}
 enroll <- type_c %>% 
   filter(Year == "2017-18")
 
@@ -115,7 +115,7 @@ enroll_dis
 
 **By School Type:** Since the type of number of grade a school includes can affect its student enrollment, we constructed boxplot to explore the enrollment of different type of schools.
 
-```{r}
+```{r ch5.6}
 box1 <- ggplot(enroll, aes(x = fct_reorder(type_str,`Total.Enrollment`), y = `Total.Enrollment`)) +
   geom_boxplot(color = "#117864", fill = "#48c9b0") + 
   coord_flip() +
@@ -128,3 +128,4 @@ box1
 * Apart from schools with coverage from pre-learning to high school learning(as stated before, most of them are special school for disability students), we can safely conclude that school with more grade level will have larger student enrollment in average. Therefore, schools provide elementary, middle school and high school level learning are generally have largest quantity of total enrollment since they includes 12 levels of grade.
 
 * Outlier exist in several types, but high school type consists largest amount of outliers, and also tends to have extremely large number of enrollment, expanding from 1000 students to almost 6000 students.
+
