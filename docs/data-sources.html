@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="removing-incomplete-schools.html"/>
+<link rel="next" href="data-transformation.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -85,22 +85,20 @@
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="removing-incomplete-schools.html"><a href="removing-incomplete-schools.html"><i class="fa fa-check"></i><b>3</b> Removing Incomplete Schools</a></li>
-<li class="chapter" data-level="4" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>4</b> Data transformation</a>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="data-transformation.html"><a href="data-transformation.html#adding-features"><i class="fa fa-check"></i><b>4.1</b> Adding features</a>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#removing-incomplete-schools"><i class="fa fa-check"></i><b>3.1</b> Removing Incomplete Schools</a>
 <ul>
-<li class="chapter" data-level="4.1.1" data-path="data-transformation.html"><a href="data-transformation.html#location-of-school"><i class="fa fa-check"></i><b>4.1.1</b> Location of School</a></li>
-<li class="chapter" data-level="4.1.2" data-path="data-transformation.html"><a href="data-transformation.html#type-of-school"><i class="fa fa-check"></i><b>4.1.2</b> Type of School</a></li>
+<li class="chapter" data-level="3.1.1" data-path="data-transformation.html"><a href="data-transformation.html#adding-features"><i class="fa fa-check"></i><b>3.1.1</b> Adding features</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>5</b> Missing values</a>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>5.1</b> Missing Pattern plot</a></li>
+<li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>6</b> Results</a></li>
-<li class="chapter" data-level="7" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>7</b> Interactive component</a></li>
-<li class="chapter" data-level="8" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>8</b> Conclusion</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -219,17 +217,17 @@
 </div>
 <div id="enrollment-average-across-2013-2018-distribution" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Enrollment (average across 2013-2018) Distribution</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-63-1.png" width="672" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 After averaging the number of total enrollments for each school observed, we can generate the following histogram that shows the distribution of enrollment number of the schools. Based on the visualization, we can see that the majority of of schools (25th to 75th percentile) are clustered around the interval between 300 and 700.</p>
 </div>
 <div id="yearly-observation-count" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Yearly Observation Count</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-64-1.png" width="672" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 The barplot of yearly observation describes the number of observations taken each year. From the visualization, we can see that the number of schools taken into consideration varies from time to time, meaning that there are new schools being surveyed each year. This is an indication that if we were to conduct time series analysis, it will be difficult to generalize the year-to-year pattern for those schools that were not surveyed for the whole five academic years. We further created a visualization representing the distribution of number of observations per school, as shown below.</p>
 </div>
 <div id="number-of-observations-per-school" class="section level3" number="2.1.4">
 <h3><span class="header-section-number">2.1.4</span> Number of Observations per School</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre><code>## [1] 0.9367503</code></pre>
 <p>From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.</p>
 </div>
@@ -250,7 +248,7 @@ The barplot of yearly observation describes the number of observations taken eac
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="removing-incomplete-schools.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-transformation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
