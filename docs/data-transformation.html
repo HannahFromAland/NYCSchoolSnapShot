@@ -24,7 +24,7 @@
 <meta name="author" content="Pinyi Yang &amp; Yuan Heng" />
 
 
-<meta name="date" content="2021-11-17" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="data-sources.html"/>
 <link rel="next" href="missing-values.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
@@ -74,12 +74,18 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis-of-data-source"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis of Data Source</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a><ul>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#adding-features"><i class="fa fa-check"></i><b>3.1</b> Adding features</a></li>
+<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#distribution-of-data"><i class="fa fa-check"></i><b>3.2</b> Distribution of data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -104,9 +110,52 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-transformation" class="section level1">
+<div id="data-transformation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
+<div id="adding-features" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Adding features</h2>
+<ul>
+<li><strong>Location of School:</strong> Since the first column specifies <code>DBN(District Borough Number)</code> of each school, we firstly use it to generate a new <code>location</code> variable.</li>
+</ul>
+<p>After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source.</p>
+<p>The number of schools by year and location are shown below:
+<img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<ul>
+<li><strong>Type of School:</strong> As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from <code>Grade PK</code> to <code>Grade 12</code>. We use the criteria below to classify the type of School.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Type of School</th>
+<th>Grades Included</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pre School Learning</td>
+<td><code>Grade PK</code></td>
+</tr>
+<tr class="even">
+<td>Elementary School</td>
+<td>From <code>Grade k</code> to <code>Grade 5</code></td>
+</tr>
+<tr class="odd">
+<td>Middle School</td>
+<td>From <code>Grade 6</code> to <code>Grade 8</code></td>
+</tr>
+<tr class="even">
+<td>High School</td>
+<td>From <code>Grade 9</code> to <code>Grade 12</code></td>
+</tr>
+</tbody>
+</table>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="distribution-of-data" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Distribution of data</h2>
 
+</div>
 </div>
             </section>
 

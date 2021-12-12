@@ -1,1 +1,111 @@
 # Data transformation
+
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(sqldf)
+```
+
+```{r} 
+school = read.csv("School.csv")
+```
+
+## Adding features
+
+- **Location of School:** Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable.
+
+After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source.
+```{r}
+school <- school %>% 
+  mutate(location = case_when(
+    str_detect(DBN, "K") == TRUE ~ "Brooklyn",
+    str_detect(DBN,"X") == TRUE ~ "Bronx",
+    str_detect(DBN,"Q") == TRUE ~ "Queens",
+    str_detect(DBN,"M") == TRUE ~ "Manhattan",
+    str_detect(DBN,"R") == TRUE ~ "Staten Island",
+  ))
+```
+The number of schools by year and location are shown below: 
+```{r}
+dis <-  ggplot(data = school, aes(x = Year,fill = location)) + 
+  geom_bar(stat="count") +
+  ggtitle("2013-2018 Time Series School Count") +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14)) + 
+  xlab("Academic Year")+
+  ylab("Number of schools") 
+dis
+```
+
+```{r}
+loc <- ggplot(data = school, aes(x = Year)) + 
+  geom_bar(stat="count",fill = "lightblue")+
+  facet_wrap(~location,ncol =5)+
+  ggtitle("Number of schools in different Borough by year") + 
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14), axis.text.x = element_text(angle = 30, vjust = 0.5))+
+   xlab("Academic Year")+
+  ylab("Number of schools")
+loc
+```
+
+- **Type of School:** As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
+
+| Type of School | Grades Included |
+|----------------|-----------------|
+| Pre School Learning | `Grade PK` |
+| Elementary School | From `Grade k` to `Grade 5` |
+| Middle School | From `Grade 6` to `Grade 8` |
+| High School | From `Grade 9` to `Grade 12` |
+
+```{r}
+school <- rename(school, Grade.PK =Grade.PK..Half.Day...Full.Day. )
+```
+
+```{r}
+school <- school %>% 
+  mutate(is_preschool = case_when(
+    Grade.PK > 0 ~ 1,
+    T ~ 0
+  )) %>% 
+  mutate(is_elementary = case_when(
+    Grade.K == 0 & Grade.1 == 0 & Grade.2 == 0 &
+      Grade.3 == 0 & Grade.4 == 0 & Grade.5 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_middle = case_when(
+    Grade.6 == 0 & Grade.7 == 0 & Grade.8 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_high = case_when(
+    Grade.9 == 0 & Grade.10 == 0 & Grade.11 == 0 & Grade.12 == 0 ~ 0,
+    T ~ 1
+  ))
+```
+
+```{r}
+count_by_type <- sqldf("select location, Year, sum(is_preschool) as pre_school,
+      sum(is_elementary) as elementary,
+      sum(is_middle) as middle,
+      sum(is_high) as high from school group by location ,Year") %>% 
+   pivot_longer(-c(location,Year),names_to ="type", values_to = "num")
+
+```
+
+```{r}
+count_by_type$type <- factor(count_by_type$type ,levels = c("pre_school", "elementary", "middle", "high"))
+
+type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) + 
+    geom_bar(position="dodge", stat="identity")+
+  ggtitle("Number of schools in different type by year") + 
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))+
+   xlab("Academic Year")+
+  ylab("Number of schools") +
+  scale_color_brewer(palette="Dark2")
+type_sch
+```
+
+
+## Distribution of data
+

@@ -9,3 +9,6 @@ results
 interactive-component
 conclusion
 descriptive-analysis
+adding-features
+section
+distribution-of-data
