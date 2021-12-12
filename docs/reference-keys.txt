@@ -1,12 +1,14 @@
 introduction
 data-sources
-descriptive-analysis
+exploratory-data-analysis
+data-column-summary-example
+enrollment-average-across-2013-2018-distribution
+yearly-observation-count
 issue-with-raw-data
 data-transformation
+adding-features
 missing-values
 missing-pattern-plot
 results
 interactive-component
 conclusion
-
-adding-features

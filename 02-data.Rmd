@@ -3,32 +3,77 @@
 ```{r, echo=FALSE}
 library(knitr)
 library(ggplot2)
+library(tidyr)
+library(tidyverse)
+library(dplyr)
 ```
 
-The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
+The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York. In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
+  
+  * The data set contains attributes of the **composition of different ethnicity groups** and also one variable that describes the **poverty level** of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level. We hypothesized that if the composition of a school includes higher proportion of minority ethnic groups, then there is a higher likelihood to have overall higher poverty level;
+$$H_0: poverty\ \ level \not\propto ethnic\ \ composition$$
+  $$H_a: poverty\ \ level \propto ethnic\ \ composition$$
+  
+  * Since the data set provides the **total number of enrolled students** as well as variables describing the **number of students from each ethnicity**, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population. We hypothesized that, as the number of students at school increases, the relative proportion of each ethnic group would become more even;
+$$H_0: ethnic\ \ composition  \not\propto school\ \ population$$
+  $$H_a: ethnic\ \ composition  \propto school\ \ population$$
+  
+  * The data set has descriptions about the **gender composition** of the student population (i.e. number of males and female students in the school). Based on the variable about the **poverty level** of the school and the information about gender composition, we can draw inferences on their interactions;
 
-* The data set contains attributes of the **composition of different ethnicity groups** and also one variable that describes the **poverty level** of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level;
-
-* Since the data set provides the **total number of enrolled students** as well as variables describing the **number of students from each ethnicity**, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population;
-
-* The data set has descriptions about the **gender composition** of the student population (i.e. number of males and female students in the school). Based on the variable about the **poverty level** of the school and the information about gender composition, we can draw inferences on their interactions;
-
-* Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the school name to find their locations and districts. By combining the **district information** and the school’s **poverty level**, we can identify the locations where poverty level is relatively high. 
+* Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the **district information** and the school’s **poverty level**, we can identify the locations where poverty level is relatively high. 
 
 
-## Descriptive Analysis
+## Exploratory Data Analysis
 
+### Data Column Summary Example
 ```{r} 
 school = read.csv("School.csv")
-kable(str(school))
+school_cleaned <- school %>%
+  select(-c(DBN, X..Students.with.Disabilities, 
+            X..Students.with.Disabilities.1, 
+            X..English.Language.Learners,
+            X..English.Language.Learners.1,
+            Economic.Need.Index))
+colnames(school_cleaned)[c(4, 18:33)] <- c("Grade.PK", "Female.count", "Female.percentage",
+                                           "Male.count", "Male.percentage", "Asian.count",
+                                           "Asian.percentage", "Black.count", "Black.percentage",
+                                           "Hispanic.count", "Hispanic.percentage", "Other.count",
+                                           "Other.percentage", "White.count", "White.percentage",
+                                           "Poverty.count", "Poverty.percentage")
+#sample data description
+kable(summary(school_cleaned[, c("Total.Enrollment", "Grade.K", 
+                                 "Grade.12", "Male.count", "Asian.percentage",
+                                 "Poverty.count")]))
+```
+
+### Enrollment (average across 2013-2018) Distribution
+```{r}
+school_enroll <- school %>%
+  group_by(School.Name) %>%
+  summarise(Avg.Enroll = mean(Total.Enrollment))
+p <- school_enroll %>%
+  ggplot(mapping = aes(x = Avg.Enroll)) +
+  geom_histogram(fill = "lightblue") +
+  ggtitle("Average Enrollment Per School") +
+  xlab("Average Enrollment Count") + ylab("Count")
+p + 
+    scale_color_manual(name = "Statistics", values = c(mean = "red", 
+                                                     `25 percentile` = "orange",
+                                                     `75 percentile` = "green")) +
+  geom_vline(aes(xintercept = mean(school_enroll$Avg.Enroll), color = "mean")) +
+  geom_vline(aes(xintercept = quantile(school_enroll$Avg.Enroll)[2], color = "25 percentile")) +
+  geom_vline(aes(xintercept = quantile(school_enroll$Avg.Enroll)[4], color = "75 percentile")) +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 ```
 
 The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
 
+### Yearly Observation Count
 ```{r}
 p <- ggplot(data= school, aes(x = Year)) +
   geom_bar(fill = "lightblue",width =0.5) +
   ggtitle("Number of sample from different years")+
+  ylab("Count") +
   geom_text(stat='count',aes(label=..count..), position = position_dodge(width = 0.9), 
             vjust = -0.4, color = "grey68") +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
@@ -40,3 +85,5 @@ p
 * The raw data didn't explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;
 
 * In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.
+
+* The data is presented in chronological order with each school having 5 observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). Given the goal of our project, time series data would complicate the analysis process. So, we need to aggregate the existing chronological observations.

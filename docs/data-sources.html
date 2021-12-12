@@ -76,10 +76,18 @@
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#descriptive-analysis"><i class="fa fa-check"></i><b>2.1</b> Descriptive Analysis</a></li>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>2.1</b> Exploratory Data Analysis</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-sources.html"><a href="data-sources.html#data-column-summary-example"><i class="fa fa-check"></i><b>2.1.1</b> Data Column Summary Example</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-sources.html"><a href="data-sources.html#enrollment-average-across-2013-2018-distribution"><i class="fa fa-check"></i><b>2.1.2</b> Enrollment (average across 2013-2018) Distribution</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-sources.html"><a href="data-sources.html#yearly-observation-count"><i class="fa fa-check"></i><b>2.1.3</b> Yearly Observation Count</a></li>
+</ul></li>
 <li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#adding-features"><i class="fa fa-check"></i><b>3.1</b> Adding features</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
@@ -108,149 +116,116 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
-<p>The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. In the raw dataset of <code>2013 - 2018 Demographic Snapshot School</code>, there exists several variables that worth investigating furthermore as follows:</p>
+<p>The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York. In the raw dataset of <code>2013 - 2018 Demographic Snapshot School</code>, there exists several variables that worth investigating furthermore as follows:</p>
 <ul>
-<li><p>The data set contains attributes of the <strong>composition of different ethnicity groups</strong> and also one variable that describes the <strong>poverty level</strong> of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level;</p></li>
-<li><p>Since the data set provides the <strong>total number of enrolled students</strong> as well as variables describing the <strong>number of students from each ethnicity</strong>, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population;</p></li>
+<li><p>The data set contains attributes of the <strong>composition of different ethnicity groups</strong> and also one variable that describes the <strong>poverty level</strong> of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level. We hypothesized that if the composition of a school includes higher proportion of minority ethnic groups, then there is a higher likelihood to have overall higher poverty level;
+<span class="math display">\[H_0: poverty\ \ level \not\propto ethnic\ \ composition\]</span>
+<span class="math display">\[H_a: poverty\ \ level \propto ethnic\ \ composition\]</span></p></li>
+<li><p>Since the data set provides the <strong>total number of enrolled students</strong> as well as variables describing the <strong>number of students from each ethnicity</strong>, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population. We hypothesized that, as the number of students at school increases, the relative proportion of each ethnic group would become more even;
+<span class="math display">\[H_0: ethnic\ \ composition  \not\propto school\ \ population\]</span>
+<span class="math display">\[H_a: ethnic\ \ composition  \propto school\ \ population\]</span></p></li>
 <li><p>The data set has descriptions about the <strong>gender composition</strong> of the student population (i.e. number of males and female students in the school). Based on the variable about the <strong>poverty level</strong> of the school and the information about gender composition, we can draw inferences on their interactions;</p></li>
-<li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the school name to find their locations and districts. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.</p></li>
+<li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.</p></li>
 </ul>
-<div id="descriptive-analysis" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Descriptive Analysis</h2>
+<div id="exploratory-data-analysis" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Exploratory Data Analysis</h2>
+<div id="data-column-summary-example" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Data Column Summary Example</h3>
 <table>
+<colgroup>
+<col width="3%" />
+<col width="17%" />
+<col width="15%" />
+<col width="16%" />
+<col width="15%" />
+<col width="17%" />
+<col width="15%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left">x</th>
+<th align="left"></th>
+<th align="left">Total.Enrollment</th>
+<th align="left">Grade.K</th>
+<th align="left">Grade.12</th>
+<th align="left">Male.count</th>
+<th align="left">Asian.percentage</th>
+<th align="left">Poverty.count</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">DBN</td>
+<td align="left"></td>
+<td align="left">Min. : 12.0</td>
+<td align="left">Min. : 0.00</td>
+<td align="left">Min. : 0.00</td>
+<td align="left">Min. : 0.0</td>
+<td align="left">Min. : 0.00</td>
+<td align="left">Min. : 2.0</td>
 </tr>
 <tr class="even">
-<td align="left">School.Name</td>
+<td align="left"></td>
+<td align="left">1st Qu.: 323.0</td>
+<td align="left">1st Qu.: 0.00</td>
+<td align="left">1st Qu.: 0.00</td>
+<td align="left">1st Qu.: 162.0</td>
+<td align="left">1st Qu.: 1.20</td>
+<td align="left">1st Qu.: 229.0</td>
 </tr>
 <tr class="odd">
-<td align="left">Year</td>
+<td align="left"></td>
+<td align="left">Median : 484.0</td>
+<td align="left">Median : 34.00</td>
+<td align="left">Median : 0.00</td>
+<td align="left">Median : 251.0</td>
+<td align="left">Median : 3.70</td>
+<td align="left">Median : 356.0</td>
 </tr>
 <tr class="even">
-<td align="left">Total.Enrollment</td>
+<td align="left"></td>
+<td align="left">Mean : 598.2</td>
+<td align="left">Mean : 46.61</td>
+<td align="left">Mean : 38.54</td>
+<td align="left">Mean : 307.8</td>
+<td align="left">Mean :11.04</td>
+<td align="left">Mean : 435.6</td>
 </tr>
 <tr class="odd">
-<td align="left">Grade.PK..Half.Day…Full.Day.</td>
+<td align="left"></td>
+<td align="left">3rd Qu.: 704.0</td>
+<td align="left">3rd Qu.: 83.00</td>
+<td align="left">3rd Qu.: 48.00</td>
+<td align="left">3rd Qu.: 369.0</td>
+<td align="left">3rd Qu.:12.90</td>
+<td align="left">3rd Qu.: 528.0</td>
 </tr>
 <tr class="even">
-<td align="left">Grade.K</td>
-</tr>
-<tr class="odd">
-<td align="left">Grade.1</td>
-</tr>
-<tr class="even">
-<td align="left">Grade.2</td>
-</tr>
-<tr class="odd">
-<td align="left">Grade.3</td>
-</tr>
-<tr class="even">
-<td align="left">Grade.4</td>
-</tr>
-<tr class="odd">
-<td align="left">Grade.5</td>
-</tr>
-<tr class="even">
-<td align="left">Grade.6</td>
-</tr>
-<tr class="odd">
-<td align="left">Grade.7</td>
-</tr>
-<tr class="even">
-<td align="left">Grade.8</td>
-</tr>
-<tr class="odd">
-<td align="left">Grade.9</td>
-</tr>
-<tr class="even">
-<td align="left">Grade.10</td>
-</tr>
-<tr class="odd">
-<td align="left">Grade.11</td>
-</tr>
-<tr class="even">
-<td align="left">Grade.12</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Female</td>
-</tr>
-<tr class="even">
-<td align="left">X..Female.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Male</td>
-</tr>
-<tr class="even">
-<td align="left">X..Male.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Asian</td>
-</tr>
-<tr class="even">
-<td align="left">X..Asian.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Black</td>
-</tr>
-<tr class="even">
-<td align="left">X..Black.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Hispanic</td>
-</tr>
-<tr class="even">
-<td align="left">X..Hispanic.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Multiple.Race.Categories.Not.Represented</td>
-</tr>
-<tr class="even">
-<td align="left">X..Multiple.Race.Categories.Not.Represented.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..White</td>
-</tr>
-<tr class="even">
-<td align="left">X..White.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Students.with.Disabilities</td>
-</tr>
-<tr class="even">
-<td align="left">X..Students.with.Disabilities.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..English.Language.Learners</td>
-</tr>
-<tr class="even">
-<td align="left">X..English.Language.Learners.1</td>
-</tr>
-<tr class="odd">
-<td align="left">X..Poverty</td>
-</tr>
-<tr class="even">
-<td align="left">X..Poverty.1</td>
-</tr>
-<tr class="odd">
-<td align="left">Economic.Need.Index</td>
+<td align="left"></td>
+<td align="left">Max. :5838.0</td>
+<td align="left">Max. :406.00</td>
+<td align="left">Max. :1380.00</td>
+<td align="left">Max. :3478.0</td>
+<td align="left">Max. :94.70</td>
+<td align="left">Max. :3589.0</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="enrollment-average-across-2013-2018-distribution" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Enrollment (average across 2013-2018) Distribution</h3>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="yearly-observation-count" class="section level3" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Yearly Observation Count</h3>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
 </div>
 <div id="issue-with-raw-data" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Issue with raw data</h2>
 <ul>
 <li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;</p></li>
 <li><p>In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.</p></li>
+<li><p>The data is presented in chronological order with each school having 5 observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). Given the goal of our project, time series data would complicate the analysis process. So, we need to aggregate the existing chronological observations.</p></li>
 </ul>
 
 </div>
@@ -315,6 +290,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
