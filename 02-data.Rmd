@@ -89,8 +89,10 @@ school %>%
   ggplot(mapping = aes(x = Obs.count)) +
   geom_bar(aes(y = stat(count/sum(count))), fill = "lightblue") +
   ggtitle("Normalized School Observation Count Histogram") +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14)) +
+  ylab("Proportion") + xlab("Count")
 ```
+
 From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.
 
 ## Issue with raw data
