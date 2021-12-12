@@ -17,9 +17,9 @@ school <- school %>%
   filter(count == 5) %>%
   select(-count)
 ```
-### Adding features
+## Adding features
 
-#### Location of School
+### Location of School
 Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. **K** represents Brooklyn district, **X** represents the Bronx district, **Q** represents the Queens district, **M** represents the Manhattan district, and **R** represents the Staten Island district. During transformation, we used **str_detect** function in the **stringr** package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.
 
 After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:
@@ -62,7 +62,7 @@ school %>%
   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
 ```
 
-#### Type of School
+### Type of School
 As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
 
 | Type of School      | Grades Included              |
