@@ -18,6 +18,7 @@ school = read.csv("School.csv")
 - **Location of School:** Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable.
 
 After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source.
+
 ```{r}
 school <- school %>% 
   mutate(location = case_when(
@@ -28,7 +29,9 @@ school <- school %>%
     str_detect(DBN,"R") == TRUE ~ "Staten Island",
   ))
 ```
+
 The number of schools by year and location are shown below: 
+
 ```{r}
 dis <-  ggplot(data = school, aes(x = Year,fill = location)) + 
   geom_bar(stat="count") +
@@ -52,12 +55,12 @@ loc
 
 - **Type of School:** As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
 
-| Type of School | Grades Included |
-|----------------|-----------------|
-| Pre School Learning | `Grade PK` |
-| Elementary School | From `Grade k` to `Grade 5` |
-| Middle School | From `Grade 6` to `Grade 8` |
-| High School | From `Grade 9` to `Grade 12` |
+| Type of School      | Grades Included              |
+| ------------------- | ---------------------------- |
+| Pre School Learning | `Grade PK`                   |
+| Elementary School   | From `Grade k` to `Grade 5`  |
+| Middle School       | From `Grade 6` to `Grade 8`  |
+| High School         | From `Grade 9` to `Grade 12` |
 
 ```{r}
 school <- rename(school, Grade.PK =Grade.PK..Half.Day...Full.Day. )
@@ -105,7 +108,4 @@ type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) +
   scale_color_brewer(palette="Dark2")
 type_sch
 ```
-
-
-## Distribution of data
 
