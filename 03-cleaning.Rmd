@@ -1,5 +1,3 @@
-# Data transformation
-
 ```{r, echo=FALSE, warning=FALSE}
 library(knitr)
 library(tidyverse)
@@ -7,32 +5,37 @@ library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
 library(sqldf)
-```
-
-```{r} 
 school = read.csv("School.csv")
 ```
-
-## Adding features
-
-- **Location of School:** Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable.
-
-After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source.
-
+# Removing Incomplete Schools
+Based on the exploratory data analysis result we obtained in the last chapter, we know that there are schools that does not have observation for each of the five academic years, which complicates analysis process if we want to conduct time series analysis. There are 1834 schools included in the data set and 1718 of them have observations for all five years, which constitutes over 93% of all schools. Thus, we choose to directly remove those schools that do not have full observations.
 ```{r}
-school <- school %>% 
-  mutate(location = case_when(
-    str_detect(DBN, "K") == TRUE ~ "Brooklyn",
-    str_detect(DBN,"X") == TRUE ~ "Bronx",
-    str_detect(DBN,"Q") == TRUE ~ "Queens",
-    str_detect(DBN,"M") == TRUE ~ "Manhattan",
-    str_detect(DBN,"R") == TRUE ~ "Staten Island",
-  ))
+school <- school %>%
+  group_by(School.Name) %>%
+  mutate(count = n()) %>%
+  filter(count == 5) %>%
+  select(-count)
 ```
 
-The number of schools by year and location are shown below: 
+# Data transformation
+## Adding features
 
-```{r}
+### Location of School
+Since the first column specifies `DBN(District Borough Number)` of each school, we firstly use it to generate a new `location` variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. **K** represents Brooklyn district, **X** represents the Bronx district, **Q** represents the Queens district, **M** represents the Manhattan district, and **R** represents the Staten Island district. During transformation, we used **str_detect** function in the **stringr** package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.
+
+After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:
+
+```{}
+loc <- ggplot(data = school, aes(x = Year)) + 
+  geom_bar(stat="count",fill = "lightblue")+
+  facet_wrap(~location,ncol =5)+
+  ggtitle("Number of schools in different Borough by year") + 
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14), 
+        axis.text.x = element_text(angle = 30, vjust = 0.5))+
+   xlab("Academic Year")+
+  ylab("Number of schools")
+loc
+
 dis <-  ggplot(data = school, aes(x = Year,fill = location)) + 
   geom_bar(stat="count") +
   ggtitle("2013-2018 Time Series School Count") +
@@ -43,17 +46,25 @@ dis
 ```
 
 ```{r}
-loc <- ggplot(data = school, aes(x = Year)) + 
-  geom_bar(stat="count",fill = "lightblue")+
-  facet_wrap(~location,ncol =5)+
-  ggtitle("Number of schools in different Borough by year") + 
-  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14), axis.text.x = element_text(angle = 30, vjust = 0.5))+
-   xlab("Academic Year")+
-  ylab("Number of schools")
-loc
+school <- school %>% 
+  mutate(location = case_when(
+    str_detect(DBN, "K") == TRUE ~ "Brooklyn",
+    str_detect(DBN,"X") == TRUE ~ "Bronx",
+    str_detect(DBN,"Q") == TRUE ~ "Queens",
+    str_detect(DBN,"M") == TRUE ~ "Manhattan",
+    str_detect(DBN,"R") == TRUE ~ "Staten Island",
+  ))
+
+school %>%
+  ggplot(mapping = aes(x = location)) +
+  geom_bar(stat = "count", fill = "lightblue") +
+  ggtitle("School Count by District") +
+  xlab("Districts") + ylab("Count") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
 ```
 
-- **Type of School:** As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
+### Type of School
+As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
 
 | Type of School      | Grades Included              |
 | ------------------- | ---------------------------- |
@@ -85,6 +96,7 @@ school <- school %>%
     Grade.9 == 0 & Grade.10 == 0 & Grade.11 == 0 & Grade.12 == 0 ~ 0,
     T ~ 1
   ))
+dim(school)
 ```
 
 ```{r}
@@ -94,11 +106,18 @@ count_by_type <- sqldf("select location, Year, sum(is_preschool) as pre_school,
       sum(is_high) as high from school group by location ,Year") %>% 
    pivot_longer(-c(location,Year),names_to ="type", values_to = "num")
 
-```
-
-```{r}
 count_by_type$type <- factor(count_by_type$type ,levels = c("pre_school", "elementary", "middle", "high"))
 
+type_sch <- count_by_type %>%
+  ggplot(mapping = aes(x = type, y = num, fill = location)) +
+  geom_bar(stat = "identity") +
+  ggtitle("School Type Distribution") +
+  xlab("School Type") + ylab("Count") +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+type_sch
+```
+
+```{}
 type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) + 
     geom_bar(position="dodge", stat="identity")+
   ggtitle("Number of schools in different type by year") + 

@@ -48,7 +48,6 @@ kable(summary(school_cleaned[, c("Total.Enrollment", "Grade.K",
 ```
 
 ### Enrollment (average across 2013-2018) Distribution
-After averaging the number of total enrollments for each school observed, we can 
 ```{r}
 school_enroll <- school %>%
   group_by(School.Name) %>%
@@ -67,6 +66,7 @@ p +
   geom_vline(aes(xintercept = quantile(school_enroll$Avg.Enroll)[4], color = "75 percentile")) +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 ```
+After averaging the number of total enrollments for each school observed, we can generate the following histogram that shows the distribution of enrollment number of the schools. Based on the visualization, we can see that the majority of of schools (25th to 75th percentile) are clustered around the interval between 300 and 700.
 
 ### Yearly Observation Count
 ```{r}
@@ -79,6 +79,7 @@ p <- ggplot(data= school, aes(x = Year)) +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 p
 ```
+The barplot of yearly observation describes the number of observations taken each year. From the visualization, we can see that the number of schools taken into consideration varies from time to time, meaning that there are new schools being surveyed each year. This is an indication that if we were to conduct time series analysis, it will be difficult to generalize the year-to-year pattern for those schools that were not surveyed for the whole five academic years. We further created a visualization representing the distribution of number of observations per school, as shown below.
 
 ### Number of Observations per School
 ```{r}
@@ -91,6 +92,11 @@ school %>%
   ggtitle("Normalized School Observation Count Histogram") +
   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14)) +
   ylab("Proportion") + xlab("Count")
+
+temp <- school %>%
+  group_by(School.Name) %>%
+  summarise(Obs.count = n())
+1718/sum(table(temp$Obs.count))
 ```
 
 From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.
@@ -101,4 +107,4 @@ From the visualization, we can see that not every school in the dataset is surve
 
 * In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.
 
-* The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). At the same time, not every school is surveyed each year, according to the **Normalized School Observation Count Histogram** above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, given the goal of our project and not complicate the analysis process, we need to aggregate the existing chronological observations.
+* The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). At the same time, not every school is surveyed each year, according to the **Normalized School Observation Count Histogram** above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, in order to produce generalizable results, we shall remove schools that are "incomplete".
