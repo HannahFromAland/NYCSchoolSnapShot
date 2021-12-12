@@ -24,7 +24,7 @@
 <meta name="author" content="Pinyi Yang &amp; Yuan Heng" />
 
 
-<meta name="date" content="2021-12-11" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -83,7 +83,8 @@
 <li class="chapter" data-level="2.1.3" data-path="data-sources.html"><a href="data-sources.html#yearly-observation-count"><i class="fa fa-check"></i><b>2.1.3</b> Yearly Observation Count</a></li>
 <li class="chapter" data-level="2.1.4" data-path="data-sources.html"><a href="data-sources.html#number-of-observations-per-school"><i class="fa fa-check"></i><b>2.1.4</b> Number of Observations per School</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#project-goal"><i class="fa fa-check"></i><b>2.2</b> Project goal</a></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.3</b> Issue with raw data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
 <ul>
@@ -124,6 +125,37 @@
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
 <div id="removing-incomplete-schools" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Removing Incomplete Schools</h2>
+<p>Before removing incomplete schools, the following table shows the number of schools for number of observation occurrences:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Number of observations</th>
+<th>Number of schools</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 observation</td>
+<td>19 school</td>
+</tr>
+<tr class="even">
+<td>2 observations</td>
+<td>18 schools</td>
+</tr>
+<tr class="odd">
+<td>3 observations</td>
+<td>33 schools</td>
+</tr>
+<tr class="even">
+<td>4 observations</td>
+<td>40 schools</td>
+</tr>
+<tr class="odd">
+<td>5 observations</td>
+<td>1718 schools</td>
+</tr>
+</tbody>
+</table>
 <p>Based on the exploratory data analysis result we obtained in the last chapter, we know that there are schools that does not have observation for each of the five academic years, which complicates analysis process if we want to conduct time series analysis. There are 1834 schools included in the data set and 1718 of them have observations for all five years, which constitutes over 93% of all schools. Thus, we choose to directly remove those schools that do not have full observations.</p>
 </div>
 <div id="adding-features" class="section level2" number="3.2">
@@ -163,7 +195,6 @@
 </tr>
 </tbody>
 </table>
-<pre><code>## [1] 8590   44</code></pre>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 
 </div>

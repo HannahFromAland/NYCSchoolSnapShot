@@ -24,7 +24,7 @@
 <meta name="author" content="Pinyi Yang &amp; Yuan Heng" />
 
 
-<meta name="date" content="2021-12-11" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -83,7 +83,8 @@
 <li class="chapter" data-level="2.1.3" data-path="data-sources.html"><a href="data-sources.html#yearly-observation-count"><i class="fa fa-check"></i><b>2.1.3</b> Yearly Observation Count</a></li>
 <li class="chapter" data-level="2.1.4" data-path="data-sources.html"><a href="data-sources.html#number-of-observations-per-school"><i class="fa fa-check"></i><b>2.1.4</b> Number of Observations per School</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.2</b> Issue with raw data</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#project-goal"><i class="fa fa-check"></i><b>2.2</b> Project goal</a></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#issue-with-raw-data"><i class="fa fa-check"></i><b>2.3</b> Issue with raw data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
 <ul>
@@ -122,17 +123,7 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
-<p>The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York. In the raw dataset of <code>2013 - 2018 Demographic Snapshot School</code>, there exists several variables that worth investigating furthermore as follows:</p>
-<ul>
-<li><p>The data set contains attributes of the <strong>composition of different ethnicity groups</strong> and also one variable that describes the <strong>poverty level</strong> of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level. We hypothesized that if the composition of a school includes higher proportion of minority ethnic groups, then there is a higher likelihood to have overall higher poverty level;
-<span class="math display">\[H_0: poverty\ \ level \not\propto ethnic\ \ composition\]</span>
-<span class="math display">\[H_a: poverty\ \ level \propto ethnic\ \ composition\]</span></p></li>
-<li><p>Since the data set provides the <strong>total number of enrolled students</strong> as well as variables describing the <strong>number of students from each ethnicity</strong>, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population. We hypothesized that, as the number of students at school increases, the relative proportion of each ethnic group would become more even;
-<span class="math display">\[H_0: ethnic\ \ composition  \not\propto school\ \ population\]</span>
-<span class="math display">\[H_a: ethnic\ \ composition  \propto school\ \ population\]</span></p></li>
-<li><p>The data set has descriptions about the <strong>gender composition</strong> of the student population (i.e. number of males and female students in the school). Based on the variable about the <strong>poverty level</strong> of the school and the information about gender composition, we can draw inferences on their interactions;</p></li>
-<li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.</p></li>
-</ul>
+<p>The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York.</p>
 <div id="exploratory-data-analysis" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Exploratory Data Analysis</h2>
 <p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
@@ -234,8 +225,22 @@ The barplot of yearly observation describes the number of observations taken eac
 <p>From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.</p>
 </div>
 </div>
-<div id="issue-with-raw-data" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Issue with raw data</h2>
+<div id="project-goal" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Project goal</h2>
+<p>In the raw dataset of <code>2013 - 2018 Demographic Snapshot School</code>, there exists several variables that worth investigating furthermore as follows:</p>
+<ul>
+<li><p>The data set contains attributes of the <strong>composition of different ethnicity groups</strong> and also one variable that describes the <strong>poverty level</strong> of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level. We hypothesized that if the composition of a school includes higher proportion of minority ethnic groups, then there is a higher likelihood to have overall higher poverty level;
+<span class="math display">\[H_0: poverty\ \ level \not\propto ethnic\ \ composition\]</span>
+<span class="math display">\[H_a: poverty\ \ level \propto ethnic\ \ composition\]</span></p></li>
+<li><p>Since the data set provides the <strong>total number of enrolled students</strong> as well as variables describing the <strong>number of students from each ethnicity</strong>, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population. We hypothesized that, as the number of students at school increases, the relative proportion of each ethnic group would become more even;
+<span class="math display">\[H_0: ethnic\ \ composition  \not\propto school\ \ population\]</span>
+<span class="math display">\[H_a: ethnic\ \ composition  \propto school\ \ population\]</span></p></li>
+<li><p>The data set has descriptions about the <strong>gender composition</strong> of the student population (i.e. number of males and female students in the school). Based on the variable about the <strong>poverty level</strong> of the school and the information about gender composition, we can draw inferences on their interactions;</p></li>
+<li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.</p></li>
+</ul>
+</div>
+<div id="issue-with-raw-data" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Issue with raw data</h2>
 <ul>
 <li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;</p></li>
 <li><p>In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.</p></li>
