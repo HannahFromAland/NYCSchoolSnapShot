@@ -10,6 +10,15 @@ school = read.csv("School.csv")
 ```
 
 ## Removing Incomplete Schools
+Before removing incomplete schools, the following table shows the number of schools for number of observation occurrences:
+| Number of observations|      Number of schools       |
+| --------------------- | ---------------------------- |
+|          1            |             19               |
+|          2            |             18               |
+|          3            |             33               |
+|          4            |             40               |
+|          5            |            1718              |
+
 Based on the exploratory data analysis result we obtained in the last chapter, we know that there are schools that does not have observation for each of the five academic years, which complicates analysis process if we want to conduct time series analysis. There are 1834 schools included in the data set and 1718 of them have observations for all five years, which constitutes over 93% of all schools. Thus, we choose to directly remove those schools that do not have full observations.
 ```{r}
 school <- school %>%
@@ -17,6 +26,12 @@ school <- school %>%
   mutate(count = n()) %>%
   filter(count == 5) %>%
   select(-count)
+
+school <- school %>%
+  group_by(School.Name) %>%
+  summarise(count = n())
+table(school$count)
+  
 ```
 
 ## Adding features
@@ -96,7 +111,6 @@ school <- school %>%
     Grade.9 == 0 & Grade.10 == 0 & Grade.11 == 0 & Grade.12 == 0 ~ 0,
     T ~ 1
   ))
-dim(school)
 ```
 
 ```{r}
