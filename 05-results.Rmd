@@ -7,6 +7,8 @@ library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
 library(sqldf)
+library(patchwork)
+library(ggridges)
 school = read.csv("school_f.csv")
 ```
 
@@ -95,8 +97,11 @@ scatter
 * The special school surely contributed more sample of schools with full range from pre learning to high school learning. From another perspective, they ensure the equity of achieving all stages of educations for students with disability. 
 
 ## Analysis of school enrollment
+
+**By Location:** The distribution of school enrollment by location is shown below. 
+
 ```{r, warning = F}
-enroll <- school %>% 
+enroll <- type_c %>% 
   filter(Year == "2017-18")
 
 enroll_dis <- ggplot(enroll, aes(x = `Total.Enrollment`)) + 
@@ -106,12 +111,20 @@ enroll_dis <- ggplot(enroll, aes(x = `Total.Enrollment`)) +
 enroll_dis
 ```
 
+* Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of "large" schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs. 
+
+**By School Type:** Since the type of number of grade a school includes can affect its student enrollment, we constructed boxplot to explore the enrollment of different type of schools.
+
 ```{r}
-box1 <- ggplot(enroll, aes(reorder(x = location, -`Total.Enrollment`, median), y = `Total.Enrollment`)) +
+box1 <- ggplot(enroll, aes(x = fct_reorder(type_str,`Total.Enrollment`), y = `Total.Enrollment`)) +
   geom_boxplot(color = "#117864", fill = "#48c9b0") + 
   coord_flip() +
-  xlab("School location")+
-  ggtitle("Total enrollment by location") + 
+  xlab("School Type")+
+  ggtitle("Boxplot of Total enrollment by School Type") + 
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14)) 
 box1
 ```
+
+* Apart from schools with coverage from pre-learning to high school learning(as stated before, most of them are special school for disability students), we can safely conclude that school with more grade level will have larger student enrollment in average. Therefore, schools provide elementary, middle school and high school level learning are generally have largest quantity of total enrollment since they includes 12 levels of grade.
+
+* Outlier exist in several types, but high school type consists largest amount of outliers, and also tends to have extremely large number of enrollment, expanding from 1000 students to almost 6000 students.
