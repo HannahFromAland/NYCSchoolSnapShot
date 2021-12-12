@@ -1,6 +1,6 @@
 introduction
 data-sources
-descriptive-analysis-of-data-source
+descriptive-analysis
 issue-with-raw-data
 data-transformation
 missing-values
@@ -8,7 +8,4 @@ missing-pattern-plot
 results
 interactive-component
 conclusion
-descriptive-analysis
-adding-features
-section
-distribution-of-data
+
