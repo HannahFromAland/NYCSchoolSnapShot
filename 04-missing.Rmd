@@ -8,19 +8,18 @@ library(patchwork)
 NYC <- read.csv("School.csv")
 ```
 We first check if there are any NA values in the dataset:
-```{r}
-print("Check if there are any NA values in the dataset:", quote = FALSE)
+```{r, echo = TRUE}
+#Check if there are any NA values in the dataset
 any(is.na(NYC))
 ```
-However, after closer inspection, we saw that there are entries labeled with "No Data" in the column `Economic.Need.Index`. Thus, we need to treat those entries as NAs.
+However, after closer inspection, we saw that there are entries labeled with "No Data" in the column `Economic.Need.Index`. Thus, we need to treat those entries as `NA`s. After substitution "No Data" with NA, we calculate the count of missing value and the rate of missing as below:
 ```{r}
 NYC_na <- NYC %>%
   na_if("No Data")
-print("Changing the 'No Data' variable into NA", quote = FALSE)
-any(is.na(NYC_na))
-print("The count of NA value is", quote = FALSE)
+# count of NAs in the dataset
 sum(is.na(NYC_na))
-print("The percentage of NA value in 'Economic.Need.Index'", quote = FALSE)
+
+# percentage of NA in the column Economic.Need.Index
 sprintf("%0.2f%%",100*sum(is.na(NYC_na))/prod(dim(NYC_na))) #in percentage
 ```
 ## Missing Pattern plot

@@ -17,3 +17,7 @@ missing-pattern-plot
 results
 interactive-component
 conclusion
+deep-dive-of-school-type
+analysis-of-school-enrollment
+combination-of-school-grade
+special-school-for-students-with-disability

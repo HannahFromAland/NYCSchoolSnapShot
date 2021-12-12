@@ -99,7 +99,11 @@
 <ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#missing-pattern-plot"><i class="fa fa-check"></i><b>4.1</b> Missing Pattern plot</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#deep-dive-of-school-type"><i class="fa fa-check"></i><b>5.1</b> Deep Dive of school Type</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#analysis-of-school-enrollment"><i class="fa fa-check"></i><b>5.2</b> Analysis of school enrollment</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
@@ -164,11 +168,11 @@
 <h3><span class="header-section-number">3.2.1</span> Location of School</h3>
 <p>Since the first column specifies <code>DBN(District Borough Number)</code> of each school, we firstly use it to generate a new <code>location</code> variable. According to the DBN assigning system, the Borough is the capitalized letter in the string. <code>K</code> represents Brooklyn district, <code>X</code>represents the Bronx district, <code>Q</code> represents the Queens district, <code>M</code> represents the Manhattan district, and <code>R</code> represents the Staten Island district. During transformation, we used <code>str_detect</code> function in the <code>stringr</code> package to check for ocurrences of each Borough letter and assign the corresponding school with a location identifier in terms of the district.</p>
 <p>After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="type-of-school" class="section level3" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Type of School</h3>
-<p>As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from <code>Grade PK</code> to <code>Grade 12</code>. We use the criteria below to classify the type of School.</p>
+<p>As previously mentioned in Chapter2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from <code>Grade PK</code> to <code>Grade 12</code>. We use the criteria below to classify the type of School.</p>
 <table>
 <thead>
 <tr class="header">
@@ -195,7 +199,7 @@
 </tr>
 </tbody>
 </table>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 
 </div>
 </div>
@@ -260,20 +264,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

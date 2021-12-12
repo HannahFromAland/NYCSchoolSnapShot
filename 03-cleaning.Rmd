@@ -74,7 +74,7 @@ school %>%
 ```
 
 ### Type of School
-As previously mentioned in Ch2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
+As previously mentioned in Chapter2, we can use the number of students enrolled in different grades to judge the type of school. In the dataset, the number of students in different grade are measured from `Grade PK` to `Grade 12`. We use the criteria below to classify the type of School.
 
 | Type of School      | Grades Included              |
 | ------------------- | ---------------------------- |
@@ -137,3 +137,7 @@ type_sch
 # type_sch
 ```
 
+
+```{r}
+write.csv(school, "school_f.csv", row.names = FALSE)
+```

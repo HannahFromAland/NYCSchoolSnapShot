@@ -1,1 +1,96 @@
 # Results
+
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(sqldf)
+school = read.csv("school_f.csv")
+```
+
+## Deep Dive of School Type
+
+### Combination of school grade
+Many schools have multiple types of grade based on our criteria in Chapter 3. For example, some schools may have both pre-school grade and elementary school grade, and combinations of middle school and high school are also common. Therefore, we construct another factor variable `type_str` to specify all types containing by a school.
+
+The number of schools count by their complete type is distributed as follow: 
+```{r}
+type_c <- school %>% 
+  mutate(type_count = is_elementary + is_preschool + is_middle + is_high) %>% 
+  mutate(type_str = case_when(
+    type_count == 1 & is_elementary == 1 ~ "ele",
+    type_count == 1 & is_preschool == 1 ~ "pre",
+    type_count == 1 & is_middle == 1 ~ "mid",
+    type_count == 1 & is_high == 1 ~ "high",
+    type_count == 4 ~ "pre_ele_mid_high",
+    type_count == 2 & is_elementary + is_high == 2 ~ "ele_high",
+    type_count == 2 & is_elementary + is_preschool == 2 ~ "pre_ele",
+    type_count == 2 & is_elementary + is_middle == 2 ~ "ele_mid",
+    type_count == 2 & is_middle + is_high == 2 ~ "mid_high",
+    type_count == 3 & is_elementary + is_preschool + is_middle == 3 ~ "pre_ele_mid",
+    type_count == 3 & is_elementary + is_high + is_middle == 3 ~ "ele_mid_high",
+    T ~ "unknown"
+  )) %>% 
+  filter(Year == "2017-18")
+```
+
+```{r}
+type_c$type_str <- factor(type_c$type_str ,levels = c("pre","ele","mid","high","pre_ele","ele_mid","mid_high","ele_high", "pre_ele_mid","ele_mid_high","pre_ele_mid_high"))
+complete_type <- ggplot(type_c, aes(x = fct_rev(type_str)))+
+  geom_bar(stat = "count", fill = "lightblue") + 
+  coord_flip() +
+  xlab("Type of School") +
+  ylab("Number of School") +
+  ggtitle("School Type Distribution") +
+  
+  geom_text(stat='count',aes(label=..count..),  hjust =-0.4, color = "grey68") +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+complete_type
+```
+
+* Clearly, the dataset doesn't include schools that only provide pre-school education or there may not be demographic schools in New York City provide only pre-school learning. 
+* Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part.
+* The dataset also contains 13 sample of schools which cover from pre-learning to high school grade. We will consider it together with the next part when investigating special schools provided for students with disability.
+
+### Special school for students with disability
+
+We use the metric of `proportion of students with disability` to determine whether a school can be considered as a speical school for students with disability.
+
+```{r}
+dis_school <- type_c  %>%
+  summarise(avg_dis = mean(`X..Students.with.Disabilities.1`),
+            quan75_dis = quantile(`X..Students.with.Disabilities.1`)[4])
+dis <- ggplot(type_c, aes(x = `X..Students.with.Disabilities.1`)) +
+  geom_histogram(fill = "#9fc29f",binwidth = 5) +
+  xlab("propotion of student with disability (%)")+
+  ylab("Number of schools")+
+  ggtitle("Distribution of Propotion of Student with Disability") +
+  scale_color_manual(name = "Statistics", values = c(mean = "#80593D")) +
+  geom_vline(aes(xintercept = mean(dis_school$avg_dis), color = "mean")) +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+dis
+```
+
+The histogram is right skewed, and with a peak around 100%. Most of demographic schools in New York City have less than 50% students with disability and the mean proportion is about 22%. Based on the distribution, we decide to set $50%$ as a threshold to determine whether the school is a special school for students with disability. To explore more about this special type of schools, we focused on the grade type they provided inspired by the prior part.
+
+```{r}
+scatter <- ggplot(type_c, aes(x = type_str, y = `X..Students.with.Disabilities.1`)) +
+  geom_point(color = "#2c7bb6",alpha = 0.5)+
+  coord_flip() +
+  xlab("School Type")+
+  ylab("proportion of student with disability(%)")+
+  geom_hline(size = 1,aes(yintercept =mean(50), color = "Threshold")) +
+  scale_color_manual(name = "Statistics", values = c(Threshold = "#abd9e9"))+
+  ggtitle("Student with Disability vs School Type") +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+scatter
+```
+
+**Remarks:**
+
+* Types of special schools for student with disability are also various. No special elementary school and middle school exists in the dataset, which indicates students with disability in New York City at this stage can involved in normal education together with their peers. 
+
+* The special school surely contributed more sample of schools with full range from pre learning to high school learning. From another perspective, they ensure the equity of achieving all stages of educations for students with disability. 
+
