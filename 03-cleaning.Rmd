@@ -25,24 +25,24 @@ Since the first column specifies `DBN(District Borough Number)` of each school, 
 
 After specifying the location of school, we can first get a capture of school number in different Borough among different academic years in our data source. The number of schools by year and location are shown below:
 
-```{}
-loc <- ggplot(data = school, aes(x = Year)) + 
-  geom_bar(stat="count",fill = "lightblue")+
-  facet_wrap(~location,ncol =5)+
-  ggtitle("Number of schools in different Borough by year") + 
-  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14), 
-        axis.text.x = element_text(angle = 30, vjust = 0.5))+
-   xlab("Academic Year")+
-  ylab("Number of schools")
-loc
-
-dis <-  ggplot(data = school, aes(x = Year,fill = location)) + 
-  geom_bar(stat="count") +
-  ggtitle("2013-2018 Time Series School Count") +
-  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14)) + 
-  xlab("Academic Year")+
-  ylab("Number of schools") 
-dis
+```{r}
+# loc <- ggplot(data = school, aes(x = Year)) + 
+#   geom_bar(stat="count",fill = "lightblue")+
+#   facet_wrap(~location,ncol =5)+
+#   ggtitle("Number of schools in different Borough by year") + 
+#   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14), 
+#         axis.text.x = element_text(angle = 30, vjust = 0.5))+
+#    xlab("Academic Year")+
+#   ylab("Number of schools")
+# loc
+# 
+# dis <-  ggplot(data = school, aes(x = Year,fill = location)) + 
+#   geom_bar(stat="count") +
+#   ggtitle("2013-2018 Time Series School Count") +
+#   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14)) + 
+#   xlab("Academic Year")+
+#   ylab("Number of schools") 
+# dis
 ```
 
 ```{r}
@@ -117,14 +117,14 @@ type_sch <- count_by_type %>%
 type_sch
 ```
 
-```{}
-type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) + 
-    geom_bar(position="dodge", stat="identity")+
-  ggtitle("Number of schools in different type by year") + 
-  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))+
-   xlab("Academic Year")+
-  ylab("Number of schools") +
-  scale_color_brewer(palette="Dark2")
-type_sch
+```{r}
+# type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) + 
+#     geom_bar(position="dodge", stat="identity")+
+#   ggtitle("Number of schools in different type by year") + 
+#   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))+
+#    xlab("Academic Year")+
+#   ylab("Number of schools") +
+#   scale_color_brewer(palette="Dark2")
+# type_sch
 ```
 
