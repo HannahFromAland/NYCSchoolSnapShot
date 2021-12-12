@@ -128,3 +128,4 @@ box1
 * Apart from schools with coverage from pre-learning to high school learning(as stated before, most of them are special school for disability students), we can safely conclude that school with more grade level will have larger student enrollment in average. Therefore, schools provide elementary, middle school and high school level learning are generally have largest quantity of total enrollment since they includes 12 levels of grade.
 
 * Outlier exist in several types, but high school type consists largest amount of outliers, and also tends to have extremely large number of enrollment, expanding from 1000 students to almost 6000 students.
+
