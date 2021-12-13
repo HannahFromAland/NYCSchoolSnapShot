@@ -134,7 +134,7 @@ type_sch <- count_by_type %>%
   ggplot(mapping = aes(x = type, y = num, fill = location)) +
   geom_bar(stat = "identity", position = "fill") +
   ggtitle("School Type Distribution") +
-  xlab("School Type") + ylab("Count") +
+  xlab("School Type") + ylab("Proportion") +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))+
   scale_fill_brewer(palette = "Pastel2") 
 type_sch
