@@ -22,3 +22,6 @@ analysis-of-school-enrollment
 combination-of-school-grade
 special-school-for-students-with-disability
 combination-of-school-type
+school-diversity-in-nyc
+race-and-ethnicity
+poverty-level-in-demographic-school

@@ -53,6 +53,10 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/parallel-coordinates-2.1.8/parcoords.css" rel="stylesheet" />
+<script src="libs/parcoords-binding-1.0.0/parcoords.js"></script>
+<script src="libs/d3-5.16.0/d3.min.js"></script>
 
 
 
@@ -107,6 +111,11 @@
 <li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#special-school-for-students-with-disability"><i class="fa fa-check"></i><b>5.1.2</b> Special School for Students with Disability</a></li>
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#analysis-of-school-enrollment"><i class="fa fa-check"></i><b>5.2</b> Analysis of school enrollment</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#school-diversity-in-nyc"><i class="fa fa-check"></i><b>5.3</b> School Diversity in NYC</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#race-and-ethnicity"><i class="fa fa-check"></i><b>5.3.1</b> Race and Ethnicity</a></li>
+<li class="chapter" data-level="5.3.2" data-path="results.html"><a href="results.html#poverty-level-in-demographic-school"><i class="fa fa-check"></i><b>5.3.2</b> Poverty Level in Demographic School</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
@@ -195,6 +204,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

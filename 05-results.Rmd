@@ -8,8 +8,17 @@ library(ggplot2)
 library(RColorBrewer)
 library(sqldf)
 library(patchwork)
-library(ggridges)
+library(d3r)
+library(parcoords)
+library(GGally)
+library(wesanderson)
+library(patchwork)
 school = read.csv("school_f.csv")
+school <- school %>%
+  group_by(School.Name) %>%
+  mutate(count = n()) %>%
+  filter(count == 5) %>%
+  select(-count)
 ```
 
 ## Deep Dive of School Type
@@ -129,3 +138,97 @@ box1
 
 * Outlier exist in several types, but high school type consists largest amount of outliers, and also tends to have extremely large number of enrollment, expanding from 1000 students to almost 6000 students.
 
+## School Diversity in NYC
+
+### Race and Ethnicity
+
+When it comes to diversity, race and ethnicity becomes the most popular topic. Here we use parallel coordinate plot to see whether there are correlations patterns in race group of public schools in New York City.
+
+```{r mosaic}
+ 
+school <- school %>% rename(
+  total_enroll = `Total.Enrollment`,asian = `X..Asian`,
+                            black = `X..Black`,
+                            hispanic = `X..Hispanic`,
+                            white = `X..White`,
+                            others = `X..Multiple.Race.Categories.Not.Represented`)
+```
+
+```{r chunk race}
+race_time_series <-school %>% 
+    group_by(location) %>%
+    summarise(Asian = sum(asian)/sum(total_enroll),
+              Black = sum(black)/sum(total_enroll),
+              Hispanic = sum(hispanic)/sum(total_enroll),
+              White = sum(white)/sum(total_enroll),
+              Others = sum(others)/sum(total_enroll))%>%  pivot_longer(-location,names_to = "Race",
+  values_to = "proportion")
+```
+
+```{r}
+race_all <- sqldf("select sum(asian) asian, sum(black) black, sum(hispanic) hispanic, sum(white) white,sum(others) others,sum(total_enroll) total from school") %>% pivot_longer(-total, names_to = "Race",
+  values_to = "proportion") %>% 
+  mutate(percent = proportion / total) %>% 
+  mutate(total = "NYC") %>% 
+  select(-proportion)
+
+all_race <- ggplot(race_all, aes(x = total, y = percent, fill=Race))+
+geom_bar(stat="identity",position="fill")+
+  scale_fill_brewer(palette = "Pastel1") +
+  xlab(" ")+
+  ylab("Proportion(%)")+
+geom_text(aes(label = round(percent*100,1)), position = position_stack(vjust = 0.5), size = 3,color = "grey48") +
+  theme(legend.position="none",plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+  
+race_plot <- ggplot(race_time_series, aes(x = location, y = proportion, fill=Race))+
+geom_bar(stat="identity",position="fill")+
+geom_text(aes(label = round(proportion*100,1)), position = position_stack(vjust = 0.5), size = 3,color = "grey48") +
+scale_fill_brewer(palette = "Pastel1") +
+  ylab("")
+
+all_race + race_plot + plot_layout(widths = c(2, 5))+
+ggtitle("Proportion of Race in School by Location") +
+theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
+```
+
+From the percentage bar plot above, we can get a complete view of Race diversity and also its relationship to the location. 
+
+* In total, the percentage of Black and Hispanic students are overweighted than White students. According to [NYC Race and Ethnicity data](https://datausa.io/profile/geo/new-york-ny) in 2021, more than 31.9 residents in NYC self-identified as white and non-Hispanic, while the majority of students in public schools are Hispanic and black. 
+
+* Breakdown of locations give us more insights about race and ethnicity issue. The proportion of white students enrolled in Staten Island takes almost half of the enrollment, while in other Borough especially Bronx, white students only constitute 4.2% of the total enrollment. 
+
+Below we create a random sample of school to create a parallel coordinate plot. You can select, drag and reorder the columns to get a glimpse of race and ethnicity diversity in New York City public school.
+
+```{r parcood}
+school <- read.csv("school_f.csv")
+sample <- school %>% 
+  select(`School.Name`, `X..Asian.1`,`X..Black.1`,`X..White.1`,`X..Hispanic.1`,`X..Multiple.Race.Categories.Not.Represented.1`,location) %>% 
+  rename(asian = `X..Asian.1`,
+                            black = `X..Black.1`,
+                            hispanic = `X..Hispanic.1`,
+                            white = `X..White.1`,
+                            others = `X..Multiple.Race.Categories.Not.Represented.1`) %>% 
+  slice_sample(n = 20) 
+parcoords(sample,rownames = F 
+    , brushMode = "1D-axes"
+    , reorderable = T
+    , queue = T
+    , color = list(colorBy = "location", colorScale = "scaleOrdinal"
+      ,colorScheme = "schemeCategory10"),withD3=TRUE
+    )   
+```
+
+### Poverty Level in Demographic School
+
+Poverty is  factor worth considering when talking about school diversity.We first tried to capture a top-down view of `Poverty Level` using histogram. Clearly, if the students are random selected to be enrolled in demographic schools, the distribution of their poverty level will be nearly normal distributed.
+
+```{r ch5.7}
+pover_dis <- ggplot(type_c, aes(x = `X..Poverty.1`,y =..density..)) + 
+  geom_histogram(binwidth = 5,fill = "#9FC29F",colour = "#80593D") +
+  geom_density(color = "#80593D",size = 0.8) + 
+  xlab("proportion of students in poverty") +
+  ylab("")
+pover_dis
+```
+
+Clearly the distribution of proportion of poverty students are largerly right skewed, which indicates that most of students in demographic schools are those who live in a 
