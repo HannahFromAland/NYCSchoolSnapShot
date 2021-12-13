@@ -1,6 +1,6 @@
 # Interactive component
 
-<iframe src="section6.html" width="1000" height="1000"></iframe>
+<iframe src="section6.html" width="900" height="1000"></iframe>
 
 The inspiration of the interactive plot comes from AnneThor's `treemap` repository on Github. For further reference, please visit the link https://github.com/AnneThor/treemap 
 
