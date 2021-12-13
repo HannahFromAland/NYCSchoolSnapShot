@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" type="text/css" href="treemap.css" />
+  <script type="text/javascript" src="https://d3js.org/d3.v6.js"></script>
+  <script src="https://d3js.org/d3-color.v2.min.js"></script>
+  <script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v2.min.js"></script>
+</head>
+
+<title>TreeMap | Built With D3</title>
+<body>
+
+  <div id="content">
+    <div class="intro">
+      <h1 id="title"></h1>
+      <p id ="description">Race in School in New York City</p>
+    </div>
+
+    <div id="svg-container"></div>
+  </div>
+
+  <script>
+    //creating the svg container
+    var margin = { top: 5, right: 5, bottom: 5, left: 5};
+    var width = 900-margin.left-margin.right;
+    var height = 800 - margin.top-margin.bottom;
+
+    var svg = d3.select("#svg-container")
+      .append("svg")
+        .attr("width", width+margin.left+margin.right)
+        .attr("height", height+margin.top)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + ", " + margin.right + ")");
+
+    //set up the tooltip
+    var tooltip = d3.select("#svg-container")
+      .append("div")
+      .attr("class", "tooltip")
+      .attr("id", "tooltip")
+      .style("opacity", 0);
+
+    //read json data
+    d3.json("https://raw.githubusercontent.com/PinyiYang/SchoolData/main/Schooltop100.json").then(function(data) {
+
+        //give the data to the cluster layout
+        var root = d3.hierarchy(data).sum(function(d){return d.value})
+
+        //get array of console names
+        var consoleArray = data["children"].map(d => {return d.name;})
+
+        //d3 treemap computes the position of each leaf
+        d3.treemap()
+          .size([width, height])
+          .padding(2)
+          (root)
+
+        //create the color scale
+        var color1 = d3.schemeRdPu[9];
+        var color2 = d3.schemeBuPu[9];
+        var colors = color1.concat(color2);
+
+        var color = d3.scaleOrdinal(colors)
+          .domain(consoleArray);
+
+        var legend = d3.select("#svg-container")
+          .append("svg")
+          .attr("id", "legend")
+          .attr("height", 50)
+          .attr("width",width+margin.left+margin.right);
+
+        legend.append("p")
+          .html("Console");
+
+        var bar = d3.select("#legend").selectAll("g")
+          .data(consoleArray)
+          .enter().append("g")
+          .attr("transform", (d,i) => {return "translate(" + 65 + "," + 0 + ")"});
+
+        bar.append("rect")
+          .attr("width", 30)
+          .attr("height", 20)
+          .attr("x", (d, i) => (i*100))
+          .attr("y", 0)
+          .attr("class", "legend-item")
+          .style("padding-left", "10px")
+          .style("padding-right", "10px")
+          .style("fill", d => {return color(d)});
+
+        bar.append("text")
+          .html(d=> {return d})
+          .attr("x", (d, i) => (i*100))
+          .attr("y", 35)
+          .style("padding-bottom", "20px")
+          .style("padding-right", "20px");
+
+
+        //use this information from the treemap to add rectangles
+        svg.selectAll("rect")
+          .data(root.leaves())
+          .enter()
+          .append("rect")
+            .attr("x", function(d){return d.x0;})
+            .attr("y", function(d){return d.y0;})
+            .attr("width", function(d){return d.x1-d.x0;})
+            .attr("height", function(d){return d.y1-d.y0;})
+            .attr("class", "tile")
+            .attr("data-name", d => {return d.data.name})
+            .attr("data-category", d => {return d.data.category})
+            .attr("data-value", d => {return d.data.value})
+            .style("stroke", "black")
+            .style("fill", d=> { return color(d.data.category);})
+          .on("mouseover", (event, d) => {
+            const [x,y] = d3.pointer(event);
+            tooltip.attr("data-value", event.currentTarget.getAttribute("data-value"));
+            tooltip.transition()
+              .duration(200)
+              .style("opacity", .9);
+            tooltip.html(d=> {return ("Type of School: " + event.currentTarget.getAttribute("data-category") + "<br>School name: " + event.currentTarget.getAttribute("data-name")+ "<br>Number of people: " + event.currentTarget.getAttribute("data-value"))})
+              .style("left", x+margin.left + "px")
+              .style("top", y+margin.bottom + "px");
+            })
+          .on("mouseout", function(event, d) {
+            tooltip.transition()
+            .duration(100)
+            .style("opacity", 0)
+          })
+
+
+        svg.selectAll("text")
+          .data(root.leaves())
+          .enter()
+          .append("text")
+            .attr("x", d => {return d.x0 + 5;})
+            .attr("y", d=> {return d.y0 + 20;})
+            .text(d=> {return d.data.name;})
+            .attr("font-size", "6px")
+            .attr("fill", "black")
+
+
+    });
+
+  </script>
+
+
+</body>
+
+</html>
