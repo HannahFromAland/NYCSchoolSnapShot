@@ -37,3 +37,5 @@ larger-school-more-balanced-ethnicity-group
 gender-composition-and-ethnicity
 interactive-component
 conclusion
+three-way-interaction-race-composition-total-enrollment-poverty
+gender-composition-and-poverty
