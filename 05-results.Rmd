@@ -444,21 +444,10 @@ school <- school %>%
 ```
 
 ### Poverty Rate and School Population
-```{r ch5.8}
-# Poverty <- school %>%
-#   ggplot(mapping = aes(x = Poverty)) +
-#   geom_boxplot(fill = "lightblue") +
-#   ggtitle("Poverty Boxplot") +
-#   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
-# Poverty
-# 
-# Enrollment <- school %>%
-#   ggplot(mapping = aes(x = Total.Enrollment)) +
-#   geom_boxplot(fill = "lightblue") +
-#   ggtitle("Total Enrollment Boxplot") +
-#   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
-# Enrollment
 
+Firstly, we care about the single influencer of Poverty level in public schools. Considering the size of school enrollment and poverty rate, we construct scatter plot to see whether there exists patterns, like larger school with high poverty level or vice versa. 
+
+```{r ch5.8}
 Poverty.Enrollment <- school %>%
   #remove values that are outliers
   filter(Total.Enrollment <= 1500, Poverty <= 1000) %>%
@@ -469,14 +458,14 @@ Poverty.Enrollment <- school %>%
             Others = round(mean(Others), 0),
             White = round(mean(White), 0),
             `Total Enrollment` = round(mean(Total.Enrollment), 0),
-            Poverty = mean(Poverty)) %>%
+            Poverty = mean(Poverty)/ round(mean(Total.Enrollment), 0)) %>%
   ungroup() %>%
   select(-School.Name) %>%
   pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
   ggplot(mapping = aes(x = `Total Enrollment`, y = Poverty)) +
-  geom_point(alpha = 0.5, size = 1) +
-  scale_colour_gradient(low = "#F5B8FC", high = "#2E00FF") +
+  geom_point(alpha = 0.5, size = 1,fill = "grey48") +
   geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
+  scale_fill_brewer(palette = "YlGn")+
   geom_smooth(method = "lm") +
   ggtitle("Total Enrollment and Poverty Count") +
   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
@@ -494,8 +483,13 @@ Poverty.Enrollment
 #   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
 ```
 
-### Total Enrollment and Ethnicity Composition
+* As the scatter plot shown, while the variance of sample from public schools are large, it is still possible to see the negative relationship between school size and poverty rate.Most of the public schools in NYC has an enrollment around 250-750 with a poverty ratre higher than 75%.
+
+* Outliers exist in every dimensions, but there appears to be a straight line border with a negative slope above the collection of points in the plot when total enrollment is larger than 1000. 
+
+
 ```{r ch5.15}
+#
 school %>%
   group_by(School.Name) %>%
   summarise(Asian = round(mean(Asian), 0),
@@ -516,7 +510,10 @@ school %>%
   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
 ```
 
-### Three-way Interaction: Asian Composition, Total Enrollment, Poverty
+### Three-way Interaction: Race Composition, Total Enrollment, Poverty
+
+As we hypothesized, ethnic composition may have strong relations with the proportion of students in poverty since the minority ethnic groups are more likely to be immigrants and has lower economics income. 
+
 ```{r 5.9}
 Asian <- school %>%
   #remove values that are outliers
@@ -536,16 +533,10 @@ Asian <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("Asian Count") +
-  labs(title = "Interaction Between Asian Ethnicity and School Poverty",
-       subtitle = "Overlay by School Total Enrollment") +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
-        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
+  geom_smooth(method = "lm") + ylab("Asian Count") 
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
-Asian
 ```
 
-### Three-way Interaction: Black Composition, Total Enrollment, Poverty
 ```{r ch5.10}
 Black <- school %>%
   #remove values that are outliers
@@ -565,16 +556,10 @@ Black <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("Black Count") +
-  labs(title = "Interaction Between Black Ethnicity and School Poverty",
-       subtitle = "Overlay by School Total Enrollment") +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
-        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
+  geom_smooth(method = "lm") + ylab("Black Count")
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
-Black
 ```
 
-### Three-way Interaction: Hispanic Composition, Total Enrollment, Poverty
 ```{r ch5.11}
 Hispanic <- school %>%
   #remove values that are outliers
@@ -594,16 +579,10 @@ Hispanic <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("Hispanic Count") +
-  labs(title = "Interaction Between Hispanic Ethnicity and School Poverty",
-       subtitle = "Overlay by School Total Enrollment") +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
-        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
+  geom_smooth(method = "lm") + ylab("Hispanic Count") 
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
-Hispanic
 ```
 
-### Three-way Interaction: White Composition, Total Enrollment, Poverty
 ```{r ch5.12}
 White <- school %>%
   #remove values that are outliers
@@ -623,27 +602,37 @@ White <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("White Count") +
-  labs(title = "Interaction Between White Ethnicity and School Poverty",
-       subtitle = "Overlay by School Total Enrollment") +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
-        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
+  geom_smooth(method = "lm") + ylab("White Count")
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
-White
+
+(Hispanic + Asian )/ (Black + White) +
+  plot_annotation(
+  title = 'Interaction Between Ethnicity Group and School Poverty',
+  subtitle = "Overlay by School Total Enrollment"
+)
 ```
 
-### Larger School, More balanced Ethnicity Group?
+The result from scatter plots of ethic group breakdown supports our hypothesis. Apart from white students proportion, the sample of poverty and ethic group proportion are all positive correlated. Moreover, the slope steepness of positive correlation between poverty and proportion of Hispanic students is largest among four ethic groups, indicates that schools with higher proportion of Hispanic students are more likely to have higher poverty level. 
 
-### Gender Composition and Ethnicity
+### Gender Composition and Poverty
+
+Recall our assumption in chapter 2, we try to explore the relationship between school poverty level and gender composition. Based on social conventions, we want to know whether gender bias in education can also be reflected by observations in NYC public schools.
+
 ```{r}
-school %>%
-  group_by(location) %>%
-  summarise(Asian = round(mean(Asian), 0),
-            Hispanic = round(mean(Hispanic), 0),
-            Black = round(mean(Black), 0),
-            Others = round(mean(Others), 0),
-            White = round(mean(White), 0),
-            Male = round(mean(Male), 0),
-            Female = round(mean(Female), 0))
+gend<-school %>% 
+  group_by(School.Name) %>%
+  summarise(male_per = round(mean(Male), 0)/  round(mean(`Total.Enrollment`), 0),
+            poverty_per = round(mean(Poverty),0) / round(mean(`Total.Enrollment`), 0)) %>% 
+  ungroup() %>% 
+  select(-School.Name) %>%
+  ggplot(mapping = aes(x = poverty_per, y = male_per)) +
+  geom_point(alpha = 0.8, size = 1.5) +
+  xlab("Proportion of Poverty Students in School")+
+  ylab("Proportion od Male Students in School")+
+  ggtitle("Proportion of Gender vs Poverty Level") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+gend
 ```
+
+As we shown in poverty level before, most public schools in NYC have large quantity of students in poverty. However, though the poverty level is high, the average proportion of male students in NYC public schools are around 50%, which is a good sign indicating that there's no bias when considering gender diversity and poverty level. 
 
