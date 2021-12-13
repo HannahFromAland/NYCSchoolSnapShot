@@ -101,6 +101,8 @@ print(paste0("The number of NAs, which was originally represented as No Data is 
              length(inconsistent$Economic.Need.Index.new), " observations"))
 ```
 
+As indicated in the R output, there are 1718 missing values in the `Economic.Need.Index` alone.
+
 ## Missing Pattern plot
 ```{r ch4-5}
 plot_missing <- function(data, percent = FALSE ){
