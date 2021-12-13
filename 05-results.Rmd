@@ -228,13 +228,34 @@ From the percentage bar plot above, we can get a complete view of Race diversity
 
 * In total, the percentage of Black and Hispanic students are overweighted than White students. According to [NYC Race and Ethnicity data](https://datausa.io/profile/geo/new-york-ny) in 2021, more than 31.9 residents in NYC self-identified as white and non-Hispanic, while the majority of students in public schools are Hispanic and black. 
 
-* Breakdown of locations give us more insights about race and ethnicity issue. The proportion of white students enrolled in Staten Island takes almost half of the enrollment, while in other Borough especially Bronx, white students only constitute 4.2% of the total enrollment. 
+* Breakdown of locations give us more insights about race and ethnicity issue. The composition of different ethnic groups clearly depends on the school district where the observed school locates in. For example, the proportion of white students enrolled in Staten Island takes almost half of the enrollment, while in other Borough especially Bronx, white students only constitute 4.2% of the total enrollment. This location-dependent ethnicity distribution indicates potential factors, such as social economical discrepancies, that drives families to send their children to a specific school district for school. This disproportionate distribution of ethnicity groups in different districts could serve as a warning to officials about possible discrimination to the minorities in the school. Thus, local agencies and school representatives need to take precaution about potential racial discrimination.
 
 Below we create a random sample of school to create a parallel coordinate plot. You can select, drag and reorder the columns to get a glimpse of race and ethnicity diversity in New York City public school.
 
 **Hint:** Try to select sample with higher percentage of Black students, what's the pattern considering other race group and location?
 
+```{r parcood}
+school <- read.csv("school_f.csv")
+sample <- school %>% 
+  select(`School.Name`, `X..Asian.1`,`X..Black.1`,`X..White.1`,`X..Hispanic.1`,`X..Multiple.Race.Categories.Not.Represented.1`,location) %>% 
+  rename(asian = `X..Asian.1`,
+                            black = `X..Black.1`,
+                            hispanic = `X..Hispanic.1`,
+                            white = `X..White.1`,
+                            others = `X..Multiple.Race.Categories.Not.Represented.1`) %>% 
+  slice_sample(n = 20) 
+parcoords(sample,rownames = F 
+    , brushMode = "1D-axes"
+    , reorderable = T
+    , queue = T
+    , color = list(colorBy = "location", colorScale = "scaleOrdinal"
+      ,colorScheme = "schemeCategory10"),withD3=TRUE
+    )   
+```
+
 ### School Type and Ethnicity Composition
+Given the location-dependent ethnicity distribution we discovered in the last section, we continued explore other indicators that may segregate different ethnic groups. The graph below shows the distribution of different ethnicity groups in different school types, where the school types were defined in a previous section.
+
 ```{r ch5.sch_eth}
 school <- read.csv("School.csv")
 school <- school %>%
@@ -312,25 +333,7 @@ school %>%
   xlab("Proportion") + ylab("School Type") +
   scale_fill_brewer(palette = "Pastel1")
 ```
-
-```{r parcood}
-school <- read.csv("school_f.csv")
-sample <- school %>% 
-  select(`School.Name`, `X..Asian.1`,`X..Black.1`,`X..White.1`,`X..Hispanic.1`,`X..Multiple.Race.Categories.Not.Represented.1`,location) %>% 
-  rename(asian = `X..Asian.1`,
-                            black = `X..Black.1`,
-                            hispanic = `X..Hispanic.1`,
-                            white = `X..White.1`,
-                            others = `X..Multiple.Race.Categories.Not.Represented.1`) %>% 
-  slice_sample(n = 20) 
-parcoords(sample,rownames = F 
-    , brushMode = "1D-axes"
-    , reorderable = T
-    , queue = T
-    , color = list(colorBy = "location", colorScale = "scaleOrdinal"
-      ,colorScheme = "schemeCategory10"),withD3=TRUE
-    )   
-```
+According to the stacked percentage barplot of ethnic group distribution in different school types, we can see high fluctuation of Asian and Black student proportions. Specifically, Black students have higher proportions in schools that are for Elementary, Middle, High Schools and Elementary, High schools, while lower proportions in schools that are identified as only Elementary schools. This difference in ethnicity distribution could indicate that discrepancy among students' families' social economical-status. School that are identified to contain multiple school types are usually public and can be subjected to higher chances of bullying, given the greater distribution of age groups.
 
 ### Poverty Level
 
@@ -491,6 +494,28 @@ Poverty.Enrollment
 #   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
 ```
 
+### Total Enrollment and Ethnicity Composition
+```{r ch5.15}
+school %>%
+  group_by(School.Name) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            `Total Enrollment` = round(mean(Total.Enrollment), 0)) %>%
+  ungroup() %>%
+  select(-School.Name) %>%
+  pivot_longer(!`Total Enrollment`, names_to = "Ethnicity", values_to = "Count") %>%
+  ggplot(mapping = aes(x = `Total Enrollment`, y = Count)) +
+  geom_point(mapping = aes(color = Ethnicity), size = 0.5) +
+  geom_smooth(method = "lm") + ylab("Ethnicity Group Count") +
+  facet_wrap(~Ethnicity, ncol = 3) +
+  scale_fill_brewer(palette = "Pastel1") +
+  ggtitle("Total Enrollment and Ethnicity Relationship") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+```
+
 ### Three-way Interaction: Asian Composition, Total Enrollment, Poverty
 ```{r 5.9}
 Asian <- school %>%
@@ -511,7 +536,11 @@ Asian <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("Asian Count")
+  geom_smooth(method = "lm") + ylab("Asian Count") +
+  labs(title = "Interaction Between Asian Ethnicity and School Poverty",
+       subtitle = "Overlay by School Total Enrollment") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
 Asian
 ```
@@ -536,7 +565,11 @@ Black <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("Black Count")
+  geom_smooth(method = "lm") + ylab("Black Count") +
+  labs(title = "Interaction Between Black Ethnicity and School Poverty",
+       subtitle = "Overlay by School Total Enrollment") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
 Black
 ```
@@ -561,7 +594,11 @@ Hispanic <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("Hispanic Count")
+  geom_smooth(method = "lm") + ylab("Hispanic Count") +
+  labs(title = "Interaction Between Hispanic Ethnicity and School Poverty",
+       subtitle = "Overlay by School Total Enrollment") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
 Hispanic
 ```
@@ -586,14 +623,27 @@ White <- school %>%
   ggplot(mapping = aes(x = Poverty, y = Count)) +
   geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
   scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
-  geom_smooth(method = "lm") + ylab("White Count")
+  geom_smooth(method = "lm") + ylab("White Count") +
+  labs(title = "Interaction Between White Ethnicity and School Poverty",
+       subtitle = "Overlay by School Total Enrollment") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+        plot.subtitle = element_text(hjust = 0.5, face = "bold", size = 10))
   #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
 White
 ```
 
-### Poverty Level vs Ethnic Composition
-
 ### Larger School, More balanced Ethnicity Group?
 
-### Does Poverty Affect Gender Composition of Access to Education?
+### Gender Composition and Ethnicity
+```{r}
+school %>%
+  group_by(location) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            Male = round(mean(Male), 0),
+            Female = round(mean(Female), 0))
+```
 

@@ -187,13 +187,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#correlation-hypothesis-and-analysis"><i class="fa fa-check"></i><b>5.4</b> Correlation Hypothesis and Analysis</a>
 <ul>
 <li class="chapter" data-level="5.4.1" data-path="results.html"><a href="results.html#poverty-rate-and-school-population"><i class="fa fa-check"></i><b>5.4.1</b> Poverty Rate and School Population</a></li>
-<li class="chapter" data-level="5.4.2" data-path="results.html"><a href="results.html#three-way-interaction-asian-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.2</b> Three-way Interaction: Asian Composition, Total Enrollment, Poverty</a></li>
-<li class="chapter" data-level="5.4.3" data-path="results.html"><a href="results.html#three-way-interaction-black-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.3</b> Three-way Interaction: Black Composition, Total Enrollment, Poverty</a></li>
-<li class="chapter" data-level="5.4.4" data-path="results.html"><a href="results.html#three-way-interaction-hispanic-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.4</b> Three-way Interaction: Hispanic Composition, Total Enrollment, Poverty</a></li>
-<li class="chapter" data-level="5.4.5" data-path="results.html"><a href="results.html#three-way-interaction-white-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.5</b> Three-way Interaction: White Composition, Total Enrollment, Poverty</a></li>
-<li class="chapter" data-level="5.4.6" data-path="results.html"><a href="results.html#poverty-level-vs-ethnic-composition"><i class="fa fa-check"></i><b>5.4.6</b> Poverty Level vs Ethnic Composition</a></li>
+<li class="chapter" data-level="5.4.2" data-path="results.html"><a href="results.html#total-enrollment-and-ethnicity-composition"><i class="fa fa-check"></i><b>5.4.2</b> Total Enrollment and Ethnicity Composition</a></li>
+<li class="chapter" data-level="5.4.3" data-path="results.html"><a href="results.html#three-way-interaction-asian-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.3</b> Three-way Interaction: Asian Composition, Total Enrollment, Poverty</a></li>
+<li class="chapter" data-level="5.4.4" data-path="results.html"><a href="results.html#three-way-interaction-black-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.4</b> Three-way Interaction: Black Composition, Total Enrollment, Poverty</a></li>
+<li class="chapter" data-level="5.4.5" data-path="results.html"><a href="results.html#three-way-interaction-hispanic-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.5</b> Three-way Interaction: Hispanic Composition, Total Enrollment, Poverty</a></li>
+<li class="chapter" data-level="5.4.6" data-path="results.html"><a href="results.html#three-way-interaction-white-composition-total-enrollment-poverty"><i class="fa fa-check"></i><b>5.4.6</b> Three-way Interaction: White Composition, Total Enrollment, Poverty</a></li>
 <li class="chapter" data-level="5.4.7" data-path="results.html"><a href="results.html#larger-school-more-balanced-ethnicity-group"><i class="fa fa-check"></i><b>5.4.7</b> Larger School, More balanced Ethnicity Group?</a></li>
-<li class="chapter" data-level="5.4.8" data-path="results.html"><a href="results.html#does-poverty-affect-gender-composition-of-access-to-education"><i class="fa fa-check"></i><b>5.4.8</b> Does Poverty Affect Gender Composition of Access to Education?</a></li>
+<li class="chapter" data-level="5.4.8" data-path="results.html"><a href="results.html#gender-composition-and-ethnicity"><i class="fa fa-check"></i><b>5.4.8</b> Gender Composition and Ethnicity</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
@@ -268,16 +268,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>From the percentage bar plot above, we can get a complete view of Race diversity and also its relationship to the location.</p>
 <ul>
 <li><p>In total, the percentage of Black and Hispanic students are overweighted than White students. According to <a href="https://datausa.io/profile/geo/new-york-ny">NYC Race and Ethnicity data</a> in 2021, more than 31.9 residents in NYC self-identified as white and non-Hispanic, while the majority of students in public schools are Hispanic and black.</p></li>
-<li><p>Breakdown of locations give us more insights about race and ethnicity issue. The proportion of white students enrolled in Staten Island takes almost half of the enrollment, while in other Borough especially Bronx, white students only constitute 4.2% of the total enrollment.</p></li>
+<li><p>Breakdown of locations give us more insights about race and ethnicity issue. The composition of different ethnic groups clearly depends on the school district where the observed school locates in. For example, the proportion of white students enrolled in Staten Island takes almost half of the enrollment, while in other Borough especially Bronx, white students only constitute 4.2% of the total enrollment. This location-dependent ethnicity distribution indicates potential factors, such as social economical discrepancies, that drives families to send their children to a specific school district for school. This disproportionate distribution of ethnicity groups in different districts could serve as a warning to officials about possible discrimination to the minorities in the school. Thus, local agencies and school representatives need to take precaution about potential racial discrimination.</p></li>
 </ul>
 <p>Below we create a random sample of school to create a parallel coordinate plot. You can select, drag and reorder the columns to get a glimpse of race and ethnicity diversity in New York City public school.</p>
 <p><strong>Hint:</strong> Try to select sample with higher percentage of Black students, what’s the pattern considering other race group and location?</p>
+<div class="parcoords html-widget" height="480" id="htmlwidget-d4a8081894be85986174" style="width:672px;height:480px; position:relative; overflow-x:auto; overflow-y:hidden; max-width:100%;" width="672"></div>
+<script type="application/json" data-for="htmlwidget-d4a8081894be85986174">{"x":{"data":{"names":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"School.Name":["I. S. 381","P.S. 051 Elias Howe","P.S. 087 William Sherman","Milton Fein School","Manhattan Bridges High School","Arturo A. Schomburg Satellite Academy Bronx","John Ericsson Middle School 126","P.S. 74 Future Leaders Elementary School","P.S. 169 Bay Terrace","Leadership Prep Bedford Stuyvesant Uncommon Prep C","P.S. 196 Grand Central Parkway","Success Academy Charter School - Harlem 1","I.S. 171 Abraham Lincoln","The Urban Assembly School for Law and Justice","H.E.R.O. High (Health, Education, and Research Occ","I.S. X318 Math, Science & Technology Through Arts","I.S. 072 Rocco Laurie","P.S. 307 Daniel Hale Williams","P.S. 062 Inocensio Casanova","P.S. 209"],"asian":[7.4,19.4,6.8,4.7,0.2,0.5,2.6,7,35.5,1,37,1.1,5.7,2.4,1.2,0,22.5,3.2,0.3,0.8],"black":[63.6,13.2,4.9,6.2,0.2,39.5,21.9,23,5.2,86.8,2.6,71.7,10.9,67.3,36.7,29.3,4.5,61.9,21.1,20.3],"white":[9,14.5,64,6.9,0,2.4,6.4,6.7,35.1,1,39.7,1.7,2,1.6,0.9,3,49.9,4.1,2.1,0],"hispanic":[20.1,49.7,14.8,81.8,99,57.1,68.7,62.9,21.8,8.9,13.5,22.6,77.9,24.7,58.9,67.7,22.3,28.6,76,78.9],"others":[0,3.3,9.5,0.4,0.6,0.5,0.4,0.3,2.5,2.2,7.2,2.9,3.5,4,2.3,0,0.8,2.2,0.5,0],"location":["Brooklyn","Manhattan","Manhattan","Bronx","Manhattan","Bronx","Brooklyn","Staten Island","Queens","Brooklyn","Queens","Manhattan","Brooklyn","Brooklyn","Bronx","Bronx","Staten Island","Brooklyn","Bronx","Bronx"]},"options":{"rownames":false,"color":{"colorBy":"location","colorScale":"scaleOrdinal","colorScheme":"schemeCategory10"},"brushMode":"1D-axes","brushPredicate":"AND","reorderable":true,"margin":{"top":50,"bottom":50,"left":100,"right":50},"mode":"queue","bundlingStrength":0.5,"smoothness":0},"autoresize":false,"tasks":null},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="school-type-and-ethnicity-composition" class="section level3" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> School Type and Ethnicity Composition</h3>
-<p><img src="finalproj_files/figure-html/ch5.sch_eth-1.png" width="672" /></p>
-<div class="parcoords html-widget" height="480" id="htmlwidget-8ae8ee56f06c32b3326c" style="width:672px;height:480px; position:relative; overflow-x:auto; overflow-y:hidden; max-width:100%;" width="672"></div>
-<script type="application/json" data-for="htmlwidget-8ae8ee56f06c32b3326c">{"x":{"data":{"names":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"School.Name":["I. S. 381","P.S. 051 Elias Howe","P.S. 087 William Sherman","Milton Fein School","Manhattan Bridges High School","Arturo A. Schomburg Satellite Academy Bronx","John Ericsson Middle School 126","P.S. 74 Future Leaders Elementary School","P.S. 169 Bay Terrace","Leadership Prep Bedford Stuyvesant Uncommon Prep C","P.S. 196 Grand Central Parkway","Success Academy Charter School - Harlem 1","I.S. 171 Abraham Lincoln","The Urban Assembly School for Law and Justice","H.E.R.O. High (Health, Education, and Research Occ","I.S. X318 Math, Science & Technology Through Arts","I.S. 072 Rocco Laurie","P.S. 307 Daniel Hale Williams","P.S. 062 Inocensio Casanova","P.S. 209"],"asian":[7.4,19.4,6.8,4.7,0.2,0.5,2.6,7,35.5,1,37,1.1,5.7,2.4,1.2,0,22.5,3.2,0.3,0.8],"black":[63.6,13.2,4.9,6.2,0.2,39.5,21.9,23,5.2,86.8,2.6,71.7,10.9,67.3,36.7,29.3,4.5,61.9,21.1,20.3],"white":[9,14.5,64,6.9,0,2.4,6.4,6.7,35.1,1,39.7,1.7,2,1.6,0.9,3,49.9,4.1,2.1,0],"hispanic":[20.1,49.7,14.8,81.8,99,57.1,68.7,62.9,21.8,8.9,13.5,22.6,77.9,24.7,58.9,67.7,22.3,28.6,76,78.9],"others":[0,3.3,9.5,0.4,0.6,0.5,0.4,0.3,2.5,2.2,7.2,2.9,3.5,4,2.3,0,0.8,2.2,0.5,0],"location":["Brooklyn","Manhattan","Manhattan","Bronx","Manhattan","Bronx","Brooklyn","Staten Island","Queens","Brooklyn","Queens","Manhattan","Brooklyn","Brooklyn","Bronx","Bronx","Staten Island","Brooklyn","Bronx","Bronx"]},"options":{"rownames":false,"color":{"colorBy":"location","colorScale":"scaleOrdinal","colorScheme":"schemeCategory10"},"brushMode":"1D-axes","brushPredicate":"AND","reorderable":true,"margin":{"top":50,"bottom":50,"left":100,"right":50},"mode":"queue","bundlingStrength":0.5,"smoothness":0},"autoresize":false,"tasks":null},"evals":[],"jsHooks":[]}</script>
+<p>Given the location-dependent ethnicity distribution we discovered in the last section, we continued explore other indicators that may segregate different ethnic groups. The graph below shows the distribution of different ethnicity groups in different school types, where the school types were defined in a previous section.</p>
+<p><img src="finalproj_files/figure-html/ch5.sch_eth-1.png" width="672" />
+According to the stacked percentage barplot of ethnic group distribution in different school types, we can see high fluctuation of Asian and Black student proportions. Specifically, Black students have higher proportions in schools that are for Elementary, Middle, High Schools and Elementary, High schools, while lower proportions in schools that are identified as only Elementary schools. This difference in ethnicity distribution could indicate that discrepancy among students’ families’ social economical-status. School that are identified to contain multiple school types are usually public and can be subjected to higher chances of bullying, given the greater distribution of age groups.</p>
 </div>
 <div id="poverty-level" class="section level3" number="5.3.3">
 <h3><span class="header-section-number">5.3.3</span> Poverty Level</h3>
@@ -302,30 +304,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.4.1</span> Poverty Rate and School Population</h3>
 <p><img src="finalproj_files/figure-html/ch5.8-1.png" width="672" /></p>
 </div>
-<div id="three-way-interaction-asian-composition-total-enrollment-poverty" class="section level3" number="5.4.2">
-<h3><span class="header-section-number">5.4.2</span> Three-way Interaction: Asian Composition, Total Enrollment, Poverty</h3>
+<div id="total-enrollment-and-ethnicity-composition" class="section level3" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Total Enrollment and Ethnicity Composition</h3>
+<p><img src="finalproj_files/figure-html/ch5.15-1.png" width="672" /></p>
+</div>
+<div id="three-way-interaction-asian-composition-total-enrollment-poverty" class="section level3" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Three-way Interaction: Asian Composition, Total Enrollment, Poverty</h3>
 <p><img src="finalproj_files/figure-html/5.9-1.png" width="672" /></p>
 </div>
-<div id="three-way-interaction-black-composition-total-enrollment-poverty" class="section level3" number="5.4.3">
-<h3><span class="header-section-number">5.4.3</span> Three-way Interaction: Black Composition, Total Enrollment, Poverty</h3>
+<div id="three-way-interaction-black-composition-total-enrollment-poverty" class="section level3" number="5.4.4">
+<h3><span class="header-section-number">5.4.4</span> Three-way Interaction: Black Composition, Total Enrollment, Poverty</h3>
 <p><img src="finalproj_files/figure-html/ch5.10-1.png" width="672" /></p>
 </div>
-<div id="three-way-interaction-hispanic-composition-total-enrollment-poverty" class="section level3" number="5.4.4">
-<h3><span class="header-section-number">5.4.4</span> Three-way Interaction: Hispanic Composition, Total Enrollment, Poverty</h3>
+<div id="three-way-interaction-hispanic-composition-total-enrollment-poverty" class="section level3" number="5.4.5">
+<h3><span class="header-section-number">5.4.5</span> Three-way Interaction: Hispanic Composition, Total Enrollment, Poverty</h3>
 <p><img src="finalproj_files/figure-html/ch5.11-1.png" width="672" /></p>
 </div>
-<div id="three-way-interaction-white-composition-total-enrollment-poverty" class="section level3" number="5.4.5">
-<h3><span class="header-section-number">5.4.5</span> Three-way Interaction: White Composition, Total Enrollment, Poverty</h3>
+<div id="three-way-interaction-white-composition-total-enrollment-poverty" class="section level3" number="5.4.6">
+<h3><span class="header-section-number">5.4.6</span> Three-way Interaction: White Composition, Total Enrollment, Poverty</h3>
 <p><img src="finalproj_files/figure-html/ch5.12-1.png" width="672" /></p>
-</div>
-<div id="poverty-level-vs-ethnic-composition" class="section level3" number="5.4.6">
-<h3><span class="header-section-number">5.4.6</span> Poverty Level vs Ethnic Composition</h3>
 </div>
 <div id="larger-school-more-balanced-ethnicity-group" class="section level3" number="5.4.7">
 <h3><span class="header-section-number">5.4.7</span> Larger School, More balanced Ethnicity Group?</h3>
 </div>
-<div id="does-poverty-affect-gender-composition-of-access-to-education" class="section level3" number="5.4.8">
-<h3><span class="header-section-number">5.4.8</span> Does Poverty Affect Gender Composition of Access to Education?</h3>
+<div id="gender-composition-and-ethnicity" class="section level3" number="5.4.8">
+<h3><span class="header-section-number">5.4.8</span> Gender Composition and Ethnicity</h3>
+<pre><code>## # A tibble: 5 × 8
+##   location      Asian Hispanic Black Others White  Male Female
+##   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Bronx            25      333   150      7    23   279    260
+## 2 Brooklyn         92      164   224     10    96   303    283
+## 3 Manhattan        60      219   116     14    78   239    247
+## 4 Queens          230      308   152     21   106   425    392
+## 5 Staten Island    73      234   115     15   404   436    406</code></pre>
 
 </div>
 </div>

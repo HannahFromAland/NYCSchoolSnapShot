@@ -28,12 +28,12 @@ poverty-level
 english-language-learner
 correlation-hypothesis-and-analysis
 poverty-rate-and-school-population
+total-enrollment-and-ethnicity-composition
 three-way-interaction-asian-composition-total-enrollment-poverty
 three-way-interaction-black-composition-total-enrollment-poverty
 three-way-interaction-hispanic-composition-total-enrollment-poverty
 three-way-interaction-white-composition-total-enrollment-poverty
-poverty-level-vs-ethnic-composition
 larger-school-more-balanced-ethnicity-group
-does-poverty-affect-gender-composition-of-access-to-education
+gender-composition-and-ethnicity
 interactive-component
 conclusion
