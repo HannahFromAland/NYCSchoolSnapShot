@@ -464,8 +464,7 @@ Poverty.Enrollment <- school %>%
   pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
   ggplot(mapping = aes(x = `Total Enrollment`, y = Poverty)) +
   geom_point(alpha = 0.5, size = 1,fill = "grey48") +
-  geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
-  scale_fill_brewer(palette = "YlGn")+
+  geom_density_2d_filled(contour_var = "ndensity",alpha = 0.3, show.legend = FALSE) +
   geom_smooth(method = "lm") +
   ggtitle("Total Enrollment and Poverty Count") +
   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
