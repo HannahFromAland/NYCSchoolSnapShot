@@ -69,6 +69,7 @@ p <- ggplot(data= school, aes(x = Year)) +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 p
 ```
+
 The barplot of yearly observation describes the number of observations taken each year. From the visualization, we can see that the number of schools taken into consideration varies from time to time, meaning that there are new schools being surveyed each year. This is an indication that if we were to conduct time series analysis, it will be difficult to generalize the year-to-year pattern for those schools that were not surveyed for the whole five academic years. We further created a visualization representing the distribution of number of observations per school, as shown below.
 
 ### Number of Observations per School
