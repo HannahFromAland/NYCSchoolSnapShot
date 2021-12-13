@@ -5,25 +5,104 @@ library(ggplot2)
 library(tidyverse)
 library(dplyr)
 library(patchwork)
-NYC <- read.csv("School.csv")
+library(knitr)
+library(stringr)
+school <- read.csv("School.csv")
 ```
-We first check if there are any NA values in the dataset:
-```{r, echo = TRUE}
-#Check if there are any NA values in the dataset
-any(is.na(NYC))
-```
-However, after closer inspection, we saw that there are entries labeled with "No Data" in the column `Economic.Need.Index`. Thus, we need to treat those entries as `NA`s. After substitution "No Data" with NA, we calculate the count of missing value and the rate of missing as below:
-```{r}
-NYC_na <- NYC %>%
-  na_if("No Data")
-# count of NAs in the dataset
-sum(is.na(NYC_na))
 
-# percentage of NA in the column Economic.Need.Index
-sprintf("%0.2f%%",100*sum(is.na(NYC_na))/prod(dim(NYC_na))) #in percentage
+```{r ch4-1, echo = FALSE}
+#Check if there are any NA values in the dataset
+school <- school %>%
+  group_by(School.Name) %>%
+  mutate(count = n()) %>%
+  filter(count == 5) %>%
+  select(-count) %>%
+  ungroup() %>%
+  mutate(location = case_when(
+    str_detect(DBN, "K") == TRUE ~ "Brooklyn",
+    str_detect(DBN,"X") == TRUE ~ "Bronx",
+    str_detect(DBN,"Q") == TRUE ~ "Queens",
+    str_detect(DBN,"M") == TRUE ~ "Manhattan",
+    str_detect(DBN,"R") == TRUE ~ "Staten Island",
+  )) %>%
+  rename(Grade.PK =Grade.PK..Half.Day...Full.Day. ) %>%
+  mutate(is_preschool = case_when(
+    Grade.PK > 0 ~ 1,
+    T ~ 0
+  )) %>% 
+  mutate(is_elementary = case_when(
+    Grade.K == 0 & Grade.1 == 0 & Grade.2 == 0 &
+      Grade.3 == 0 & Grade.4 == 0 & Grade.5 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_middle = case_when(
+    Grade.6 == 0 & Grade.7 == 0 & Grade.8 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_high = case_when(
+    Grade.9 == 0 & Grade.10 == 0 & Grade.11 == 0 & Grade.12 == 0 ~ 0,
+    T ~ 1
+  ))
+
+#write_csv(school, "school_cleaned.csv")
 ```
+
+## Checking Missing Values
+
+```{r ch4-2}
+missing_check <- school %>%
+  select(-c(DBN, X..Female.1, X..Male.1, X..Asian.1, X..Black.1, X..Hispanic.1,
+            X..Multiple.Race.Categories.Not.Represented.1, X..White.1,
+            X..Students.with.Disabilities.1, X..English.Language.Learners.1,
+            X..Poverty.1, is_preschool, is_elementary, is_middle, is_high)) %>%
+  select_if(is.numeric) %>%
+  rename(Female = X..Female, Male = X..Male, Asian = X..Asian, Black = X..Black,
+         Hispanic = X..Hispanic, Others = X..Multiple.Race.Categories.Not.Represented,
+         White = X..White, Disabled.Students = X..Students.with.Disabilities,
+         English.Learners = X..English.Language.Learners, Poverty = X..Poverty)
+
+Names <- colnames(missing_check)
+# Names[16:25] <- c("Female", "Male", "Asian", "Black",
+#                   "Hispanic", "Others", "White", "Disabled.Students",
+#                   "English.Learners", "Poverty")
+missing <- unlist(NULL)
+for(i in Names){
+  temp <- missing_check[,i]
+  miss <- sum(is.na(temp))
+  missing <- as.logical(c(missing, miss))
+}
+
+print(paste0("After looping over all numerical variables, there's ", sum(missing), " NA values"))
+```
+The data consist of different data types of parameters: numeric and character. For numerical variables, such as number of Asian student, number of Hispanic student, etc. a value of 0 is acceptable, since there might not be any student that belongs to that specific ethnic group, so we checked if there are any `NA` values in all variables that are numeric. It turned out that the data is pretty complete since there are no NA values for all numeric type variable.
+
+## Checking Inconsistent Values
+For character type variables, such as the `Economic.Need.Index` that represents numerical values in character format, we checked for missing values by converting the column of values to numeric after removing the `%` sign after the number. If there is no missing values, we should expect all values being converted to numbers. However, the conversion led to NA values for all observations, which indicate existence of values that are not NA but does not conform to the labeling format (i.e. string with number of percentages).
+
+Thus, to check for inconsistent values, we first mutate the `Economic.Need.Index` column by converting values that does not follow the format of `"numerical value %"` into NA.
+```{r ch4-3, echo = TRUE}
+inconsistent <- school %>%
+  mutate(Economic.Need.Index.new = 
+           ifelse(str_detect(Economic.Need.Index, "^[\\d]+%"), NA, 
+                  as.numeric(str_extract(Economic.Need.Index, "^[\\d]+")))) %>%
+  select(-c(DBN, X..Female.1, X..Male.1, X..Asian.1, X..Black.1, X..Hispanic.1,
+            X..Multiple.Race.Categories.Not.Represented.1, X..White.1,
+            X..Students.with.Disabilities.1, X..English.Language.Learners.1,
+            X..Poverty.1, is_preschool, is_elementary, is_middle, is_high)) %>%
+  select_if(is.numeric) %>%
+  rename(Female = X..Female, Male = X..Male, Asian = X..Asian, Black = X..Black,
+         Hispanic = X..Hispanic, Others = X..Multiple.Race.Categories.Not.Represented,
+         White = X..White, Disabled.Students = X..Students.with.Disabilities,
+         English.Learners = X..English.Language.Learners, Poverty = X..Poverty)
+
+print(paste0("The number of NAs, which was originally represented as No Data is ",
+             sum(is.na(inconsistent$Economic.Need.Index.new)), 
+             " among the total of ", 
+             length(inconsistent$Economic.Need.Index.new), " observations"))
+```
+
 ## Missing Pattern plot
-```{r}
+```{r ch4-5}
 plot_missing <- function(data, percent = FALSE ){
   missing_patterns <- data.frame(is.na(data)) %>%
     group_by_all() %>%
@@ -80,7 +159,8 @@ plot_missing <- function(data, percent = FALSE ){
                aes(x = reorder(key,-missing_number),y = missing_number)) +
     geom_bar(stat="identity") +
     theme(axis.title.x=element_blank(),axis.title.y = element_text(size = 8),axis.text.x = element_text(angle = -30, hjust = 0)) +
-    ggtitle("Missing value patterns")
+    ggtitle("Missing value patterns") +
+    theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 
   
   if(percent){
@@ -94,22 +174,23 @@ plot_missing <- function(data, percent = FALSE ){
 }
 ```
 Given the shear size of the dataset, it is hard to visualize missing value pattern of the whole dataset, thus, we can sample from the whole data set and visualize the missing pattern:
-```{r}
-set.seed(1234567)
+```{r ch4-6}
+set.seed(12345)
 # case1
-row_ind <- sample(1:nrow(NYC_na), 200)
-col_ind <- sample(1:ncol(NYC_na), 10)
-new_NYC <- NYC_na[row_ind, col_ind]
-plot_missing(new_NYC)
+row_ind <- sample(1:nrow(inconsistent), 500)
+col_ind <- sample(1:ncol(inconsistent), 10)
+missing.1 <- inconsistent[row_ind, col_ind]
+plot_missing(missing.1)
 # case2
-row_ind <- sample(1:nrow(NYC_na), 200)
-col_ind <- sample(1:ncol(NYC_na), 10)
-new_NYC <- NYC_na[row_ind, col_ind]
-plot_missing(new_NYC)
+row_ind <- sample(1:nrow(inconsistent), 500)
+col_ind <- sample(1:ncol(inconsistent), 10)
+missing.2 <- inconsistent[row_ind, col_ind]
+plot_missing(missing.2)
 # case3
-row_ind <- sample(1:nrow(NYC_na), 200)
-col_ind <- sample(1:ncol(NYC_na), 10)
-new_NYC <- NYC_na[row_ind, col_ind]
-plot_missing(new_NYC)
+row_ind <- sample(1:nrow(inconsistent), 500)
+col_ind <- sample(1:ncol(inconsistent), 10)
+missing.3 <- inconsistent[row_ind, col_ind]
+plot_missing(missing.3)
 ```
-After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. Thus, we can say that the data set is overall complete.
+
+After trying few cases of missing pattern combinations, it is really rare to find a case that have a pattern. This is because that the data itself has a really large size, which is 8972 rows by 39 columns, while there's only 1730 missing entries, with a missing value rate less than 0.5%. From the missing pattern plots, we can see that all the numerical columns except for `Economic.Need.Index` are complete. The missing values in `Economic.Need.Index` is not worrisome to us because  `Poverty` parameter describes the same thing as `Economic.Need.Index`. So, we decided to completely remove the `Economic.Need.Index` column during further analysis, and use the complete `Poverty` column to represent economic statuses of the students.
