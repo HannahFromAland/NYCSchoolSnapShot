@@ -199,6 +199,8 @@ From the percentage bar plot above, we can get a complete view of Race diversity
 
 Below we create a random sample of school to create a parallel coordinate plot. You can select, drag and reorder the columns to get a glimpse of race and ethnicity diversity in New York City public school.
 
+**Hint:** Try to select sample with higher percentage of Black students, what's the pattern considering other race group and location?
+
 ```{r parcood}
 school <- read.csv("school_f.csv")
 sample <- school %>% 
@@ -220,15 +222,18 @@ parcoords(sample,rownames = F
 
 ### Poverty Level in Demographic School
 
-Poverty is  factor worth considering when talking about school diversity.We first tried to capture a top-down view of `Poverty Level` using histogram. Clearly, if the students are random selected to be enrolled in demographic schools, the distribution of their poverty level will be nearly normal distributed.
+Poverty is another factor worth considering when talking about school diversity. We first tried to capture a top-down view of `Poverty Level` using histogram. If the students are random selected to be enrolled in demographic schools, the distribution of their poverty level will be nearly normal distributed.
 
 ```{r ch5.7}
 pover_dis <- ggplot(type_c, aes(x = `X..Poverty.1`,y =..density..)) + 
   geom_histogram(binwidth = 5,fill = "#9FC29F",colour = "#80593D") +
   geom_density(color = "#80593D",size = 0.8) + 
+  
   xlab("proportion of students in poverty") +
+  facet_wrap(~location, ncol = 3)+
   ylab("")
 pover_dis
 ```
 
-Clearly the distribution of proportion of poverty students are largerly right skewed, which indicates that most of students in demographic schools are those who live in a 
+Clearly, the distribution of proportion of poverty students are not normal distributed. By breakdown of location, most of distributions are right skewed except samples from Staten Island, and indicated that a majority of students in demographic schools are experiencing poverty. 
+
