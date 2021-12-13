@@ -23,9 +23,15 @@ special-school-for-students-with-disability
 analysis-of-school-enrollment
 school-diversity-in-nyc
 race-and-ethnicity
+school-type-and-ethnicity-composition
 poverty-level
 english-language-learner
 correlation-hypothesis-and-analysis
+poverty-rate-and-school-population
+three-way-interaction-asian-composition-total-enrollment-poverty
+three-way-interaction-black-composition-total-enrollment-poverty
+three-way-interaction-hispanic-composition-total-enrollment-poverty
+three-way-interaction-white-composition-total-enrollment-poverty
 poverty-level-vs-ethnic-composition
 larger-school-more-balanced-ethnicity-group
 does-poverty-affect-gender-composition-of-access-to-education

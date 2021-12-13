@@ -28,27 +28,57 @@ Many schools have multiple types of grade based on our criteria in Chapter 3. Fo
 
 The number of schools count by their complete type is distributed as follow: 
 ```{r chunk5.1}
+# type_c <- school %>% 
+#   mutate(type_count = is_elementary + is_preschool + is_middle + is_high) %>% 
+#   mutate(type_str = case_when(
+#     type_count == 1 & is_elementary == 1 ~ "ele",
+#     type_count == 1 & is_preschool == 1 ~ "pre",
+#     type_count == 1 & is_middle == 1 ~ "mid",
+#     type_count == 1 & is_high == 1 ~ "high",
+#     type_count == 4 ~ "pre_ele_mid_high",
+#     type_count == 2 & is_elementary + is_high == 2 ~ "ele_high",
+#     type_count == 2 & is_elementary + is_preschool == 2 ~ "pre_ele",
+#     type_count == 2 & is_elementary + is_middle == 2 ~ "ele_mid",
+#     type_count == 2 & is_middle + is_high == 2 ~ "mid_high",
+#     type_count == 3 & is_elementary + is_preschool + is_middle == 3 ~ "pre_ele_mid",
+#     type_count == 3 & is_elementary + is_high + is_middle == 3 ~ "ele_mid_high",
+#     T ~ "unknown"
+#   )) %>% 
+#   filter(Year == "2017-18")
+
 type_c <- school %>% 
   mutate(type_count = is_elementary + is_preschool + is_middle + is_high) %>% 
   mutate(type_str = case_when(
-    type_count == 1 & is_elementary == 1 ~ "ele",
-    type_count == 1 & is_preschool == 1 ~ "pre",
-    type_count == 1 & is_middle == 1 ~ "mid",
-    type_count == 1 & is_high == 1 ~ "high",
-    type_count == 4 ~ "pre_ele_mid_high",
-    type_count == 2 & is_elementary + is_high == 2 ~ "ele_high",
-    type_count == 2 & is_elementary + is_preschool == 2 ~ "pre_ele",
-    type_count == 2 & is_elementary + is_middle == 2 ~ "ele_mid",
-    type_count == 2 & is_middle + is_high == 2 ~ "mid_high",
-    type_count == 3 & is_elementary + is_preschool + is_middle == 3 ~ "pre_ele_mid",
-    type_count == 3 & is_elementary + is_high + is_middle == 3 ~ "ele_mid_high",
+    type_count == 1 & is_elementary == 1 ~ "Elementary School",
+    type_count == 1 & is_preschool == 1 ~ "Pre-elementary School",
+    type_count == 1 & is_middle == 1 ~ "Middle School",
+    type_count == 1 & is_high == 1 ~ "High School",
+    type_count == 4 ~ "Pre-elementary, Elementary, Middle, High School",
+    type_count == 2 & is_elementary + is_high == 2 ~ "Elementary, High School",
+    type_count == 2 & is_elementary + is_preschool == 2 ~ "Pre-elementary, Elementary School",
+    type_count == 2 & is_elementary + is_middle == 2 ~ "Elementary, Middle School",
+    type_count == 2 & is_middle + is_high == 2 ~ "Middle, High School",
+    type_count == 3 & is_elementary + is_preschool + is_middle == 3 ~ "Pre-elementary, Elementary, Middle School",
+    type_count == 3 & is_elementary + is_high + is_middle == 3 ~ "Elementary, Middle, High School",
     T ~ "unknown"
   )) %>% 
   filter(Year == "2017-18")
 ```
 
 ```{r chunk5.2}
-type_c$type_str <- factor(type_c$type_str ,levels = c("pre","ele","mid","high","pre_ele","ele_mid","mid_high","ele_high", "pre_ele_mid","ele_mid_high","pre_ele_mid_high"))
+# type_c$type_str <- factor(type_c$type_str ,levels = c("pre","ele","mid","high","pre_ele","ele_mid","mid_high","ele_high", "pre_ele_mid","ele_mid_high","pre_ele_mid_high"))
+type_c$type_str <- factor(type_c$type_str, 
+                          levels = c("Pre-elementary School",
+                                     "Elementary School", "Middle School",
+                                     "High School", 
+                                     "Pre-elementary, Elementary, Middle, High School",
+                                     "Elementary, High School", 
+                                     "Pre-elementary, Elementary School",
+                                     "Elementary, Middle School",
+                                     "Middle, High School",
+                                     "Pre-elementary, Elementary, Middle School",
+                                     "Elementary, Middle, High School"
+                                     ))
 complete_type <- ggplot(type_c, aes(x = fct_rev(type_str)))+
   geom_bar(stat = "count", fill = "lightblue") + 
   coord_flip() +
@@ -204,6 +234,85 @@ Below we create a random sample of school to create a parallel coordinate plot. 
 
 **Hint:** Try to select sample with higher percentage of Black students, what's the pattern considering other race group and location?
 
+### School Type and Ethnicity Composition
+```{r ch5.sch_eth}
+school <- read.csv("School.csv")
+school <- school %>%
+  #remove incomplete schools (not surveyed in all 5 years)
+  group_by(School.Name) %>%
+  mutate(count = n()) %>%
+  filter(count == 5) %>%
+  select(-count) %>%
+  ungroup() %>%
+  #assign location (according to DBN code)
+  mutate(location = case_when(
+    str_detect(DBN, "K") == TRUE ~ "Brooklyn",
+    str_detect(DBN,"X") == TRUE ~ "Bronx",
+    str_detect(DBN,"Q") == TRUE ~ "Queens",
+    str_detect(DBN,"M") == TRUE ~ "Manhattan",
+    str_detect(DBN,"R") == TRUE ~ "Staten Island",
+  )) %>%
+  #reformatting column names & removing unwanted columns 
+  rename(Grade.PK =Grade.PK..Half.Day...Full.Day. ) %>%
+  mutate(is_preschool = case_when(
+    Grade.PK > 0 ~ 1,
+    T ~ 0
+  )) %>% 
+  mutate(is_elementary = case_when(
+    Grade.K == 0 & Grade.1 == 0 & Grade.2 == 0 &
+      Grade.3 == 0 & Grade.4 == 0 & Grade.5 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_middle = case_when(
+    Grade.6 == 0 & Grade.7 == 0 & Grade.8 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_high = case_when(
+    Grade.9 == 0 & Grade.10 == 0 & Grade.11 == 0 & Grade.12 == 0 ~ 0,
+    T ~ 1
+  )) %>%
+  #school type assignment
+  mutate(type_count = is_elementary + is_preschool + is_middle + is_high) %>% 
+  mutate(type_str = case_when(
+    type_count == 1 & is_elementary == 1 ~ "Elementary School",
+    type_count == 1 & is_preschool == 1 ~ "Pre-elementary School",
+    type_count == 1 & is_middle == 1 ~ "Middle School",
+    type_count == 1 & is_high == 1 ~ "High School",
+    type_count == 4 ~ "Pre-elementary, Elementary, Middle, High School",
+    type_count == 2 & is_elementary + is_high == 2 ~ "Elementary, High School",
+    type_count == 2 & is_elementary + is_preschool == 2 ~ "Pre-elementary, Elementary School",
+    type_count == 2 & is_elementary + is_middle == 2 ~ "Elementary, Middle School",
+    type_count == 2 & is_middle + is_high == 2 ~ "Middle, High School",
+    type_count == 3 & is_elementary + is_preschool + is_middle == 3 ~ "Pre-elementary, Elementary, Middle School",
+    type_count == 3 & is_elementary + is_high + is_middle == 3 ~ "Elementary, Middle, High School",
+    T ~ "unknown"
+  )) %>%
+  select(-c(DBN, X..Female.1, X..Male.1, X..Asian.1, X..Black.1, X..Hispanic.1,
+            X..Multiple.Race.Categories.Not.Represented.1, X..White.1,
+            X..Students.with.Disabilities.1, X..English.Language.Learners.1,
+            X..Poverty.1, is_preschool, is_elementary, is_middle, is_high, type_count)) %>%
+  rename(Female = X..Female, Male = X..Male, Asian = X..Asian, Black = X..Black,
+         Hispanic = X..Hispanic, Others = X..Multiple.Race.Categories.Not.Represented,
+         White = X..White, Disabled.Students = X..Students.with.Disabilities,
+         English.Learners = X..English.Language.Learners, Poverty = X..Poverty,
+         School.type = type_str)
+
+school %>%
+  group_by(School.type) %>%
+  summarise(Asian = sum(Asian),
+            Black = sum(Black),
+            Hispanic = sum(Hispanic),
+            White = sum(White),
+            Others = sum(Others)) %>%
+  pivot_longer(!School.type, names_to = "Ethnicity", values_to = "Count") %>%
+  ggplot(mapping = aes(y = School.type, x = Count)) +
+  geom_bar(stat = "identity", position = "fill", mapping = aes(fill = Ethnicity), alpha = 0.8) +
+  ggtitle("Ethnicity Distribution by School Type") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14)) +
+  xlab("Proportion") + ylab("School Type") +
+  scale_fill_brewer(palette = "Pastel1")
+```
+
 ```{r parcood}
 school <- read.csv("school_f.csv")
 sample <- school %>% 
@@ -267,6 +376,220 @@ Using the proportion of minority race group vs proportion of English Language Le
 ## Correlation Hypothesis and Analysis
 
 As projected in Chapter 2, we proposed several relationships which can be further investigated through our dataset. In this section, we are going to look at the relationship between factors which affects school diversity given from different perspectives.
+
+```{r}
+school <- read.csv("School.csv")
+school <- school %>%
+  #remove incomplete schools (not surveyed in all 5 years)
+  group_by(School.Name) %>%
+  mutate(count = n()) %>%
+  filter(count == 5) %>%
+  select(-count) %>%
+  ungroup() %>%
+  #assign location (according to DBN code)
+  mutate(location = case_when(
+    str_detect(DBN, "K") == TRUE ~ "Brooklyn",
+    str_detect(DBN,"X") == TRUE ~ "Bronx",
+    str_detect(DBN,"Q") == TRUE ~ "Queens",
+    str_detect(DBN,"M") == TRUE ~ "Manhattan",
+    str_detect(DBN,"R") == TRUE ~ "Staten Island",
+  )) %>%
+  #reformatting column names & removing unwanted columns 
+  rename(Grade.PK =Grade.PK..Half.Day...Full.Day. ) %>%
+  mutate(is_preschool = case_when(
+    Grade.PK > 0 ~ 1,
+    T ~ 0
+  )) %>% 
+  mutate(is_elementary = case_when(
+    Grade.K == 0 & Grade.1 == 0 & Grade.2 == 0 &
+      Grade.3 == 0 & Grade.4 == 0 & Grade.5 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_middle = case_when(
+    Grade.6 == 0 & Grade.7 == 0 & Grade.8 == 0 ~ 0,
+    T ~ 1
+  )) %>% 
+  mutate(is_high = case_when(
+    Grade.9 == 0 & Grade.10 == 0 & Grade.11 == 0 & Grade.12 == 0 ~ 0,
+    T ~ 1
+  )) %>%
+  #school type assignment
+  mutate(type_count = is_elementary + is_preschool + is_middle + is_high) %>% 
+  mutate(type_str = case_when(
+    type_count == 1 & is_elementary == 1 ~ "Elementary School",
+    type_count == 1 & is_preschool == 1 ~ "Pre-elementary School",
+    type_count == 1 & is_middle == 1 ~ "Middle School",
+    type_count == 1 & is_high == 1 ~ "High School",
+    type_count == 4 ~ "Pre-elementary, Elementary, Middle, High School",
+    type_count == 2 & is_elementary + is_high == 2 ~ "Elementary, High School",
+    type_count == 2 & is_elementary + is_preschool == 2 ~ "Pre-elementary, Elementary School",
+    type_count == 2 & is_elementary + is_middle == 2 ~ "Elementary, Middle School",
+    type_count == 2 & is_middle + is_high == 2 ~ "Middle, High School",
+    type_count == 3 & is_elementary + is_preschool + is_middle == 3 ~ "Pre-elementary, Elementary, Middle School",
+    type_count == 3 & is_elementary + is_high + is_middle == 3 ~ "Elementary, Middle, High School",
+    T ~ "unknown"
+  )) %>%
+  select(-c(DBN, X..Female.1, X..Male.1, X..Asian.1, X..Black.1, X..Hispanic.1,
+            X..Multiple.Race.Categories.Not.Represented.1, X..White.1,
+            X..Students.with.Disabilities.1, X..English.Language.Learners.1,
+            X..Poverty.1, is_preschool, is_elementary, is_middle, is_high, type_count)) %>%
+  rename(Female = X..Female, Male = X..Male, Asian = X..Asian, Black = X..Black,
+         Hispanic = X..Hispanic, Others = X..Multiple.Race.Categories.Not.Represented,
+         White = X..White, Disabled.Students = X..Students.with.Disabilities,
+         English.Learners = X..English.Language.Learners, Poverty = X..Poverty,
+         School.type = type_str)
+```
+
+### Poverty Rate and School Population
+```{r ch5.8}
+# Poverty <- school %>%
+#   ggplot(mapping = aes(x = Poverty)) +
+#   geom_boxplot(fill = "lightblue") +
+#   ggtitle("Poverty Boxplot") +
+#   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+# Poverty
+# 
+# Enrollment <- school %>%
+#   ggplot(mapping = aes(x = Total.Enrollment)) +
+#   geom_boxplot(fill = "lightblue") +
+#   ggtitle("Total Enrollment Boxplot") +
+#   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+# Enrollment
+
+Poverty.Enrollment <- school %>%
+  #remove values that are outliers
+  filter(Total.Enrollment <= 1500, Poverty <= 1000) %>%
+  group_by(School.Name) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            `Total Enrollment` = round(mean(Total.Enrollment), 0),
+            Poverty = mean(Poverty)) %>%
+  ungroup() %>%
+  select(-School.Name) %>%
+  pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
+  ggplot(mapping = aes(x = `Total Enrollment`, y = Poverty)) +
+  geom_point(alpha = 0.5, size = 1) +
+  scale_colour_gradient(low = "#F5B8FC", high = "#2E00FF") +
+  geom_density_2d_filled(alpha = 0.5, show.legend = FALSE) +
+  geom_smooth(method = "lm") +
+  ggtitle("Total Enrollment and Poverty Count") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+Poverty.Enrollment
+
+# layout <- "
+# AABB
+# CCCC
+# CCCC
+# "
+# Poverty + Enrollment + Poverty.Enrollment +
+#   plot_layout(design = layout) +
+#   plot_annotation(title = "Interaction Between Poverty Count and Total Enrollment",
+#                   subtitle = "Contour Map Overlay by Observation Count") +
+#   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+```
+
+### Three-way Interaction: Asian Composition, Total Enrollment, Poverty
+```{r 5.9}
+Asian <- school %>%
+  #remove values that are outliers
+  filter(Poverty <= 1000) %>%
+  group_by(School.Name) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            `Total Enrollment` = round(mean(Total.Enrollment), 0),
+            Poverty = mean(Poverty)) %>%
+  ungroup() %>%
+  select(-School.Name) %>%
+  pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
+  filter(Ethnicity == "Asian", Count <= 750) %>%
+  ggplot(mapping = aes(x = Poverty, y = Count)) +
+  geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
+  scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
+  geom_smooth(method = "lm") + ylab("Asian Count")
+  #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
+Asian
+```
+
+### Three-way Interaction: Black Composition, Total Enrollment, Poverty
+```{r ch5.10}
+Black <- school %>%
+  #remove values that are outliers
+  filter(Poverty <= 1000) %>%
+  group_by(School.Name) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            `Total Enrollment` = round(mean(Total.Enrollment), 0),
+            Poverty = mean(Poverty)) %>%
+  ungroup() %>%
+  select(-School.Name) %>%
+  pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
+  filter(Ethnicity == "Black", Count <= 750) %>%
+  ggplot(mapping = aes(x = Poverty, y = Count)) +
+  geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
+  scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
+  geom_smooth(method = "lm") + ylab("Black Count")
+  #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
+Black
+```
+
+### Three-way Interaction: Hispanic Composition, Total Enrollment, Poverty
+```{r ch5.11}
+Hispanic <- school %>%
+  #remove values that are outliers
+  filter(Poverty <= 1000) %>%
+  group_by(School.Name) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            `Total Enrollment` = round(mean(Total.Enrollment), 0),
+            Poverty = mean(Poverty)) %>%
+  ungroup() %>%
+  select(-School.Name) %>%
+  pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
+  filter(Ethnicity == "Hispanic", Count <= 750) %>%
+  ggplot(mapping = aes(x = Poverty, y = Count)) +
+  geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
+  scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
+  geom_smooth(method = "lm") + ylab("Hispanic Count")
+  #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
+Hispanic
+```
+
+### Three-way Interaction: White Composition, Total Enrollment, Poverty
+```{r ch5.12}
+White <- school %>%
+  #remove values that are outliers
+  filter(Poverty <= 1000) %>%
+  group_by(School.Name) %>%
+  summarise(Asian = round(mean(Asian), 0),
+            Hispanic = round(mean(Hispanic), 0),
+            Black = round(mean(Black), 0),
+            Others = round(mean(Others), 0),
+            White = round(mean(White), 0),
+            `Total Enrollment` = round(mean(Total.Enrollment), 0),
+            Poverty = mean(Poverty)) %>%
+  ungroup() %>%
+  select(-School.Name) %>%
+  pivot_longer(!c(`Total Enrollment`, Poverty), names_to = "Ethnicity", values_to = "Count") %>%
+  filter(Ethnicity == "White", Count <= 750) %>%
+  ggplot(mapping = aes(x = Poverty, y = Count)) +
+  geom_point(aes(color = `Total Enrollment`), alpha = 0.8, size = 1.5) +
+  scale_colour_gradient(low = "#93D1FF", high = "#01247E") +
+  geom_smooth(method = "lm") + ylab("White Count")
+  #geom_density_2d_filled(alpha = 0.5, show.legend = FALSE)
+White
+```
 
 ### Poverty Level vs Ethnic Composition
 
