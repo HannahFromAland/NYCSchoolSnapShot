@@ -65,12 +65,23 @@ school <- school %>%
     str_detect(DBN,"R") == TRUE ~ "Staten Island",
   ))
 
+# school %>%
+#   ggplot(mapping = aes(x = location)) +
+#   geom_bar(stat = "count", fill = "lightblue") +
+#   ggtitle("School Count by District") +
+#   xlab("Districts") + ylab("Count") +
+#   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+
 school %>%
-  ggplot(mapping = aes(x = location)) +
-  geom_bar(stat = "count", fill = "lightblue") +
+  group_by(location) %>%
+  summarise(Count = n()) %>%
+  ggplot(mapping = aes(x = location, y = Count)) +
+  geom_bar(stat = "identity", fill = "lightblue") +
   ggtitle("School Count by District") +
-  xlab("Districts") + ylab("Count") +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+  xlab("Districts") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14)) +
+  geom_text(aes(label = Count), position = position_stack(vjust = 0.5), 
+            size = 3,color = "grey48")
 ```
 
 ### Type of School
@@ -108,24 +119,28 @@ school <- school %>%
   ))
 ```
 
+The plot below shows the distribution of different school types at the five identified school districts:
+
 ```{r ch3-6}
-count_by_type <- sqldf("select location, Year, sum(is_preschool) as pre_school,
-      sum(is_elementary) as elementary,
-      sum(is_middle) as middle,
-      sum(is_high) as high from school group by location ,Year") %>% 
+count_by_type <- sqldf("select location, Year, sum(is_preschool) as Pre_Elementary,
+      sum(is_elementary) as Elementary,
+      sum(is_middle) as Middle,
+      sum(is_high) as High from school group by location ,Year") %>% 
    pivot_longer(-c(location,Year),names_to ="type", values_to = "num")
 
-count_by_type$type <- factor(count_by_type$type ,levels = c("pre_school", "elementary", "middle", "high"))
+count_by_type$type <- factor(count_by_type$type ,levels = c("Pre_Elementary", "Elementary", "Middle", "High"))
 
 type_sch <- count_by_type %>%
   ggplot(mapping = aes(x = type, y = num, fill = location)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", position = "fill") +
   ggtitle("School Type Distribution") +
   xlab("School Type") + ylab("Count") +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))+
   scale_fill_brewer(palette = "Pastel2") 
 type_sch
 ```
+
+From the side by side proportion bar plot, we can see that the relative proportion of school types that each district have is quite stable. In other words, we can say that no school district have a preference for a certain school type, and the accessibility for all school levels is equal within each school district, regardless of inter-district difference in the prevalence of school types.
 
 ```{r ch3-7}
 # type_sch <- ggplot(count_by_type, aes(fill=type, y=num, x=Year)) + 
@@ -140,5 +155,5 @@ type_sch
 
 
 ```{r ch3-8}
-write.csv(school, "school_f.csv", row.names = FALSE)
+#write.csv(school, "school_f.csv", row.names = FALSE)
 ```
