@@ -214,12 +214,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
-<p>The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York.</p>
+<p>The data sets we are going to use in our analyses come from <a href="https://www.schools.nyc.gov/">NYC Department of Education</a>, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York.</p>
 <div id="exploratory-data-analysis" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Exploratory Data Analysis</h2>
 <p>The raw data has 8972 observations of 39 variables. Categories variables including <code>academic years</code>, <code>Grades</code>, <code>Gender</code> and <code>Race</code>. More importantly, the datasets includes several heuristic metrics variables such as <code>rate of disability students</code>, <code>English language learners</code>, <code>Economic need</code> and <code>Poverty</code> to help us dive deeper into relationships between education and other interesting topics.</p>
 <div id="data-column-summary-example" class="section level3" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Data Column Summary Example</h3>
+<p>Below is a table of summary statistics for the example columns, that are representative of the raw data set: <code>Total.Enrollment</code> represents the total number of students enrolled at the school in the specific academic year; <code>Grade.K</code> and <code>Grade.12</code> are both student counts with K representing kindergarten and 12 representing grade 12 (i.e. senior of high school); <code>Male.count</code> as its name suggests is the number of males during the specific academic year at a given school, etc.</p>
 <table>
 <colgroup>
 <col width="3%" />
@@ -301,8 +302,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="enrollment-average-across-2013-2018-distribution" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Enrollment (average across 2013-2018) Distribution</h3>
-<p><img src="finalproj_files/figure-html/ch2-2-1.png" width="672" />
-After averaging the number of total enrollments for each school observed, we can generate the following histogram that shows the distribution of enrollment number of the schools. Based on the visualization, we can see that the majority of of schools (25th to 75th percentile) are clustered around the interval between 300 and 700.</p>
+<p><img src="finalproj_files/figure-html/ch2-2-1.png" width="672" /></p>
+<p>After averaging the number of total enrollments for each school observed, we can generate the following histogram that shows the distribution of enrollment number of the schools. Based on the visualization, we can see that the majority of of schools (25th to 75th percentile) are clustered around the interval between 300 and 700.</p>
 </div>
 <div id="yearly-observation-count" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Yearly Observation Count</h3>
@@ -312,8 +313,8 @@ The barplot of yearly observation describes the number of observations taken eac
 <div id="number-of-observations-per-school" class="section level3" number="2.1.4">
 <h3><span class="header-section-number">2.1.4</span> Number of Observations per School</h3>
 <p><img src="finalproj_files/figure-html/ch2-4-1.png" width="672" /></p>
-<pre><code>## [1] 0.9367503</code></pre>
-<p>From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.</p>
+<pre><code>## [1] &quot;The percentage of schools that have observations for all 5 academic years is 0.94&quot;</code></pre>
+<p>From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018, thus, data cleaning is needed if time series analysis is planned to be conducted.</p>
 </div>
 </div>
 <div id="project-goal" class="section level2" number="2.2">
@@ -321,21 +322,25 @@ The barplot of yearly observation describes the number of observations taken eac
 <p>In the raw dataset of <code>2013 - 2018 Demographic Snapshot School</code>, there exists several variables that worth investigating furthermore as follows:</p>
 <ul>
 <li><p>The data set contains attributes of the <strong>composition of different ethnicity groups</strong> and also one variable that describes the <strong>poverty level</strong> of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level. We hypothesized that if the composition of a school includes higher proportion of minority ethnic groups, then there is a higher likelihood to have overall higher poverty level;
-<span class="math display">\[H_0: poverty\ \ level \not\propto ethnic\ \ composition\]</span>
-<span class="math display">\[H_a: poverty\ \ level \propto ethnic\ \ composition\]</span></p></li>
+<span class="math display">\[H_0: Ethnic\ \ composition \not\propto Poverty\ \ level\]</span>
+<span class="math display">\[H_a: Ethnic\ \ composition \propto Poverty\ \ level\]</span></p></li>
 <li><p>Since the data set provides the <strong>total number of enrolled students</strong> as well as variables describing the <strong>number of students from each ethnicity</strong>, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population. We hypothesized that, as the number of students at school increases, the relative proportion of each ethnic group would become more even;
-<span class="math display">\[H_0: ethnic\ \ composition  \not\propto school\ \ population\]</span>
-<span class="math display">\[H_a: ethnic\ \ composition  \propto school\ \ population\]</span></p></li>
-<li><p>The data set has descriptions about the <strong>gender composition</strong> of the student population (i.e. number of males and female students in the school). Based on the variable about the <strong>poverty level</strong> of the school and the information about gender composition, we can draw inferences on their interactions;</p></li>
-<li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.</p></li>
+<span class="math display">\[H_0: Ethnic\ \ composition  \not\propto school\ \ Population\]</span>
+<span class="math display">\[H_a: Ethnic\ \ composition  \propto school\ \ Population\]</span></p></li>
+<li><p>The data set has descriptions about the <strong>gender composition</strong> of the student population (i.e. number of males and female students in the school). Based on the variable about the <strong>poverty level</strong> of the school and the information about gender composition, we can draw inferences on their interactions. We hypothesized that at school with higher proportion of poverty, the relative proportion of gender is more disproportionate;
+<span class="math display">\[H_0: Gender\ \ composition  \not\propto school\ \ population\]</span>
+<span class="math display">\[H_a: Gender\ \ composition  \propto school\ \ population\]</span></p></li>
+<li><p>Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the <strong>district information</strong> and the school’s <strong>poverty level</strong>, we can identify the locations where poverty level is relatively high.
+<span class="math display">\[H_0: Poverty\ \ level \not\propto School\ \ district\]</span>
+<span class="math display">\[H_a: Poverty\ \ level  \propto School\ \ district\]</span></p></li>
 </ul>
 </div>
 <div id="issue-with-raw-data" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Issue with raw data</h2>
 <ul>
-<li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;</p></li>
+<li><p>The raw data didn’t explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables that represents the school district in order to inspect the relationship between school locations and other topics;</p></li>
 <li><p>In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.</p></li>
-<li><p>The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). At the same time, not every school is surveyed each year, according to the <code>Normalized School Observation Count Histogram</code> above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, in order to produce generalizable results, we shall remove schools that are “incomplete”.</p></li>
+<li><p>The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). However, not every school is surveyed each year, according to the <code>Normalized School Observation Count Histogram</code> above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, in order to produce generalizable results, we shall remove schools that are “incomplete”.</p></li>
 </ul>
 
 </div>
