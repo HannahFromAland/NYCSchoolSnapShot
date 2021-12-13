@@ -109,14 +109,17 @@ scatter
 
 **By Location:** The distribution of school enrollment by location is shown below. 
 
-```{r ch5.5, warning = F}
+```{r ch5.5, warning = F,fig.width=13, fig.height=4}
 enroll <- type_c %>% 
   filter(Year == "2017-18")
 
 enroll_dis <- ggplot(enroll, aes(x = `Total.Enrollment`)) + 
   geom_histogram(fill = "lightblue",binwidth = 200) +
   scale_x_continuous(limits = c(0, 6000)) +
-  facet_wrap(~location, ncol = 3)
+  facet_wrap(~location, ncol = 5)+
+  xlab("Total number of enrollment")+
+  ggtitle("Distribution of School Enrollment by location") +
+  theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 enroll_dis
 ```
 
@@ -165,7 +168,7 @@ race_time_series <-school %>%
   values_to = "proportion")
 ```
 
-```{r}
+```{r patchwork}
 race_all <- sqldf("select sum(asian) asian, sum(black) black, sum(hispanic) hispanic, sum(white) white,sum(others) others,sum(total_enroll) total from school") %>% pivot_longer(-total, names_to = "Race",
   values_to = "proportion") %>% 
   mutate(percent = proportion / total) %>% 
@@ -220,7 +223,7 @@ parcoords(sample,rownames = F
     )   
 ```
 
-### Poverty Level in Demographic School
+### Poverty Level
 
 Poverty is another factor worth considering when talking about school diversity. We first tried to capture a top-down view of `Poverty Level` using histogram. If the students are random selected to be enrolled in demographic schools, the distribution of their poverty level will be nearly normal distributed.
 
@@ -236,4 +239,38 @@ pover_dis
 ```
 
 Clearly, the distribution of proportion of poverty students are not normal distributed. By breakdown of location, most of distributions are right skewed except samples from Staten Island, and indicated that a majority of students in demographic schools are experiencing poverty. 
+
+### English Language Learner
+
+> English-language learners, or ELLs, are students who are unable to communicate fluently or learn effectively in English, who often come from non-English-speaking homes and backgrounds, and who typically require specialized or modified instruction in both the English language and in their academic courses.
+
+The number and proportion of English learner in public school reflects the diversity in Language and also can be a strong indication of race group and immigration living preference. 
+
+```{r ell}
+results <- type_c %>% group_by(location) %>%
+            do(model =lm(`X..Asian.1`+`X..Hispanic.1`+ `X..Multiple.Race.Categories.Not.Represented.1` ~ `X..English.Language.Learners.1`, data = .)) %>%
+  mutate(coef=coef(model)["X..English.Language.Learners.1"]) %>% 
+  select(location,coef) %>% 
+  arrange(coef)
+
+ell <- ggplot(type_c, aes(x = `X..Asian.1`+`X..Hispanic.1`+ `X..Multiple.Race.Categories.Not.Represented.1`, y = `X..English.Language.Learners.1`)) +
+  xlab("Proportion of minority race student (Asian, Hispanic and Others) (%)") +
+  ylab("Proportion of English Language Learner")+
+  geom_point(col = "#fdae61", alpha = 0.8)+
+  geom_smooth(color = "#b2abd2", method = "lm", se = FALSE) +
+  facet_wrap(~factor(location, levels=results$location),ncol = 3)
+ell
+```
+
+Using the proportion of minority race group vs proportion of English Language Learner, we construct scatter plot with facet of different locations. By definition and clearly in plots, these two factors are positive correlated. Moreover, the sample size and the coefficient of correlation in Staten Island are both the smallest, which may indicate a minority of immigrants in this borough. 
+
+## Correlation Hypothesis and Analysis
+
+As projected in Chapter 2, we proposed several relationships which can be further investigated through our dataset. In this section, we are going to look at the relationship between factors which affects school diversity given from different perspectives.
+
+### Poverty Level vs Ethnic Composition
+
+### Larger School, More balanced Ethnicity Group?
+
+### Does Poverty Affect Gender Composition of Access to Education?
 
