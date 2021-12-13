@@ -8,12 +8,14 @@ library(tidyverse)
 library(dplyr)
 ```
 
-The data sets we are going to use in our analyses come from NYC Department of Education, and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York.  
+The data sets we are going to use in our analyses come from [NYC Department of Education](https://www.schools.nyc.gov/), and is open sourced on NYC Open Data, a popular website with various types of official data sets published by New York City agencies. The data is presented in a chronological order, from the 2013 academic year to the 2017 academic year, for each school in New York.  
 
 ## Exploratory Data Analysis
 The raw data has 8972 observations of 39 variables. Categories variables including `academic years`, `Grades`, `Gender` and `Race`. More importantly, the datasets includes several heuristic metrics variables such as `rate of disability students`, `English language learners`, `Economic need` and `Poverty` to help us dive deeper into relationships between education and other interesting topics.
 
 ### Data Column Summary Example
+Below is a table of summary statistics for the example columns, that are representative of the raw data set:  `Total.Enrollment` represents the total number of students enrolled at the school in the specific academic year; `Grade.K` and `Grade.12` are both student counts with K representing kindergarten and 12 representing grade 12 (i.e. senior of high school); `Male.count` as its name suggests is the number of males during the specific academic year at a given school, etc.
+
 ```{r ch2-1} 
 school = read.csv("School.csv")
 school_cleaned <- school %>%
@@ -53,6 +55,7 @@ p +
   geom_vline(aes(xintercept = quantile(school_enroll$Avg.Enroll)[4], color = "75 percentile")) +
   theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 ```
+
 After averaging the number of total enrollments for each school observed, we can generate the following histogram that shows the distribution of enrollment number of the schools. Based on the visualization, we can see that the majority of of schools (25th to 75th percentile) are clustered around the interval between 300 and 700.
 
 ### Yearly Observation Count
@@ -83,29 +86,33 @@ school %>%
 temp <- school %>%
   group_by(School.Name) %>%
   summarise(Obs.count = n())
-1718/sum(table(temp$Obs.count))
+print(paste0("The percentage of schools that have observations for all 5 academic years is ", round(1718/sum(table(temp$Obs.count)), 2)))
 ```
 
-From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018.
+From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018, thus, data cleaning is needed if time series analysis is planned to be conducted.
 
 ## Project goal
 In the raw dataset of `2013 - 2018 Demographic Snapshot School `, there exists several variables that worth investigating furthermore as follows:
   
   * The data set contains attributes of the **composition of different ethnicity groups** and also one variable that describes the **poverty level** of the whole school (i.e. how many students are classified as poor), thus we can investigate the relationship between ethnicity composition and school’s overall poverty level. We hypothesized that if the composition of a school includes higher proportion of minority ethnic groups, then there is a higher likelihood to have overall higher poverty level;
-$$H_0: poverty\ \ level \not\propto ethnic\ \ composition$$
-  $$H_a: poverty\ \ level \propto ethnic\ \ composition$$
+$$H_0: Ethnic\ \ composition \not\propto Poverty\ \ level$$
+  $$H_a: Ethnic\ \ composition \propto Poverty\ \ level$$
   
   * Since the data set provides the **total number of enrolled students** as well as variables describing the **number of students from each ethnicity**, we can investigate if the total number of students correlates with the relative composition of ethnicity among the student population. We hypothesized that, as the number of students at school increases, the relative proportion of each ethnic group would become more even;
-$$H_0: ethnic\ \ composition  \not\propto school\ \ population$$
-  $$H_a: ethnic\ \ composition  \propto school\ \ population$$
+$$H_0: Ethnic\ \ composition  \not\propto school\ \ Population$$
+  $$H_a: Ethnic\ \ composition  \propto school\ \ Population$$
   
-  * The data set has descriptions about the **gender composition** of the student population (i.e. number of males and female students in the school). Based on the variable about the **poverty level** of the school and the information about gender composition, we can draw inferences on their interactions;
+  * The data set has descriptions about the **gender composition** of the student population (i.e. number of males and female students in the school). Based on the variable about the **poverty level** of the school and the information about gender composition, we can draw inferences on their interactions. We hypothesized that at school with higher proportion of poverty, the relative proportion of gender is more disproportionate;
+  $$H_0: Gender\ \ composition  \not\propto school\ \ population$$
+  $$H_a: Gender\ \ composition  \propto school\ \ population$$
 
 * Finally, since New York City is a quite certain place for us to narrow down our investigation, we may use the the DBN (District Borough Number) associated with each school to identify districts that the schools in each obervation belongs in. By combining the **district information** and the school’s **poverty level**, we can identify the locations where poverty level is relatively high.
+  $$H_0: Poverty\ \ level \not\propto School\ \ district$$
+  $$H_a: Poverty\ \ level  \propto School\ \ district$$
 
 ## Issue with raw data
-* The raw data didn't explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables in order to inspect the relationship between school locations and other topics;
+* The raw data didn't explicitly give out the district or borough where each school locates. Therefore, we have to construct location variables that represents the school district in order to inspect the relationship between school locations and other topics;
 
 * In the raw data, the type of school is not included. However, based on the data shown in different grades, we can conclude whether the school is a primary school, middle school or high school. Therefore, we may use the given information to classify different level of school in data transformation part.
 
-* The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). At the same time, not every school is surveyed each year, according to the `Normalized School Observation Count Histogram` above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, in order to produce generalizable results, we shall remove schools that are "incomplete".
+* The data is presented in chronological order with each school having multiple observations (i.e. five academic years, including 2013-2014, 2014-2015, 2015-2016, 2016-2017, and 2017-2018). However, not every school is surveyed each year, according to the `Normalized School Observation Count Histogram` above, which means time series analysis would be difficult for the minority of schools that have incomplete 5 year observations. Thus, in order to produce generalizable results, we shall remove schools that are "incomplete".
