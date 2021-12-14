@@ -1,2 +1,11 @@
 # Conclusion
 
+* Based on the analysis from section `5.1.1`, we see that pre-elementary schools and elementary schools are both provided with other higher grade levels, which presents a potential threat for youngsters world-views, especially the conception of social equity. Thus, school officials, especially in those schools that have combined grade levels, need to pay close attention to student's world views, and provide them with a healthy environment to study and grow.
+
+* Based on the analysis from section `5.1.2`, we can see the reassurring phenomenon that all students, regardless of their physicality or mentality, are treated equally and have access to the same education. At the same time, we suggest educators to keep up the good work and construct a safe environment for disabled students to study in, away from possible bullying due to their limited capacity.
+
+* Based on the analysis from section `5.3.1`, we found that there is a regional-dependency of ethnicity distribution. Regional officials should keep close attention to protecting minority groups, based on the ethnicity distribution of the school district, from discrimination.
+
+* Based on the analysis from section `5.3.4`, **Bronx** school district has the largest slope for the regression of proportion of minority groups and proportion of English-learners, suggesting that majority of the students from minority Ethnicity are new to the environment, which requires special attention from the school to protect them from possible racial discrimination.
+
+* There is strong evidence of socioeconomical discrepancies between different schools from the visualization in section `5.4.1`. Education environment is largely deterministic about the student's future. The huge difference between the poverty rate of schools shows that only the minority of students can receive elite education, while the majority have restricted opportunities. Thus, government officials need to pay attention to average schools and ensure that students have the equal amount of educational resources as those students in the elite schools.
