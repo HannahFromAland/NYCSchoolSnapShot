@@ -32,3 +32,5 @@ three-way-interaction-race-composition-total-enrollment-poverty
 gender-composition-and-poverty
 interactive-component
 conclusion
+breakdown-by-location
+breakdown-by-school-type

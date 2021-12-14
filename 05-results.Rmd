@@ -137,7 +137,9 @@ scatter
 
 ## Analysis of school enrollment
 
-**By Location:** The distribution of school enrollment by location is shown below. 
+### Breakdown by location
+
+The distribution of school enrollment by location is shown below. 
 
 ```{r ch5.5, warning = F,fig.width=13, fig.height=4}
 enroll <- type_c %>% 
@@ -155,7 +157,9 @@ enroll_dis
 
 * Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of "large" schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs. 
 
-**By School Type:** Since the type of number of grade a school includes can affect its student enrollment, we constructed boxplot to explore the enrollment of different type of schools.
+### Breakdown by School Type
+
+Since the type of number of grade a school includes can affect its student enrollment, we constructed boxplot to explore the enrollment of different type of schools.
 
 ```{r ch5.6}
 box1 <- ggplot(enroll, aes(x = fct_reorder(type_str,`Total.Enrollment`), y = `Total.Enrollment`)) +
@@ -175,7 +179,7 @@ box1
 
 ### Race and Ethnicity
 
-When it comes to diversity, race and ethnicity becomes the most popular topic. Here we use parallel coordinate plot to see whether there are correlations patterns in race group of public schools in New York City.
+When it comes to diversity, race and ethnicity becomes the most popular topic. Here we use percentage bar plot and parallel coordinate plot to see whether there are correlations patterns in race group of public schools in New York City.
 
 ```{r mosaic}
  
@@ -223,6 +227,8 @@ all_race + race_plot + plot_layout(widths = c(2, 5))+
 ggtitle("Proportion of Race in School by Location") +
 theme(plot.title = element_text(hjust = 0.5, face  = "bold", size = 14))
 ```
+
+
 
 From the percentage bar plot above, we can get a complete view of Race diversity and also its relationship to the location. 
 
@@ -333,6 +339,8 @@ school %>%
   xlab("Proportion") + ylab("School Type") +
   scale_fill_brewer(palette = "Pastel1")
 ```
+
+
 According to the stacked percentage barplot of ethnic group distribution in different school types, we can see high fluctuation of Asian and Black student proportions. Specifically, Black students have higher proportions in schools that are for Elementary, Middle, High Schools and Elementary, High schools, while lower proportions in schools that are identified as only Elementary schools. This difference in ethnicity distribution could indicate that discrepancy among students' families' social economical-status. School that are identified to contain multiple school types are usually public and can be subjected to higher chances of bullying, given the greater distribution of age groups.
 
 ### Poverty Level
@@ -626,6 +634,7 @@ gend<-school %>%
   select(-School.Name) %>%
   ggplot(mapping = aes(x = poverty_per, y = male_per)) +
   geom_point(alpha = 0.8, size = 1.5) +
+  geom_density_2d_filled(contour_var = "ndensity",alpha = 0.3, show.legend = FALSE) +
   xlab("Proportion of Poverty Students in School")+
   ylab("Proportion od Male Students in School")+
   ggtitle("Proportion of Gender vs Poverty Level") +

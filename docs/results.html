@@ -59,70 +59,6 @@
 <script src="libs/d3-5.16.0/d3.min.js"></script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -176,7 +112,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#combination-of-school-type"><i class="fa fa-check"></i><b>5.1.1</b> Combination of School Type</a></li>
 <li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#special-school-for-students-with-disability"><i class="fa fa-check"></i><b>5.1.2</b> Special School for Students with Disability</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#analysis-of-school-enrollment"><i class="fa fa-check"></i><b>5.2</b> Analysis of school enrollment</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#analysis-of-school-enrollment"><i class="fa fa-check"></i><b>5.2</b> Analysis of school enrollment</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#breakdown-by-location"><i class="fa fa-check"></i><b>5.2.1</b> Breakdown by location</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#breakdown-by-school-type"><i class="fa fa-check"></i><b>5.2.2</b> Breakdown by School Type</a></li>
+</ul></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#school-diversity-in-nyc"><i class="fa fa-check"></i><b>5.3</b> School Diversity in NYC</a>
 <ul>
 <li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#race-and-ethnicity"><i class="fa fa-check"></i><b>5.3.1</b> Race and Ethnicity</a></li>
@@ -242,23 +182,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="analysis-of-school-enrollment" class="section level2" number="5.2">
 <h2><span class="header-section-number">5.2</span> Analysis of school enrollment</h2>
-<p><strong>By Location:</strong> The distribution of school enrollment by location is shown below.</p>
+<div id="breakdown-by-location" class="section level3" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Breakdown by location</h3>
+<p>The distribution of school enrollment by location is shown below.</p>
 <p><img src="finalproj_files/figure-html/ch5.5-1.png" width="1248" /></p>
 <ul>
 <li>Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of “large” schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs.</li>
 </ul>
-<p><strong>By School Type:</strong> Since the type of number of grade a school includes can affect its student enrollment, we constructed boxplot to explore the enrollment of different type of schools.</p>
+</div>
+<div id="breakdown-by-school-type" class="section level3" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> Breakdown by School Type</h3>
+<p>Since the type of number of grade a school includes can affect its student enrollment, we constructed boxplot to explore the enrollment of different type of schools.</p>
 <p><img src="finalproj_files/figure-html/ch5.6-1.png" width="672" /></p>
 <ul>
 <li><p>Apart from schools with coverage from pre-learning to high school learning(as stated before, most of them are special school for disability students), we can safely conclude that school with more grade level will have larger student enrollment in average. Therefore, schools provide elementary, middle school and high school level learning are generally have largest quantity of total enrollment since they includes 12 levels of grade.</p></li>
 <li><p>Outlier exist in several types, but high school type consists largest amount of outliers, and also tends to have extremely large number of enrollment, expanding from 1000 students to almost 6000 students.</p></li>
 </ul>
 </div>
+</div>
 <div id="school-diversity-in-nyc" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> School Diversity in NYC</h2>
 <div id="race-and-ethnicity" class="section level3" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Race and Ethnicity</h3>
-<p>When it comes to diversity, race and ethnicity becomes the most popular topic. Here we use parallel coordinate plot to see whether there are correlations patterns in race group of public schools in New York City.</p>
+<p>When it comes to diversity, race and ethnicity becomes the most popular topic. Here we use percentage bar plot and parallel coordinate plot to see whether there are correlations patterns in race group of public schools in New York City.</p>
 <p><img src="finalproj_files/figure-html/patchwork-1.png" width="672" /></p>
 <p>From the percentage bar plot above, we can get a complete view of Race diversity and also its relationship to the location.</p>
 <ul>
@@ -267,14 +213,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Below we create a random sample of school to create a parallel coordinate plot. You can select, drag and reorder the columns to get a glimpse of race and ethnicity diversity in New York City public school.</p>
 <p><strong>Hint:</strong> Try to select sample with higher percentage of Black students, what’s the pattern considering other race group and location?</p>
-<div class="parcoords html-widget" height="480" id="htmlwidget-1a1aaabf81d7fbc4d901" style="width:672px;height:480px; position:relative; overflow-x:auto; overflow-y:hidden; max-width:100%;" width="672"></div>
-<script type="application/json" data-for="htmlwidget-1a1aaabf81d7fbc4d901">{"x":{"data":{"names":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"School.Name":["I. S. 381","P.S. 051 Elias Howe","P.S. 087 William Sherman","Milton Fein School","Manhattan Bridges High School","Arturo A. Schomburg Satellite Academy Bronx","John Ericsson Middle School 126","P.S. 74 Future Leaders Elementary School","P.S. 169 Bay Terrace","Leadership Prep Bedford Stuyvesant Uncommon Prep C","P.S. 196 Grand Central Parkway","Success Academy Charter School - Harlem 1","I.S. 171 Abraham Lincoln","The Urban Assembly School for Law and Justice","H.E.R.O. High (Health, Education, and Research Occ","I.S. X318 Math, Science & Technology Through Arts","I.S. 072 Rocco Laurie","P.S. 307 Daniel Hale Williams","P.S. 062 Inocensio Casanova","P.S. 209"],"asian":[7.4,19.4,6.8,4.7,0.2,0.5,2.6,7,35.5,1,37,1.1,5.7,2.4,1.2,0,22.5,3.2,0.3,0.8],"black":[63.6,13.2,4.9,6.2,0.2,39.5,21.9,23,5.2,86.8,2.6,71.7,10.9,67.3,36.7,29.3,4.5,61.9,21.1,20.3],"white":[9,14.5,64,6.9,0,2.4,6.4,6.7,35.1,1,39.7,1.7,2,1.6,0.9,3,49.9,4.1,2.1,0],"hispanic":[20.1,49.7,14.8,81.8,99,57.1,68.7,62.9,21.8,8.9,13.5,22.6,77.9,24.7,58.9,67.7,22.3,28.6,76,78.9],"others":[0,3.3,9.5,0.4,0.6,0.5,0.4,0.3,2.5,2.2,7.2,2.9,3.5,4,2.3,0,0.8,2.2,0.5,0],"location":["Brooklyn","Manhattan","Manhattan","Bronx","Manhattan","Bronx","Brooklyn","Staten Island","Queens","Brooklyn","Queens","Manhattan","Brooklyn","Brooklyn","Bronx","Bronx","Staten Island","Brooklyn","Bronx","Bronx"]},"options":{"rownames":false,"color":{"colorBy":"location","colorScale":"scaleOrdinal","colorScheme":"schemeCategory10"},"brushMode":"1D-axes","brushPredicate":"AND","reorderable":true,"margin":{"top":50,"bottom":50,"left":100,"right":50},"mode":"queue","bundlingStrength":0.5,"smoothness":0},"autoresize":false,"tasks":null},"evals":[],"jsHooks":[]}</script>
+<div class="parcoords html-widget" height="480" id="htmlwidget-32948d7224ea7ef22bfa" style="width:672px;height:480px; position:relative; overflow-x:auto; overflow-y:hidden; max-width:100%;" width="672"></div>
+<script type="application/json" data-for="htmlwidget-32948d7224ea7ef22bfa">{"x":{"data":{"names":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"School.Name":["The School of Integrated Learning","P.S. 055 Maure","P.S. 007 Samuel Stern","P.S. Q256","Explore Exceed Charter School","The Equity Project Charter School (TEP)","Voyages Prep - South Queens","Earth School","Careers in Sports High School","P.S. 124 Osmond A Church","Richmond Hill High School","Hostos-Lincoln Academy of Science","Victory Collegiate High School","Lighthouse Elementary School","P.S. 124 Yung Wing","Lower East Side Preparatory High School","Bronx Writing Academy","James Baldwin School, The: A School for Expedition","P.S. 075 Emily Dickinson","P.S. 001 Alfred E. Smith"],"asian":[2.8,44.2,1.8,5.3,3.2,0.2,9.5,7.5,0.5,50.6,29.1,2.2,0.9,3.1,94.3,69,3.2,0.8,3.2,53.5],"black":[81.1,8,28.8,45.8,77.8,8.2,63.8,14,28.7,19.3,13.2,22,90.4,61.9,0.6,8.7,30,44.5,24.9,17.6],"white":[0,1.8,4.2,14.8,0.5,1.2,1.4,38,2.2,2.9,5.1,1.4,0.9,3.6,1.7,0.9,1.1,4.9,16.6,1.9],"hispanic":[15,24.6,63.6,33.6,16.1,90.1,24,34,68.6,21.9,48.5,73.6,6.6,28.3,3,19.8,65.5,48.7,52.8,25.8],"others":[1.2,21.4,1.6,0.6,2.5,0.2,1.4,6.5,0,5.5,4,0.8,1.2,3.1,0.3,1.6,0.2,1.1,2.5,1.3],"location":["Brooklyn","Queens","Manhattan","Queens","Brooklyn","Manhattan","Queens","Manhattan","Bronx","Queens","Queens","Bronx","Brooklyn","Queens","Manhattan","Manhattan","Bronx","Manhattan","Manhattan","Manhattan"]},"options":{"rownames":false,"color":{"colorBy":"location","colorScale":"scaleOrdinal","colorScheme":"schemeCategory10"},"brushMode":"1D-axes","brushPredicate":"AND","reorderable":true,"margin":{"top":50,"bottom":50,"left":100,"right":50},"mode":"queue","bundlingStrength":0.5,"smoothness":0},"autoresize":false,"tasks":null},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="school-type-and-ethnicity-composition" class="section level3" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> School Type and Ethnicity Composition</h3>
 <p>Given the location-dependent ethnicity distribution we discovered in the last section, we continued explore other indicators that may segregate different ethnic groups. The graph below shows the distribution of different ethnicity groups in different school types, where the school types were defined in a previous section.</p>
-<p><img src="finalproj_files/figure-html/ch5.sch_eth-1.png" width="672" />
-According to the stacked percentage barplot of ethnic group distribution in different school types, we can see high fluctuation of Asian and Black student proportions. Specifically, Black students have higher proportions in schools that are for Elementary, Middle, High Schools and Elementary, High schools, while lower proportions in schools that are identified as only Elementary schools. This difference in ethnicity distribution could indicate that discrepancy among students’ families’ social economical-status. School that are identified to contain multiple school types are usually public and can be subjected to higher chances of bullying, given the greater distribution of age groups.</p>
+<p><img src="finalproj_files/figure-html/ch5.sch_eth-1.png" width="672" /></p>
+<p>According to the stacked percentage barplot of ethnic group distribution in different school types, we can see high fluctuation of Asian and Black student proportions. Specifically, Black students have higher proportions in schools that are for Elementary, Middle, High Schools and Elementary, High schools, while lower proportions in schools that are identified as only Elementary schools. This difference in ethnicity distribution could indicate that discrepancy among students’ families’ social economical-status. School that are identified to contain multiple school types are usually public and can be subjected to higher chances of bullying, given the greater distribution of age groups.</p>
 </div>
 <div id="poverty-level" class="section level3" number="5.3.3">
 <h3><span class="header-section-number">5.3.3</span> Poverty Level</h3>
@@ -314,7 +260,7 @@ According to the stacked percentage barplot of ethnic group distribution in diff
 <div id="gender-composition-and-poverty" class="section level3" number="5.4.3">
 <h3><span class="header-section-number">5.4.3</span> Gender Composition and Poverty</h3>
 <p>Recall our assumption in chapter 2, we try to explore the relationship between school poverty level and gender composition. Based on social conventions, we want to know whether gender bias in education can also be reflected by observations in NYC public schools.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>As we shown in poverty level before, most public schools in NYC have large quantity of students in poverty. However, though the poverty level is high, the average proportion of male students in NYC public schools are around 50%, which is a good sign indicating that there’s no bias when considering gender diversity and poverty level.</p>
 
 </div>
