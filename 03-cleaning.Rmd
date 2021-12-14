@@ -73,6 +73,7 @@ school <- school %>%
 #   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
 
 school %>%
+  filter(Year == "2017-18") %>% 
   group_by(location) %>%
   summarise(Count = n()) %>%
   ggplot(mapping = aes(x = location, y = Count)) +

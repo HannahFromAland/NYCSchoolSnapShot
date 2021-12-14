@@ -87,7 +87,7 @@ school %>%
 temp <- school %>%
   group_by(School.Name) %>%
   summarise(Obs.count = n())
-print(paste0("The percentage of schools that have observations for all 5 academic years is ", round(1718/sum(table(temp$Obs.count)), 2)))
+print(paste0("The percentage of schools that have observations for all 5 academic years is ", round(1718/sum(table(temp$Obs.count)), 2)),quote = FALSE)
 ```
 
 From the visualization, we can see that not every school in the dataset is surveyed each year during the 5 academic years from 2013 to 2018, thus, data cleaning is needed if time series analysis is planned to be conducted.
