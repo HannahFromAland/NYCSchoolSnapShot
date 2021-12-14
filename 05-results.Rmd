@@ -24,7 +24,7 @@ school <- school %>%
 ## Deep Dive of School Type
 
 ### Combination of School Type 
-Many schools have multiple types of grade based on our criteria in Chapter 3. For example, some schools may have both pre-school grade and elementary school grade, and combinations of middle school and high school are also common. Therefore, we construct another factor variable `type_str` to specify all types containing by a school.
+Many schools have multiple levels of educations based on our criteria in Chapter 3. For example, some schools may have both pre-school and elementary school, and combinations of middle school and high school are also common. Therefore, we further constructed another factor variable `type_str` to specify all possible combinations of school types.
 
 The number of schools count by their complete type is distributed as follow: 
 ```{r chunk5.1}
@@ -91,8 +91,8 @@ complete_type <- ggplot(type_c, aes(x = fct_rev(type_str)))+
 complete_type
 ```
 
-* Clearly, the dataset doesn't include schools that only provide pre-school education or there may not be demographic schools in New York City provide only pre-school learning. 
-* Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part.
+* Clearly, the dataset doesn't include schools that only provide pre-school education or there may not be demographic schools in New York City provide only pre-school learning. This phenomenon indicates that all preschools observed and collected in the data set are provided with other levels of educations. Pre-schoolers are the most vulnerable in terms of forming the sense of society, especially equality. Thus, if the pre-schoolers are educated in an environment with other students that are more mentally mature and have more developed social conceptions, then it is possible for those students from higher grades to shape the world-view of the pre-schoolers. In this case, school officials need to provide pre-schoolers with a safe environment to study and form the correct world-views.
+* Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part. The unexpected combination of elementary school with high school is alarming to education officials, since high school students are more mature and have relatively developed social concepts, including socioeconomic status differences. On the other hand, students in elementary school barely have any social experiences, let alone the concept of discrimination, thus their perception can be easily compromised when exposed to a discriminated environment. School officials should pay attention to the age differences in student groups, preventing the high school students from bring negative influences to elementary school students. In sum, it is important to provide elementary school students with a healthy environment to grow up.
 * The dataset also contains 13 sample of schools which cover from pre-learning to high school grade. We will consider it together with the next part when investigating special schools provided for students with disability.
 
 ### Special School for Students with Disability
@@ -131,7 +131,7 @@ scatter
 
 **Remarks:**
 
-* Types of special schools for student with disability are also various. No special elementary school and middle school exists in the dataset, which indicates students with disability in New York City at this stage can involved in normal education together with their peers. 
+* Types of special schools for student with disability are also various. No special elementary school and middle school exists in the dataset, which indicates students with disability in New York City at this stage can involved in normal education together with their peers. Although it is good for all students, regardless of their physical/mental capacities, to have access to the same education, it is still essential to ensure that students who are disabled are treated equally by other students and are protected from possible discrimination.
 
 * The special school surely contributed more sample of schools with full range from pre learning to high school learning. From another perspective, they ensure the equity of achieving all stages of educations for students with disability. 
 
@@ -155,7 +155,7 @@ enroll_dis <- ggplot(enroll, aes(x = `Total.Enrollment`)) +
 enroll_dis
 ```
 
-* Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of "large" schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs. 
+* Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of "large" schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs. With the notable outliers, with particularly large number of student population, in the aforementioned school districts, there is a higher risk of school bullying/discrimination
 
 ### Breakdown by School Type
 

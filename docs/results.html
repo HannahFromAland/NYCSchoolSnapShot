@@ -59,6 +59,70 @@
 <script src="libs/d3-5.16.0/d3.min.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -158,12 +222,12 @@
 <h2><span class="header-section-number">5.1</span> Deep Dive of School Type</h2>
 <div id="combination-of-school-type" class="section level3" number="5.1.1">
 <h3><span class="header-section-number">5.1.1</span> Combination of School Type</h3>
-<p>Many schools have multiple types of grade based on our criteria in Chapter 3. For example, some schools may have both pre-school grade and elementary school grade, and combinations of middle school and high school are also common. Therefore, we construct another factor variable <code>type_str</code> to specify all types containing by a school.</p>
+<p>Many schools have multiple levels of educations based on our criteria in Chapter 3. For example, some schools may have both pre-school and elementary school, and combinations of middle school and high school are also common. Therefore, we further constructed another factor variable <code>type_str</code> to specify all possible combinations of school types.</p>
 <p>The number of schools count by their complete type is distributed as follow:</p>
 <p><img src="finalproj_files/figure-html/chunk5.2-1.png" width="672" /></p>
 <ul>
-<li>Clearly, the dataset doesn’t include schools that only provide pre-school education or there may not be demographic schools in New York City provide only pre-school learning.</li>
-<li>Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part.</li>
+<li>Clearly, the dataset doesn’t include schools that only provide pre-school education or there may not be demographic schools in New York City provide only pre-school learning. This phenomenon indicates that all preschools observed and collected in the data set are provided with other levels of educations. Pre-schoolers are the most vulnerable in terms of forming the sense of society, especially equality. Thus, if the pre-schoolers are educated in an environment with other students that are more mentally mature and have more developed social conceptions, then it is possible for those students from higher grades to shape the world-view of the pre-schoolers. In this case, school officials need to provide pre-schoolers with a safe environment to study and form the correct world-views.</li>
+<li>Generally speaking, the combination of school type is based on chronological order of grades. As we can see, the largest quantity of schools have combinations of pre-school learning and elementary school learning part. But surprisingly, there exists a sample of schools with combinations of elementary part and high school part. The unexpected combination of elementary school with high school is alarming to education officials, since high school students are more mature and have relatively developed social concepts, including socioeconomic status differences. On the other hand, students in elementary school barely have any social experiences, let alone the concept of discrimination, thus their perception can be easily compromised when exposed to a discriminated environment. School officials should pay attention to the age differences in student groups, preventing the high school students from bring negative influences to elementary school students. In sum, it is important to provide elementary school students with a healthy environment to grow up.</li>
 <li>The dataset also contains 13 sample of schools which cover from pre-learning to high school grade. We will consider it together with the next part when investigating special schools provided for students with disability.</li>
 </ul>
 </div>
@@ -175,7 +239,7 @@
 <p><img src="finalproj_files/figure-html/chunk5.4-1.png" width="672" /></p>
 <p><strong>Remarks:</strong></p>
 <ul>
-<li><p>Types of special schools for student with disability are also various. No special elementary school and middle school exists in the dataset, which indicates students with disability in New York City at this stage can involved in normal education together with their peers.</p></li>
+<li><p>Types of special schools for student with disability are also various. No special elementary school and middle school exists in the dataset, which indicates students with disability in New York City at this stage can involved in normal education together with their peers. Although it is good for all students, regardless of their physical/mental capacities, to have access to the same education, it is still essential to ensure that students who are disabled are treated equally by other students and are protected from possible discrimination.</p></li>
 <li><p>The special school surely contributed more sample of schools with full range from pre learning to high school learning. From another perspective, they ensure the equity of achieving all stages of educations for students with disability.</p></li>
 </ul>
 </div>
@@ -187,7 +251,7 @@
 <p>The distribution of school enrollment by location is shown below.</p>
 <p><img src="finalproj_files/figure-html/ch5.5-1.png" width="1248" /></p>
 <ul>
-<li>Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of “large” schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs.</li>
+<li>Most of schools in New York City have the number of students varies under quantity of 2000. Outliers of “large” schools which have students more than 2000 are more often located in Brooklyn and Queens, given they both have larger area and populations compared with the other three boroughs. With the notable outliers, with particularly large number of student population, in the aforementioned school districts, there is a higher risk of school bullying/discrimination</li>
 </ul>
 </div>
 <div id="breakdown-by-school-type" class="section level3" number="5.2.2">
@@ -213,8 +277,8 @@
 </ul>
 <p>Below we create a random sample of school to create a parallel coordinate plot. You can select, drag and reorder the columns to get a glimpse of race and ethnicity diversity in New York City public school.</p>
 <p><strong>Hint:</strong> Try to select sample with higher percentage of Black students, what’s the pattern considering other race group and location?</p>
-<div class="parcoords html-widget" height="480" id="htmlwidget-32948d7224ea7ef22bfa" style="width:672px;height:480px; position:relative; overflow-x:auto; overflow-y:hidden; max-width:100%;" width="672"></div>
-<script type="application/json" data-for="htmlwidget-32948d7224ea7ef22bfa">{"x":{"data":{"names":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"School.Name":["The School of Integrated Learning","P.S. 055 Maure","P.S. 007 Samuel Stern","P.S. Q256","Explore Exceed Charter School","The Equity Project Charter School (TEP)","Voyages Prep - South Queens","Earth School","Careers in Sports High School","P.S. 124 Osmond A Church","Richmond Hill High School","Hostos-Lincoln Academy of Science","Victory Collegiate High School","Lighthouse Elementary School","P.S. 124 Yung Wing","Lower East Side Preparatory High School","Bronx Writing Academy","James Baldwin School, The: A School for Expedition","P.S. 075 Emily Dickinson","P.S. 001 Alfred E. Smith"],"asian":[2.8,44.2,1.8,5.3,3.2,0.2,9.5,7.5,0.5,50.6,29.1,2.2,0.9,3.1,94.3,69,3.2,0.8,3.2,53.5],"black":[81.1,8,28.8,45.8,77.8,8.2,63.8,14,28.7,19.3,13.2,22,90.4,61.9,0.6,8.7,30,44.5,24.9,17.6],"white":[0,1.8,4.2,14.8,0.5,1.2,1.4,38,2.2,2.9,5.1,1.4,0.9,3.6,1.7,0.9,1.1,4.9,16.6,1.9],"hispanic":[15,24.6,63.6,33.6,16.1,90.1,24,34,68.6,21.9,48.5,73.6,6.6,28.3,3,19.8,65.5,48.7,52.8,25.8],"others":[1.2,21.4,1.6,0.6,2.5,0.2,1.4,6.5,0,5.5,4,0.8,1.2,3.1,0.3,1.6,0.2,1.1,2.5,1.3],"location":["Brooklyn","Queens","Manhattan","Queens","Brooklyn","Manhattan","Queens","Manhattan","Bronx","Queens","Queens","Bronx","Brooklyn","Queens","Manhattan","Manhattan","Bronx","Manhattan","Manhattan","Manhattan"]},"options":{"rownames":false,"color":{"colorBy":"location","colorScale":"scaleOrdinal","colorScheme":"schemeCategory10"},"brushMode":"1D-axes","brushPredicate":"AND","reorderable":true,"margin":{"top":50,"bottom":50,"left":100,"right":50},"mode":"queue","bundlingStrength":0.5,"smoothness":0},"autoresize":false,"tasks":null},"evals":[],"jsHooks":[]}</script>
+<div class="parcoords html-widget" height="480" id="htmlwidget-c41e62e93c98ef6bb893" style="width:672px;height:480px; position:relative; overflow-x:auto; overflow-y:hidden; max-width:100%;" width="672"></div>
+<script type="application/json" data-for="htmlwidget-c41e62e93c98ef6bb893">{"x":{"data":{"names":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"School.Name":["I. S. 381","P.S. 051 Elias Howe","P.S. 087 William Sherman","Milton Fein School","Manhattan Bridges High School","Arturo A. Schomburg Satellite Academy Bronx","John Ericsson Middle School 126","P.S. 74 Future Leaders Elementary School","P.S. 169 Bay Terrace","Leadership Prep Bedford Stuyvesant Uncommon Prep C","P.S. 196 Grand Central Parkway","Success Academy Charter School - Harlem 1","I.S. 171 Abraham Lincoln","The Urban Assembly School for Law and Justice","H.E.R.O. High (Health, Education, and Research Occ","I.S. X318 Math, Science & Technology Through Arts","I.S. 072 Rocco Laurie","P.S. 307 Daniel Hale Williams","P.S. 062 Inocensio Casanova","P.S. 209"],"asian":[7.4,19.4,6.8,4.7,0.2,0.5,2.6,7,35.5,1,37,1.1,5.7,2.4,1.2,0,22.5,3.2,0.3,0.8],"black":[63.6,13.2,4.9,6.2,0.2,39.5,21.9,23,5.2,86.8,2.6,71.7,10.9,67.3,36.7,29.3,4.5,61.9,21.1,20.3],"white":[9,14.5,64,6.9,0,2.4,6.4,6.7,35.1,1,39.7,1.7,2,1.6,0.9,3,49.9,4.1,2.1,0],"hispanic":[20.1,49.7,14.8,81.8,99,57.1,68.7,62.9,21.8,8.9,13.5,22.6,77.9,24.7,58.9,67.7,22.3,28.6,76,78.9],"others":[0,3.3,9.5,0.4,0.6,0.5,0.4,0.3,2.5,2.2,7.2,2.9,3.5,4,2.3,0,0.8,2.2,0.5,0],"location":["Brooklyn","Manhattan","Manhattan","Bronx","Manhattan","Bronx","Brooklyn","Staten Island","Queens","Brooklyn","Queens","Manhattan","Brooklyn","Brooklyn","Bronx","Bronx","Staten Island","Brooklyn","Bronx","Bronx"]},"options":{"rownames":false,"color":{"colorBy":"location","colorScale":"scaleOrdinal","colorScheme":"schemeCategory10"},"brushMode":"1D-axes","brushPredicate":"AND","reorderable":true,"margin":{"top":50,"bottom":50,"left":100,"right":50},"mode":"queue","bundlingStrength":0.5,"smoothness":0},"autoresize":false,"tasks":null},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="school-type-and-ethnicity-composition" class="section level3" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> School Type and Ethnicity Composition</h3>
@@ -260,7 +324,7 @@
 <div id="gender-composition-and-poverty" class="section level3" number="5.4.3">
 <h3><span class="header-section-number">5.4.3</span> Gender Composition and Poverty</h3>
 <p>Recall our assumption in chapter 2, we try to explore the relationship between school poverty level and gender composition. Based on social conventions, we want to know whether gender bias in education can also be reflected by observations in NYC public schools.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>As we shown in poverty level before, most public schools in NYC have large quantity of students in poverty. However, though the poverty level is high, the average proportion of male students in NYC public schools are around 50%, which is a good sign indicating that there’s no bias when considering gender diversity and poverty level.</p>
 
 </div>
